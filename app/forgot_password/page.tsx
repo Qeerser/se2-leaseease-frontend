@@ -23,19 +23,19 @@ export default function Page() {
                 </div>
 
                 <div className="flex flex-col items-center gap-2 self-stretch">
-                    <div className="flex h-[52px] p-4 justify-center items-center gap-[10px] self-stretch rounded-lg bg-[#1E3A8A]">
+                    <button className="flex h-[52px] p-4 justify-center items-center gap-[10px] self-stretch rounded-lg bg-[#1E3A8A]">
                         <p className="text-base font-normal leading-6 text-white font-inter">
                             Sent Email Verification
                         </p>
-                    </div>
-                    <div className="flex px-[19px] justify-center items-center gap-[10px] self-stretch">
+                    </button>
+                    <button className="flex px-[19px] justify-center items-center gap-[10px] bg-transparent border-none mx-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 21 20" fill="none" className="w-5 h-5">
                             <path d="M10.5003 15.8333L4.66699 9.99996M4.66699 9.99996L10.5003 4.16663M4.66699 9.99996H16.3337" stroke="#253B80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         <p className="text-base font-normal leading-6 text-[#334155] font-inter">
                             Back to Login
                         </p>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
