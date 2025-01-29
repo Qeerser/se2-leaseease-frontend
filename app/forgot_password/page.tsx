@@ -1,6 +1,6 @@
 export default function Page() {
     return (
-        <body className="flex min-h-screen justify-center items-center rounded-md bg-[#E2E8F0]">
+        <div className="flex min-h-screen justify-center items-center rounded-md bg-[#E2E8F0]">
             <div className="flex w-[600px] p-12 px-16 flex-col justify-center items-center gap-10 flex-shrink-0 rounded-xl bg-white">
                 <div className="flex flex-col justify-center items-center gap-2 self-stretch p-4 px-0">
                     <p className="text-[30px] font-semibold leading-[36px] text-[#334155] font-inter">
@@ -18,7 +18,7 @@ export default function Page() {
                         </p>
                     </div>
                     <div className="flex items-center gap-[10px] self-stretch p-2 rounded-md border border-[#E2E8F0]">
-                        <input placeholder="Enter your email" className="text-base font-normal leading-6 text-[#334155] font-inter outline-none w-full" />
+                        <input placeholder="Enter your email" className="text-base font-normal leading-6 text-[#334155] font-inter outline-none w-full"/>
                     </div>
                 </div>
 
@@ -36,9 +36,8 @@ export default function Page() {
                             Back to Login
                         </p>
                     </div>
-
                 </div>
             </div>
-        </body>
+        </div>
     )
 }
