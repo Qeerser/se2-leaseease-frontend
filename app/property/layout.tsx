@@ -9,11 +9,12 @@ export default function PropertyLayout({
     return (
       <html lang="en">
         <body>
-          {/* Layout UI */}
-          {/* Place children where you want to render a page or nested layout */}
-          <Sidebar />
-          <Header />
-          <main>{children}</main>
+        <div className="flex w-full h-full flex-col">
+            <Header />
+            <Sidebar />
+        </div>
+            
+          {/* <main>{children}</main> */}
         </body>
       </html>
     )
