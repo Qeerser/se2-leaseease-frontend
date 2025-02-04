@@ -1,5 +1,6 @@
 import Sidebar from "./components/sidebar";
 import Header from "./components/header";
+import Slider from "./components/slider"
 
 export default function PropertyLayout({
     children,
@@ -12,6 +13,7 @@ export default function PropertyLayout({
         <div className="flex w-full h-full flex-col">
             <Header />
             <Sidebar />
+            <Slider />
         </div>
             
           {/* <main>{children}</main> */}

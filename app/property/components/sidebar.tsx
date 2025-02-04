@@ -2,7 +2,7 @@ export default function PropertySidebar() {
     return (
         // add sth to btn
         // add detail
-        <div className="flex h-[calc(100vh-4rem)] w-[400px] py-4 px-4 flex-col items-center gap-2 self-stretch border-r border-[#CBD5E1] bg-[#F8FAFC]">
+        <div className="flex h-full w-[400px] py-4 px-4 flex-col items-center gap-2 self-stretch border-r border-[#CBD5E1] bg-[#F8FAFC]">
             <div className="flex justify-center items-center gap-2 self-stretch">
                 <div className="flex h-[40px] min-h-[40px] max-h-[40px] py-2 px-3 justify-between items-center flex-1 rounded-md bg-gray-200">
                     <div className="flex items-center gap-[10px] flex-1">
