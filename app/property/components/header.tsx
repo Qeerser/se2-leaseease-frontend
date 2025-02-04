@@ -1,4 +1,4 @@
-export default function sidebar() {
+export default function PropertyHeader() {
     return (
         <div className="flex w-full h-16 px-5 justify-between items-center border-b border-slate-300 bg-slate-50">
             <div className="flex items-center gap-7">
