@@ -1,7 +1,8 @@
 import Sidebar from "./components/sidebar";
 import Header from "./components/header";
-import Slider from "./components/slider";
+import Slider from "./components/slider"
 import MiddlePage from "./components/MiddlePage";
+
 
 export default function PropertyLayout({
     children,
@@ -10,24 +11,26 @@ export default function PropertyLayout({
 }) {
     return (
         <html lang="en">
-            <body  className="flex w-full h-full flex-col items-center rounded-[0.375rem] bg-slate-200">
-                {/* <div className="flex w-full h-full flex-col items-center rounded-[0.375rem] bg-slate-200"> */}
+            <body>
+                <div className="flex w-full h-full flex-col items-center rounded-[0.375rem] bg-slate-200">
                     <Header />
-                    <div className="flex justify-center items-center flex-1 self-stretch ">
+
+                    <div className="flex justify-center items-center flex-1 self-stretch">
                         <Sidebar />
                         {/* KNOTT */}
-                        <div className="flex p-[2rem] flex-col items-start gap-[0.625rem] flex-1 self-stretch flex-wrap: wrap h-84">
+                        <div className="flex p-[2rem] flex-col items-start gap-[0.625rem] flex-1 self-stretch">
                             {/* Content goes here */}
                             <MiddlePage />
-                            
+
                         </div>
                         {/* KNOTT */}
                     </div>
-                    <Slider />
-                {/* </div> */}
+                    {/* <Slider /> */}
+                </div>
 
                 {/* <main>{children}</main> */}
             </body>
         </html>
     )
+
 }
