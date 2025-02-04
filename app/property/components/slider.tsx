@@ -23,9 +23,9 @@ export default function PropertySlider() {
             <div className="flex h-[52.5rem] p-[1.25rem] [1.5rem] flex-col items-start gap-[0.625rem] self-stretch">
                 {/* 2 */}
                 <div className="flex flex-col items-start gap-[16px] self-stretch">
-                    {/* <div className="flex h-[280px] p-[28px] flex-col items-start gap-[10px] self-stretch rounded-[6px] bg-slate-200"> */}
+                    <div className="flex h-[280px] p-[28px] flex-col items-start gap-[10px] self-stretch rounded-[6px] bg-slate-200">
                         <div className="flex-1 self-stretch bg-[url('https://loremflickr.com/400/200?random=2')] bg-lightgray bg-[50%] bg-cover bg-no-repeat"></div>
-                    {/* </div> */}
+                    </div>
                     <div className="flex flex-col items-start gap-[4px] self-stretch">
                         <div className="flex items-start gap-[10px] self-stretch">
                             <div className="text-slate-700 text-xs font-medium" style={{ fontFamily: 'Inter', lineHeight: '16px' }}>
