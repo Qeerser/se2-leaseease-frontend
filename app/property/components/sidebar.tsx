@@ -1,15 +1,14 @@
+import SortOption from "./SortOption"
+
 export default function PropertySidebar() {
     return (
         // add sth to btn
         // add detail
         <div className="flex w-[25rem] min-h-[calc(100vh-4rem)] p-[1rem] 1rem flex-col items-center gap-[0.5rem] self-stretch border-slate-300 bg-slate-50">
+            <SortOption />
             <div className="flex justify-center items-center gap-[0.5rem] self-stretch">
-                <div className="flex h-[40px] min-h-[40px] max-h-[40px] py-2 px-3 justify-between items-center flex-1 rounded-md bg-gray-200">
-                    <div className="flex items-center gap-[10px] flex-1">
-                        Select Property
-                    </div>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-[16px] h-[16px]" viewBox="0 0 16 16" fill="none">
+                <input className="flex h-[40px] min-h-[40px] max-h-[40px] py-2 px-3 justify-between items-center flex-1 rounded-md bg-gray-200 outline-none" placeholder="Select Property" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-[16px] h-[16px] cursor-pointer" viewBox="0 0 16 16" fill="none">
                     <path d="M14 10.6667L11.3333 13.3334M11.3333 13.3334L8.66667 10.6667M11.3333 13.3334V2.66675M2 5.33341L4.66667 2.66675M4.66667 2.66675L7.33333 5.33341M4.66667 2.66675V13.3334" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </div>

@@ -2,11 +2,15 @@
 import { useState } from "react"
 import AccountOption from "./AccountOption"
 
+// Define types for the component's state and props if needed
 export default function PropertyHeader() {
-    const [isAccountOptionVisible, setIsAccountOptionVisible] = useState(false)
-    const toggleAccountOption = () => {
+    // Type the state for visibility (boolean)
+    const [isAccountOptionVisible, setIsAccountOptionVisible] = useState<boolean>(false)
+
+    // Type the function (toggleAccountOption) - no arguments and returns nothing
+    const toggleAccountOption = (): void => {
         setIsAccountOptionVisible(!isAccountOptionVisible)
-        console.log(isAccountOptionVisible)
+        console.log(isAccountOptionVisible) // This will log the previous state, which is fine
     }
 
     return (
@@ -24,12 +28,13 @@ export default function PropertyHeader() {
                 <p className="text-slate-900 text-sm font-medium leading-5 p-4">
                     John Doe
                 </p>
-                <div className="w-[40px] h-[40px] rounded-full bg-cover bg-center cursor-pointer" style={{ backgroundImage: "url('https://loremflickr.com/40/40?random=1')" } } onClick={toggleAccountOption}></div>
-                {/* add more detail */}
-                {/* change sth to button */}
+                <div 
+                    className="w-[40px] h-[40px] rounded-full bg-cover bg-center cursor-pointer" 
+                    style={{ backgroundImage: "url('https://loremflickr.com/40/40?random=1')" }} 
+                    onClick={toggleAccountOption}>
+                </div>
             </div>
             {isAccountOptionVisible && <AccountOption />}
         </div>
-
     )
 }
