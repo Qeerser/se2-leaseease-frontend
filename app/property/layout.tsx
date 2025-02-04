@@ -1,6 +1,6 @@
-import Sidebar from "./components/sidebar";
-import Header from "./components/header";
-import Slider from "./components/slider"
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import Slider from "./components/Slider"
 import MiddlePage from "./components/MiddlePage";
 
 
