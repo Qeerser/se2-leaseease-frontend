@@ -2,8 +2,8 @@ export default function PropertySidebar() {
     return (
         // add sth to btn
         // add detail
-        <div className="flex h-full w-[400px] py-4 px-4 flex-col items-center gap-2 self-stretch border-r border-[#CBD5E1] bg-[#F8FAFC]">
-            <div className="flex justify-center items-center gap-2 self-stretch">
+        <div className="flex w-[25rem] h-[calc(100vh-4rem)] p-[1rem] 1rem flex-col items-center gap-[0.5rem] self-stretch border-slate-300 bg-slate-50">
+            <div className="flex justify-center items-center gap-[0.5rem] self-stretch">
                 <div className="flex h-[40px] min-h-[40px] max-h-[40px] py-2 px-3 justify-between items-center flex-1 rounded-md bg-gray-200">
                     <div className="flex items-center gap-[10px] flex-1">
                         Select Property
@@ -15,7 +15,7 @@ export default function PropertySidebar() {
             </div>
 
             <div className="flex max-h-[828px] py-0 flex-col items-center gap-1 self-stretch">
-                
+
                 <div className="flex py-2 px-[10px] items-center gap-2 self-stretch">
                     <div className="w-[40px] h-[40px] rounded-[6px] bg-[url('https://loremflickr.com/40/40?random=2')] bg-[length:199.261%_100%] bg-no-repeat bg-[position:-19.615px_0]">                    </div>
 
@@ -31,7 +31,7 @@ export default function PropertySidebar() {
                                 <div className="flex w-[14px] h-[14px] justify-center items-center">
                                     <div className="w-[14px] h-[14px] flex-shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <path d="M7.00033 1.16663L8.80283 4.81829L12.8337 5.40746L9.91699 8.24829L10.6053 12.2616L7.00033 10.3658L3.39533 12.2616L4.08366 8.24829L1.16699 5.40746L5.19783 4.81829L7.00033 1.16663Z" fill="#FACC15"/>
+                                            <path d="M7.00033 1.16663L8.80283 4.81829L12.8337 5.40746L9.91699 8.24829L10.6053 12.2616L7.00033 10.3658L3.39533 12.2616L4.08366 8.24829L1.16699 5.40746L5.19783 4.81829L7.00033 1.16663Z" fill="#FACC15" />
                                         </svg>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@ export default function PropertySidebar() {
                                 <div className="flex w-[14px] h-[14px] justify-center items-center">
                                     <div className="w-[14px] h-[14px] flex-shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                            <path d="M7.00033 1.16663L8.80283 4.81829L12.8337 5.40746L9.91699 8.24829L10.6053 12.2616L7.00033 10.3658L3.39533 12.2616L4.08366 8.24829L1.16699 5.40746L5.19783 4.81829L7.00033 1.16663Z" fill="#FACC15"/>
+                                            <path d="M7.00033 1.16663L8.80283 4.81829L12.8337 5.40746L9.91699 8.24829L10.6053 12.2616L7.00033 10.3658L3.39533 12.2616L4.08366 8.24829L1.16699 5.40746L5.19783 4.81829L7.00033 1.16663Z" fill="#FACC15" />
                                         </svg>
                                     </div>
                                 </div>

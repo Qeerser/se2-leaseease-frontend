@@ -1,7 +1,7 @@
 export default function PropertySlider() {
     return (
-        <div className="flex w-[520px] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]">
-            <div className="flex h-auto p-[10px_12px] items-center gap-[24px] self-stretch">
+        <div className="flex w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
+            <div className="flex h-[2.5rem] p-[0.625rem] [0.75rem] items-center gap-[1.5rem] self-stretch">
                 {/* 1 */}
                 <div className="flex items-center gap-[8px]">
                     <div className="flex items-center gap-1">
@@ -17,19 +17,15 @@ export default function PropertySlider() {
                     <div className="text-slate-600 text-xs font-normal" style={{ fontFamily: 'Inter', lineHeight: '16px' }}>
                         Create New Property
                     </div>
-
-
                 </div>
-
             </div>
 
-
-            <div className="flex h-auto p-[20px_24px] flex-col items-start gap-2.5 self-stretch">
+            <div className="flex h-[52.5rem] p-[1.25rem] [1.5rem] flex-col items-start gap-[0.625rem] self-stretch">
                 {/* 2 */}
                 <div className="flex flex-col items-start gap-[16px] self-stretch">
-                    <div className="flex h-[280px] p-[28px] flex-col items-start gap-[10px] self-stretch rounded-[6px] bg-slate-200">
+                    {/* <div className="flex h-[280px] p-[28px] flex-col items-start gap-[10px] self-stretch rounded-[6px] bg-slate-200"> */}
                         <div className="flex-1 self-stretch bg-[url('https://loremflickr.com/400/200?random=2')] bg-lightgray bg-[50%] bg-cover bg-no-repeat"></div>
-                    </div>
+                    {/* </div> */}
                     <div className="flex flex-col items-start gap-[4px] self-stretch">
                         <div className="flex items-start gap-[10px] self-stretch">
                             <div className="text-slate-700 text-xs font-medium" style={{ fontFamily: 'Inter', lineHeight: '16px' }}>
@@ -44,7 +40,7 @@ export default function PropertySlider() {
                             </div>
                             <div className="flex items-center gap-[10px]">
                                 <div className="text-slate-700 text-sm font-normal" style={{ fontFamily: 'Inter', lineHeight: 'normal' }}>
-                                    No file chosen
+                                    No file chosenat 
                                 </div>
                             </div>
                         </div>
@@ -113,7 +109,7 @@ export default function PropertySlider() {
                 {/* 3 */}
                 <div className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] border border-blue-900">
                     <div className="text-blue-900 text-base font-medium" style={{ fontFamily: 'Inter', lineHeight: '24px' }}>
-                        Cancle
+                        Cancel
                     </div>
                 </div>
                 <div className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-blue-900">
