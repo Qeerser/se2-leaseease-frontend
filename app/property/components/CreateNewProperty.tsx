@@ -1,4 +1,4 @@
-export default function PropertySlider() {
+export default function CreateNewProperty() {
     return (
         <div className="flex w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
             <div className="flex h-[2.5rem] p-[0.625rem] [0.75rem] items-center gap-[1.5rem] self-stretch">
@@ -24,7 +24,7 @@ export default function PropertySlider() {
                 {/* 2 */}
                 <div className="flex flex-col items-start gap-[16px] self-stretch">
                     <div className="flex h-[280px] p-[28px] flex-col items-start gap-[10px] self-stretch rounded-[6px] bg-slate-200">
-                        <div className="flex-1 self-stretch bg-[url('https://loremflickr.com/400/200?random=2')] bg-lightgray bg-[50%] bg-cover bg-no-repeat"></div>
+                        {/* <div className="flex-1 self-stretch bg-[url('https://loremflickr.com/400/200?random=2')] bg-lightgray bg-[50%] bg-cover bg-no-repeat"></div> */}
                     </div>
                     <div className="flex flex-col items-start gap-[4px] self-stretch">
                         <div className="flex items-start gap-[10px] self-stretch">
@@ -40,7 +40,7 @@ export default function PropertySlider() {
                             </div>
                             <div className="flex items-center gap-[10px]">
                                 <div className="text-slate-700 text-sm font-normal" style={{ fontFamily: 'Inter', lineHeight: 'normal' }}>
-                                    No file chosenat 
+                                    No file chosen
                                 </div>
                             </div>
                         </div>

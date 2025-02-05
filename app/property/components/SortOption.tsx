@@ -1,7 +1,7 @@
 export default function SortOption() {
     // move position like relative?
     return (
-        <div className="absolute left-4 top-13 w-32 flex flex-col items-start rounded-md border border-slate-200 bg-white shadow-md">
+        <div className="absolute right-3 top-[20px] w-32 flex flex-col items-start rounded-md border border-slate-200 bg-white shadow-md">
             <div className="flex flex-col items-start self-stretch p-1">
                 <div className="flex h-8 items-center self-stretch rounded-sm px-2 text-xs cursor-pointer">
                     <div className="flex items-center gap-[0.625rem] flex-1">

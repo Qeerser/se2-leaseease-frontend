@@ -10,7 +10,6 @@ export default function PropertyHeader() {
     // Type the function (toggleAccountOption) - no arguments and returns nothing
     const toggleAccountOption = (): void => {
         setIsAccountOptionVisible(!isAccountOptionVisible)
-        console.log(isAccountOptionVisible) // This will log the previous state, which is fine
     }
 
     return (
