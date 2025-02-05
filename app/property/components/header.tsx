@@ -1,16 +1,30 @@
+// finished
+
 "use client"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import AccountOption from "./AccountOption"
 
-// Define types for the component's state and props if needed
 export default function PropertyHeader() {
-    // Type the state for visibility (boolean)
     const [isAccountOptionVisible, setIsAccountOptionVisible] = useState<boolean>(false)
+    const accountOptionRef = useRef<HTMLDivElement>(null)
 
-    // Type the function (toggleAccountOption) - no arguments and returns nothing
     const toggleAccountOption = (): void => {
         setIsAccountOptionVisible(!isAccountOptionVisible)
     }
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (accountOptionRef.current && !accountOptionRef.current.contains(event.target as Node)) {
+                setIsAccountOptionVisible(false)
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [])
 
     return (
         <div className="flex w-full h-16 px-5 justify-between items-center border-b border-slate-300 bg-slate-50">
@@ -33,7 +47,7 @@ export default function PropertyHeader() {
                     onClick={toggleAccountOption}>
                 </div>
             </div>
-            {isAccountOptionVisible && <AccountOption />}
+            <AccountOption ref={accountOptionRef} isAccountOptionVisible={isAccountOptionVisible} />
         </div>
     )
 }

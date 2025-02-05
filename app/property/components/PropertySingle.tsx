@@ -1,3 +1,5 @@
+// properties active or hover css
+
 type Property = {
     id: number
     name: string
