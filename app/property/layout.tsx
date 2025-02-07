@@ -1,8 +1,8 @@
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-import CreateNewProperty from "./components/CreateNewProperty"
 import MiddlePage from "./components/MiddlePage";
-
+import CreateNewProperty from "./components/DeleteProperty";
+import Test from "./components/RejectRequest"
 
 export default function PropertyLayout({
     children,
@@ -22,7 +22,7 @@ export default function PropertyLayout({
                 </div>
                 {/* KNOTT */}
             </div>
-            <CreateNewProperty />
+            <Test />
         </div>
     )
 

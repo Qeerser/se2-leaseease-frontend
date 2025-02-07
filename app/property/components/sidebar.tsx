@@ -4,9 +4,10 @@
 // create new property button logic
 
 "use client"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
+import CreateNewProperty from "./CreateNewProperty"
 
 type Property = {
     id: number
@@ -18,6 +19,7 @@ type Property = {
 
 export default function PropertySidebar() {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
+    const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
 
     const toggleSortOption = (): void => {
         setIsSortOptionVisible(!isSortOptionVisible)
@@ -72,7 +74,7 @@ export default function PropertySidebar() {
                 {properties.map((property: Property) => (
                     <PropertySingle key={property.id} property={property} />
                 ))}
-                <button className="flex h-[40px] py-2 px-[10px] justify-center items-center gap-2 self-stretch rounded-[6px] border border-[#1E3A8A] mt-2 sticky bottom-0 bg-white hover:bg-[#EFF6FF]">
+                <button onClick={() => setIsCreateNewPropertyVisible(!isCreateNewPropertyVisible)} className="flex h-[40px] py-2 px-[10px] justify-center items-center gap-2 self-stretch rounded-[6px] border border-[#1E3A8A] mt-2 sticky bottom-0 bg-white hover:bg-[#EFF6FF]">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[16px] h-[16px]" viewBox="0 0 16 16" fill="none">
                         <path d="M3.33301 8H12.6663M7.99967 3.33333V12.6667" stroke="#1E3A8A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -81,6 +83,7 @@ export default function PropertySidebar() {
                     </p>
                 </button>
             </div>
+            {isCreateNewPropertyVisible && <CreateNewProperty setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible} />}
         </div>
     )
 }
