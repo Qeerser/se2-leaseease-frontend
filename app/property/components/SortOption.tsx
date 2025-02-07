@@ -1,49 +1,56 @@
-export default function SortOption() {
-    // move position like relative?
+import { useState } from "react"
+
+type SortOptionProps = {
+    selectedSort: string
+    setSelectedSort: (sort: string) => void
+}
+
+export default function SortOption({ selectedSort, setSelectedSort }: SortOptionProps) {
+    
     return (
-        <div className="absolute right-3 top-[20px] w-32 flex flex-col items-start rounded-md border border-slate-200 bg-white shadow-md">
+        <div className="absolute right-0 top-full mt-1 w-32 flex flex-col items-start rounded-md border border-slate-200 bg-white shadow-md z-10">
             <div className="flex flex-col items-start self-stretch p-1">
-                <div className="flex h-8 items-center self-stretch rounded-sm px-2 text-xs cursor-pointer">
+                <button className={`flex h-8 items-center self-stretch rounded-sm px-2 text-xs ${selectedSort === 'A-Z' ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={() => setSelectedSort('A-Z')}>
                     <div className="flex items-center gap-[0.625rem] flex-1">
                         A-Z
                     </div>
-                </div>
-                <div className="flex h-8 items-center self-stretch rounded-sm px-2 text-xs cursor-pointer">
+                </button>
+                <button className={`flex h-8 items-center self-stretch rounded-sm px-2 text-xs ${selectedSort === 'Z-A' ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={() => setSelectedSort('Z-A')}>
                     <div className="flex items-center gap-[0.625rem] flex-1">
                         Z-A
                     </div>
-                </div>
+                </button>
             </div>
             <div className="flex flex-col items-start self-stretch">
                 <div className="w-full h-[0.0625rem] bg-slate-200"></div>
             </div>
             <div className="flex flex-col items-start self-stretch p-1">
-                <div className="flex h-8 items-center self-stretch rounded-sm px-2 text-xs cursor-pointer">
+                <button className={`flex h-8 items-center self-stretch rounded-sm px-2 text-xs ${selectedSort === 'Most Popular' ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={() => setSelectedSort('Most Popular')}>
                     <div className="flex items-center gap-[0.625rem] flex-1">
                         Most Popular
                     </div>
-                </div>
-                <div className="flex h-8 items-center self-stretch rounded-sm px-2 text-xs cursor-pointer">
+                </button>
+                <button className={`flex h-8 items-center self-stretch rounded-sm px-2 text-xs ${selectedSort === 'Least Popular' ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={() => setSelectedSort('Least Popular')}>
                     <div className="flex items-center gap-[0.625rem] flex-1">
                         Least Popular
                     </div>
-                </div>
+                </button>
             </div>
             <div className="flex flex-col items-start self-stretch">
                 <div className="w-full h-[0.0625rem] bg-slate-200"></div>
             </div>
             <div className="flex flex-col items-start self-stretch p-1">
-                <div className="flex h-8 items-center self-stretch rounded-sm px-2 text-xs cursor-pointer">
+                <button className={`flex h-8 items-center self-stretch rounded-sm px-2 text-xs ${selectedSort === 'Newest' ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={() => setSelectedSort('Newest')}>
                     <div className="flex items-center gap-[0.625rem] flex-1">
                         Newest
                     </div>
-                </div>
-                <div className="flex h-8 items-center self-stretch rounded-sm px-2 text-xs cursor-pointer">
+                </button>
+                <button className={`flex h-8 items-center self-stretch rounded-sm px-2 text-xs ${selectedSort === 'Oldest' ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={() => setSelectedSort('Oldest')}>
                     <div className="flex items-center gap-[0.625rem] flex-1">
                         Oldest
                     </div>
-                </div>
+                </button>
             </div>
         </div>
-    );
+    )
 }

@@ -1,7 +1,4 @@
 // sort button logic
-// sort button active or hover css
-// propertier active or hover css
-// create new property button logic
 
 "use client"
 import { Dispatch, SetStateAction, useState } from "react"
@@ -20,6 +17,7 @@ type Property = {
 export default function PropertySidebar() {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
+    const [selectedSort, setSelectedSort] = useState<string>("A-Z")
 
     const toggleSortOption = (): void => {
         setIsSortOptionVisible(!isSortOptionVisible)
@@ -58,6 +56,29 @@ export default function PropertySidebar() {
         image: `https://loremflickr.com/40/40?random=${i + 1}`
     }))
 
+    const sortedProperties = [...properties].sort((a, b) => {
+        switch (selectedSort) {
+            case "A-Z":
+                return a.name.localeCompare(b.name)
+            case "Z-A":
+                return b.name.localeCompare(a.name)
+            case "Most Popular":
+                return b.rating - a.rating
+            case "Least Popular":
+                return a.rating - b.rating
+            case "Newest":
+                // change to date later
+                return b.id - a.id
+            case "Oldest":
+                // change to date later
+                return a.id - b.id
+            default:
+                return 0
+        }
+    })
+
+    const [activeProperty, setActiveProperty] = useState<number>(properties[0].id)
+
     return (
         <div className="flex w-[25rem] h-[calc(100vh-4rem)] p-[1rem] 1rem flex-col items-center gap-[0.5rem] self-stretch border-slate-300 bg-slate-50">
             <div className="flex justify-center items-center gap-[0.5rem] self-stretch">
@@ -66,13 +87,18 @@ export default function PropertySidebar() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[16px] h-[16px] cursor-pointer" viewBox="0 0 16 16" fill="none" onClick={toggleSortOption}>
                         <path d="M14 10.6667L11.3333 13.3334M11.3333 13.3334L8.66667 10.6667M11.3333 13.3334V2.66675M2 5.33341L4.66667 2.66675M4.66667 2.66675L7.33333 5.33341M4.66667 2.66675V13.3334" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    {isSortOptionVisible && <SortOption />}
+                    {isSortOptionVisible && <SortOption selectedSort={selectedSort} setSelectedSort={setSelectedSort} />}
                 </div>
             </div>
 
             <div className="flex py-0 flex-col items-center gap-1 self-stretch overflow-y-auto">
-                {properties.map((property: Property) => (
-                    <PropertySingle key={property.id} property={property} />
+                {sortedProperties.map((property: Property) => (
+                    <PropertySingle
+                        key={property.id}
+                        property={property}
+                        isPropertyActive={property.id === activeProperty}
+                        onClick={() => setActiveProperty(property.id)}
+                    />
                 ))}
                 <button onClick={() => setIsCreateNewPropertyVisible(!isCreateNewPropertyVisible)} className="flex h-[40px] py-2 px-[10px] justify-center items-center gap-2 self-stretch rounded-[6px] border border-[#1E3A8A] mt-2 sticky bottom-0 bg-white hover:bg-[#EFF6FF]">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[16px] h-[16px]" viewBox="0 0 16 16" fill="none">

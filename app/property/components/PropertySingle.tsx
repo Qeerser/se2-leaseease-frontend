@@ -1,4 +1,4 @@
-// properties active or hover css
+// properties active css
 
 type Property = {
     id: number
@@ -9,12 +9,14 @@ type Property = {
 }
 
 type ChildProps = {
-    property: Property;
+    property: Property
+    isPropertyActive: boolean
+    onClick: () => void
 }
 
-export default function PropertySingle({ property }: ChildProps) {
+export default function PropertySingle({ property, isPropertyActive, onClick }: ChildProps) {
     return (
-        <button className="flex py-2 px-[10px] items-center gap-2 self-stretch">
+        <button className={`flex py-2 px-[10px] items-center gap-2 self-stretch ${isPropertyActive ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={onClick}>
             <div className="w-[40px] h-[40px] rounded-[6px] bg-[length:199.261%_100%] bg-no-repeat bg-[position:-19.615px_0]" style={{ backgroundImage: `url(${property.image})`, backgroundSize: "199.261% 100%", backgroundPosition: "-19.615px 0" }}></div>
 
             <div className="flex flex-col items-start flex-1">
