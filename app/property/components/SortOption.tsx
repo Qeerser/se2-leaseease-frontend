@@ -1,14 +1,16 @@
-import { useState } from "react"
+import { forwardRef } from "react"
 
 type SortOptionProps = {
     selectedSort: string
     setSelectedSort: (sort: string) => void
+    isSortOptionVisible: boolean
 }
 
-export default function SortOption({ selectedSort, setSelectedSort }: SortOptionProps) {
+const SortOption = forwardRef<HTMLDivElement, SortOptionProps>(({ selectedSort, setSelectedSort, isSortOptionVisible }: SortOptionProps, ref) => {
+    if (!isSortOptionVisible) return null
     
     return (
-        <div className="absolute right-0 top-full mt-1 w-32 flex flex-col items-start rounded-md border border-slate-200 bg-white shadow-md z-10">
+        <div ref={ref} className="absolute right-0 top-full mt-1 w-32 flex flex-col items-start rounded-md border border-slate-200 bg-white shadow-md z-10">
             <div className="flex flex-col items-start self-stretch p-1">
                 <button className={`flex h-8 items-center self-stretch rounded-sm px-2 text-xs ${selectedSort === 'A-Z' ? "bg-[#E2E8F0]" : "hover:bg-[#F1F5F9]"}`} onClick={() => setSelectedSort('A-Z')}>
                     <div className="flex items-center gap-[0.625rem] flex-1">
@@ -53,4 +55,6 @@ export default function SortOption({ selectedSort, setSelectedSort }: SortOption
             </div>
         </div>
     )
-}
+})
+
+export default SortOption

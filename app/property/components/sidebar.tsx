@@ -1,7 +1,7 @@
-// sort button logic
+// finished
 
 "use client"
-import { Dispatch, SetStateAction, useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
@@ -19,9 +19,25 @@ export default function PropertySidebar() {
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
 
+    const sortOptionRef = useRef<HTMLDivElement>(null)
+
     const toggleSortOption = (): void => {
         setIsSortOptionVisible(!isSortOptionVisible)
     }
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (sortOptionRef.current && !sortOptionRef.current.contains(event.target as Node)) {
+                setIsSortOptionVisible(false)
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [])
 
 
     const properties: Property[] = Array.from({ length: 15 }, (_, i) => ({
@@ -87,7 +103,7 @@ export default function PropertySidebar() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[16px] h-[16px] cursor-pointer" viewBox="0 0 16 16" fill="none" onClick={toggleSortOption}>
                         <path d="M14 10.6667L11.3333 13.3334M11.3333 13.3334L8.66667 10.6667M11.3333 13.3334V2.66675M2 5.33341L4.66667 2.66675M4.66667 2.66675L7.33333 5.33341M4.66667 2.66675V13.3334" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    {isSortOptionVisible && <SortOption selectedSort={selectedSort} setSelectedSort={setSelectedSort} />}
+                    <SortOption selectedSort={selectedSort} setSelectedSort={setSelectedSort} ref={sortOptionRef} isSortOptionVisible={isSortOptionVisible}/>
                 </div>
             </div>
 
