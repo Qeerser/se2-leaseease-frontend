@@ -1,8 +1,12 @@
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import MiddlePage from "./components/MiddlePage";
-import CreateNewProperty from "./components/DeleteProperty";
-import Test from "./components/RejectRequest"
+import type { Metadata } from "next"
+import Sidebar from "./components/Sidebar"
+import Header from "./components/Header"
+import MiddlePage from "./components/MiddlePage"
+
+export const metadata: Metadata = {
+    title: "Lessor center",
+    description: "Lessor center for manage room property",
+}
 
 export default function PropertyLayout({
     children,
@@ -22,7 +26,6 @@ export default function PropertyLayout({
                 </div>
                 {/* KNOTT */}
             </div>
-            <Test />
         </div>
     )
 
