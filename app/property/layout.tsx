@@ -2,6 +2,7 @@ import Sidebar from "./components/sidebar";
 import Header from "./components/header";
 import Slider from "./components/slider";
 import MiddlePage from "./components/MiddlePage";
+import Slider_Request from "./components/Slider_Request";
 
 export default function PropertyLayout({
     children,
@@ -24,6 +25,7 @@ export default function PropertyLayout({
                         {/* KNOTT */}
                     </div>
                     {/* <Slider /> */}
+                    <Slider_Request />
                 </div>
 
                 {/* <main>{children}</main> */}
