@@ -9,17 +9,15 @@ interface TableRowProps {
 
 const TableRow_Request: React.FC<TableRowProps> = ({ name, rating, reviews, requestedAt }) => {
   return (
-    <tr>
-      <td className="px-6 py-4 border-b border-gray-200 w-[392px]">{name}</td>
-      <td className="px-6 py-4 border-b border-gray-200 w-[200px]">
-        {rating} ⭐ ({reviews})
-      </td>
-      <td className="px-6 py-4 border-b border-gray-200 w-[256px]">{requestedAt}</td>
-      <td className="px-6 py-4 border-b border-gray-200">
+    <tr className="flex w-full h-[56px] px-2 items-center border-b border-gray-200">
+      <th className="px-6 w-[40%]">{name}</th>
+      <th className="px-6 w-[20%]">{rating} ⭐ ({reviews})</th>
+      <th className="px-6 w-[25%]">{requestedAt}</th>
+      <th className="px-6 w-[15%]">
         <button className="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600">
           View Detail
         </button>
-      </td>
+      </th>
     </tr>
   );
 };
