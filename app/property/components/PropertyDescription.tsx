@@ -29,7 +29,7 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="flex items-start gap-5 w-[67.78vw] h-[27.92vh]">
+    <div className="flex items-start gap-5 w-[67.78vw] h-[27.92vh] rounded-md">
       {/* Image */}
       <img
         src={imageUrl}
@@ -45,14 +45,14 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
           <div className="flex space-x-3">
             <button
               onClick={onEdit}
-              className="flex items-center px-4 py-1 border border-yellow-500 text-yellow-500 rounded-lg hover:bg-yellow-100"
+              className="flex items-center px-4 py-1 bg-yellow-50 border border-yellow-700 text-yellow-700 rounded-lg hover:bg-yellow-200"
             >
               <Pencil size={16} className="mr-1" />
               Edit Property
             </button>
             <button
               onClick={onDelete}
-              className="flex items-center px-7.5 py-5.97 border border-red-500 text-red-500 rounded-lg hover:bg-red-100"
+              className="flex items-center px-7.5 py-5.97 bg-red-50 border border-red-700 text-red-700 rounded-lg hover:bg-red-200"
             >
               <Trash2 size={16} className="mr-1" />
               Delete Property

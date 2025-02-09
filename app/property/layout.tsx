@@ -22,7 +22,7 @@ export default function PropertyLayout({
             <div className="flex justify-center items-center flex-1 self-stretch">
                 <Sidebar />
                 {/* KNOTT */}
-                <div className="flex p-[2rem] flex-col items-start gap-[0.625rem] flex-1 self-stretch">
+                <div className="flex p-[2rem] flex-col items-start gap-[0.625rem] flex-1 self-stretch bg-white">
                     <MiddlePage />
 
                 </div>
