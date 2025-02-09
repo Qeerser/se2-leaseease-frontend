@@ -14,8 +14,6 @@ interface PropertyDescriptionProps {
   location: string;
   size: string;
   price: string;
-  onEdit: () => void;
-  onDelete: () => void;
 }
 
 const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
@@ -27,8 +25,6 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
   location,
   size,
   price,
-  onEdit,
-  onDelete,
 }) => {
   const [isEditPropertyVisible, setIsEditPropertyVisible] = useState<boolean>(false)
   const [isDeletePropertyVisible, setIsDeletePropertyVisible] = useState<boolean>(false)

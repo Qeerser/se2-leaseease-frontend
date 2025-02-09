@@ -47,13 +47,6 @@ export default function MiddlePage({ selectedProperty }: { selectedProperty: Pro
         console.log("Active button:", activeButton);
     };
 
-    const handleEdit = () => {
-        console.log("Edit clicked");
-    };
-
-    const handleDelete = () => {
-        console.log("Delete clicked");
-    };
 
     return (
         <div>
@@ -66,8 +59,6 @@ export default function MiddlePage({ selectedProperty }: { selectedProperty: Pro
                 size={selectedProperty.size}
                 price={selectedProperty.price}
                 reviews={selectedProperty.reviews}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
             />
 
             <div className="flex flex-col items-start gap-5 flex-1 self-stretch my-[20px]">
