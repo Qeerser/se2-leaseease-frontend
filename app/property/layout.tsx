@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import Sidebar from "./components/sidebar";
-import Header from "./components/header";
-import Slider from "./components/slider";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+// import Slider from "./components/Slider";
 import MiddlePage from "./components/MiddlePage";
-import Slider_Request from "./components/Slider_Request";
+// import Slider_Request from "./components/Slider_Request";
 
 export const metadata: Metadata = {
     title: "Lessor center",
@@ -29,7 +29,7 @@ export default function PropertyLayout({
                 {/* KNOTT */}
             </div>
             {/* <Slider /> */}
-            <Slider_Request />
+            {/* <Slider_Request /> */}
         </div>
     )
 
