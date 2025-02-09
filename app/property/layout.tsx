@@ -1,7 +1,9 @@
 import type { Metadata } from "next"
-import Sidebar from "./components/Sidebar"
-import Header from "./components/Header"
-import MiddlePage from "./components/MiddlePage"
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+// import Slider from "./components/Slider";
+import MiddlePage from "./components/MiddlePage";
+// import Slider_Request from "./components/Slider_Request";
 
 export const metadata: Metadata = {
     title: "Lessor center",
@@ -14,9 +16,9 @@ export default function PropertyLayout({
     children: React.ReactNode
 }) {
     return (
+
         <div className="flex w-full h-full flex-col items-center rounded-[0.375rem] bg-slate-200">
             <Header />
-
             <div className="flex justify-center items-center flex-1 self-stretch">
                 <Sidebar />
                 {/* KNOTT */}
@@ -26,6 +28,8 @@ export default function PropertyLayout({
                 </div>
                 {/* KNOTT */}
             </div>
+            {/* <Slider /> */}
+            {/* <Slider_Request /> */}
         </div>
     )
 
