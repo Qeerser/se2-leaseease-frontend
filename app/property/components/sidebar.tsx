@@ -11,6 +11,9 @@ type Property = {
     name: string
     rating: number
     location: string
+    size: string
+    price: string
+    date: string
     image: string
 }
 
@@ -40,37 +43,46 @@ export default function PropertySidebar() {
     }, [])
 
 
-    const properties: Property[] = Array.from({ length: 15 }, (_, i) => ({
-        id: i + 1,
-        name: [
-            "Luxury Condo",
-            "Cozy Apartment",
-            "Modern House",
-            "Beachfront Villa",
-            "Penthouse Suite",
-            "Urban Studio",
-            "Rustic Cabin",
-            "High-Rise Loft",
-            "Lakeview Cottage",
-            "Garden Bungalow",
-        ][i % 10],
+    const properties: Property[] = Array.from({ length: 15 }, (_, i) => {
+        const randomDate = new Date(Date.now() + Math.random() * 31536000000)
+            .toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
+            .replace(",", "")
 
-        rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
-        location: [
-            "Sathorn, Bangkok",
-            "Jatujak, Bangkok",
-            "Ekkamai, Bangkok",
-            "Phuket, Thailand",
-            "Silom, Bangkok",
-            "Chiang Mai, Thailand",
-            "Hua Hin, Thailand",
-            "Pattaya, Thailand",
-            "Samui, Thailand",
-            "Krabi, Thailand",
-        ][i % 10],
+        return {
+            id: i + 1,
+            name: [
+                "Luxury Condo",
+                "Cozy Apartment",
+                "Modern House",
+                "Beachfront Villa",
+                "Penthouse Suite",
+                "Urban Studio",
+                "Rustic Cabin",
+                "High-Rise Loft",
+                "Lakeview Cottage",
+                "Garden Bungalow",
+            ][i % 10],
 
-        image: `https://loremflickr.com/40/40?random=${i + 1}`
-    }))
+            rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+            location: [
+                "Sathorn, Bangkok",
+                "Jatujak, Bangkok",
+                "Ekkamai, Bangkok",
+                "Phuket, Thailand",
+                "Silom, Bangkok",
+                "Chiang Mai, Thailand",
+                "Hua Hin, Thailand",
+                "Pattaya, Thailand",
+                "Samui, Thailand",
+                "Krabi, Thailand",
+            ][i % 10],
+
+            size: Math.floor(Math.random() * (200 - 30 + 1) + 30) + " sqm",
+            price: `$${(Math.random() * (500000 - 50000) + 50000).toLocaleString()}`,
+            date: randomDate,
+            image: `https://loremflickr.com/40/40?random=${i + 1}`
+        }
+    })
 
     const sortedProperties = [...properties].sort((a, b) => {
         switch (selectedSort) {
@@ -83,11 +95,9 @@ export default function PropertySidebar() {
             case "Least Popular":
                 return a.rating - b.rating
             case "Newest":
-                // change to date later
-                return b.id - a.id
+                return new Date(b.date).getTime() - new Date(a.date).getTime()
             case "Oldest":
-                // change to date later
-                return a.id - b.id
+                return new Date(a.date).getTime() - new Date(b.date).getTime()
             default:
                 return 0
         }
@@ -103,7 +113,7 @@ export default function PropertySidebar() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-[16px] h-[16px] cursor-pointer" viewBox="0 0 16 16" fill="none" onClick={toggleSortOption}>
                         <path d="M14 10.6667L11.3333 13.3334M11.3333 13.3334L8.66667 10.6667M11.3333 13.3334V2.66675M2 5.33341L4.66667 2.66675M4.66667 2.66675L7.33333 5.33341M4.66667 2.66675V13.3334" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <SortOption selectedSort={selectedSort} setSelectedSort={setSelectedSort} ref={sortOptionRef} isSortOptionVisible={isSortOptionVisible}/>
+                    <SortOption selectedSort={selectedSort} setSelectedSort={setSelectedSort} ref={sortOptionRef} isSortOptionVisible={isSortOptionVisible} />
                 </div>
             </div>
 
