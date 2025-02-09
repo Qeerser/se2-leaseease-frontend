@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useState } from "react";
+import Slider_Request from "./Slider_Request"
 interface TableProps {
   data: {
     name: string;
@@ -10,6 +10,8 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({ data }) => {
+  const [isSlicebarVisible, setIsSlicebarVisible] = useState<boolean>(false)
+
   return (
     <div className="flex flex-col w-[72.72vw] h-[45vh] rounded-lg border border-slate-200 bg-slate-50">
       {/* Table Header */}
@@ -29,7 +31,7 @@ const Table: React.FC<TableProps> = ({ data }) => {
               <div className="px-6 w-[20%]">{row.rating} ⭐ ({row.reviews})</div>
               <div className="px-6 w-[25%]">{row.requestedAt}</div>
               <div className="px-6 w-[15%]">
-                <button className="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600">
+                <button className="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600" onClick={() => setIsSlicebarVisible(!isSlicebarVisible)}>
                   View Detail
                 </button>
               </div>
@@ -37,6 +39,7 @@ const Table: React.FC<TableProps> = ({ data }) => {
           ))}
         </div>
       </div>
+      {isSlicebarVisible && <Slider_Request setIsSlicebarVisible={setIsSlicebarVisible} />}
     </div>
   );
 };

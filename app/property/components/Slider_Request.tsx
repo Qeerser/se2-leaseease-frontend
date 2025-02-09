@@ -1,16 +1,32 @@
-export default function RequestDetail() {
+"use client";
+
+import { Dispatch, SetStateAction, useState } from "react"
+import AcceptRequest from "./AcceptRequest";
+import RejectRequest from "./RejectRequest";
+
+type Slider_RequestProps = {
+    setIsSlicebarVisible: Dispatch<SetStateAction<boolean>>
+}
+
+export default function Slider_Request({ setIsSlicebarVisible }: Slider_RequestProps) {
+    const [status, setStatus] = useState<"Accept" | "Reject" | "None">("None");
+
     return(
-            <div className="flex w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
+            <div className="flex z-50 w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
                 <div className="flex h-[2.5rem] p-[0.625rem] [0.75rem] items-center gap-[1.5rem] self-stretch">
                     {/* 1 */}
                     <div className="flex items-center gap-[8px]">
                         <div className="flex items-center gap-1">
-                            <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
-                                <path d="M4 11.3334L7.33333 8.00008L4 4.66675M8.66667 11.3334L12 8.00008L8.66667 4.66675" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
-                                <path d="M3.33301 7.33325V3.33325M3.33301 3.33325H7.33301M3.33301 3.33325L12.6663 12.6666M12.6663 8.66659V12.6666M12.6663 12.6666H8.66634" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            <button onClick={() => setIsSlicebarVisible(false)}>
+                                <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 11.3334L7.33333 8.00008L4 4.66675M8.66667 11.3334L12 8.00008L8.66667 4.66675" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
+                            <button>
+                                <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3.33301 7.33325V3.33325M3.33301 3.33325H7.33301M3.33301 3.33325L12.6663 12.6666M12.6663 8.66659V12.6666M12.6663 12.6666H8.66634" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
 
                         </div>
                         <div className="w-[0.5px] h-[10px] bg-slate-400"></div>
@@ -75,18 +91,19 @@ export default function RequestDetail() {
 
                 <div className="flex p-[16px] justify-center items-center gap-3 self-stretch border-t border-slate-300">
                     {/* 3 */}
-                    <div className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-red-50 border border-red-700">
-                        <div className="text-red-700 text-base font-medium" style={{ fontFamily: 'Inter', lineHeight: '24px' }}>
-                            Reject
-                        </div>
-                    </div>
-                    <div className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-green-50 border border-green-700">
-                        <div className="text-green-700 text-base font-medium" style={{ fontFamily: 'Inter', lineHeight: '24px' }}>
+                    <div className="flex justify-end items-center self-stretch">
+                        <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md bg-red-50 border border-red-700 text-red-700" onClick={() => setStatus("Accept")}>
                             Accept
+                        </button>
+                        <div className="flex flex-col items-start gap-[0.625rem] pl-2">
+                            <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md  bg-green-50 border border-green-700 text-green-700" onClick={() => setStatus("Reject")}>
+                                Reject
+                            </button>
                         </div>
                     </div>
-
                 </div>
+                {status === "Accept" && <AcceptRequest setIsAcceptRequestVisible={setStatus} />}
+                {status === "Reject" && <RejectRequest setIsRejectRequestVisible={setStatus} />}
             </div>
 
     )
