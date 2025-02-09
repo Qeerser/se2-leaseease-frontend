@@ -126,6 +126,6 @@ export default function PropertySidebar() {
                 </button>
             </div>
             {isCreateNewPropertyVisible && <CreateNewProperty setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible} />}
-        </div>
+        </div> 
     )
 }
