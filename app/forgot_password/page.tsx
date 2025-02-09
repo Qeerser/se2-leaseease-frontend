@@ -1,4 +1,10 @@
+'use client'
+
+import { useRouter } from "next/navigation"
+
 export default function Page() {
+    const router = useRouter()
+
     return (
         <div className="flex min-h-screen justify-center items-center rounded-md bg-[#E2E8F0]">
             <div className="flex w-[600px] p-12 px-16 flex-col justify-center items-center gap-10 flex-shrink-0 rounded-xl bg-white">
@@ -32,7 +38,7 @@ export default function Page() {
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 21 20" fill="none" className="w-5 h-5">
                             <path d="M10.5003 15.8333L4.66699 9.99996M4.66699 9.99996L10.5003 4.16663M4.66699 9.99996H16.3337" stroke="#253B80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <p className="text-base font-normal leading-6 text-[#334155] font-inter">
+                        <p className="text-base font-normal leading-6 text-[#334155] font-inter" onClick={() => router.push("/login")}>
                             Back to Login
                         </p>
                     </button>
