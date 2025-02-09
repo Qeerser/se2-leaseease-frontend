@@ -36,7 +36,7 @@ export default function Page() {
                     </button>
                     <button className="flex px-[19px] justify-center items-center gap-[10px] bg-transparent border-none mx-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 21 20" fill="none" className="w-5 h-5">
-                            <path d="M10.5003 15.8333L4.66699 9.99996M4.66699 9.99996L10.5003 4.16663M4.66699 9.99996H16.3337" stroke="#253B80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.5003 15.8333L4.66699 9.99996M4.66699 9.99996L10.5003 4.16663M4.66699 9.99996H16.3337" stroke="#253B80" stroke-width="1.5" strokeLinecap="round" stroke-linejoin="round"/>
                         </svg>
                         <p className="text-base font-normal leading-6 text-[#334155] font-inter" onClick={() => router.push("/login")}>
                             Back to Login
