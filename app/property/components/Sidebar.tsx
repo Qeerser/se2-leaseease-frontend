@@ -15,12 +15,14 @@ type Property = {
     price: string
     date: string
     image: string
+    reviews: number
 }
 
-export default function PropertySidebar() {
+export default function PropertySidebar({ setSelectedProperty }: { setSelectedProperty: (property: Property) => void }) {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
+    
 
     const sortOptionRef = useRef<HTMLDivElement>(null)
 
@@ -80,7 +82,8 @@ export default function PropertySidebar() {
             size: Math.floor(Math.random() * (200 - 30 + 1) + 30) + " sqm",
             price: `$${(Math.random() * (500000 - 50000) + 50000).toLocaleString()}`,
             date: randomDate,
-            image: `https://loremflickr.com/40/40?random=${i + 1}`
+            image: `https://loremflickr.com/2048/1280?random=${i + 1}`,
+            reviews: Math.floor(Math.random() * 500) + 1
         }
     })
 
@@ -103,7 +106,7 @@ export default function PropertySidebar() {
         }
     })
 
-    const [activeProperty, setActiveProperty] = useState<number>(properties[0].id)
+    const [activeProperty, setActiveProperty] = useState<number | null>(null)
 
     return (
         <div className="flex w-[25rem] h-[calc(100vh-4rem)] p-[1rem] 1rem flex-col items-center gap-[0.5rem] self-stretch border-slate-300 bg-slate-50">
@@ -123,7 +126,10 @@ export default function PropertySidebar() {
                         key={property.id}
                         property={property}
                         isPropertyActive={property.id === activeProperty}
-                        onClick={() => setActiveProperty(property.id)}
+                        onClick={() => {
+                            setActiveProperty(property.id)
+                            setSelectedProperty(property)
+                        }}
                     />
                 ))}
                 <button onClick={() => setIsCreateNewPropertyVisible(!isCreateNewPropertyVisible)} className="flex h-[40px] py-2 px-[10px] justify-center items-center gap-2 self-stretch rounded-[6px] border border-[#1E3A8A] mt-2 sticky bottom-0 bg-white hover:bg-[#EFF6FF]">
