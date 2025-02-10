@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from "next/navigation"
-
+import { useRouter } from "next/navigation";
+import { login } from '@/src/api/auth'
 const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission
 }
@@ -48,7 +48,7 @@ export default function SignIn({ setPage }: { setPage: (page: string) => void })
                         </div>
 
                         <div className="text-right text-sm text-blue-500 cursor-pointer" onClick={() => router.push("/forgot_password")}>Forgot password?</div>
-                        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">Sign in</button>
+                        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded" onClick={() => login(email,password)}>Sign in</button>
 
                         <p className="text-center text-gray-600">
                             Don’t have an account? <span className="text-blue-600 cursor-pointer" onClick={() => setPage('signup')}>Sign Up</span>

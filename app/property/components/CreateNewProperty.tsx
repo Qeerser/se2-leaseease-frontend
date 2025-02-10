@@ -2,7 +2,7 @@
 
 "use client"
 import { Dispatch, SetStateAction, useState } from "react"
-
+import { createProperty } from "@/src/api/property"
 type CreateNewPropertyProps = {
     setIsCreateNewPropertyVisible: Dispatch<SetStateAction<boolean>>
 }
@@ -33,6 +33,8 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
         if (!price) newErrors.price = true
 
         setErrors(newErrors)
+        //test create
+        createProperty(1,"ban kwai","XXL",128,"exploded")
     }
 
     return (
