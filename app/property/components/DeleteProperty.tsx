@@ -1,6 +1,11 @@
 "use client"
+import { Dispatch, SetStateAction, useState } from "react"
 
-export default function DeleteProperty() {
+type DeletePropertyProps = {
+    setIsDeletePropertyVisible: Dispatch<SetStateAction<boolean>>
+}
+
+export default function DeleteProperty({ setIsDeletePropertyVisible }: DeletePropertyProps) {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="flex w-[32rem] p-6 flex-col items-start gap-4 rounded-lg bg-white shadow-lg">
@@ -17,7 +22,7 @@ export default function DeleteProperty() {
                     </div>
                 </div>
                 <div className="flex justify-end items-center self-stretch">
-                    <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md border border-[#E4E4E7] bg-white">
+                    <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md border border-[#E4E4E7] bg-white" onClick={() => setIsDeletePropertyVisible(false)}>
                         Cancel
                     </button>
                     <div className="flex flex-col items-start gap-[0.625rem] pl-2">
