@@ -3,11 +3,11 @@
 "use client"
 import { Dispatch, SetStateAction, useState } from "react"
 
-type CreateNewPropertyProps = {
-    setIsCreateNewPropertyVisible: Dispatch<SetStateAction<boolean>>
+type EditPropertyProps = {
+    setIsEditPropertyVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export default function EditProperty() {
+export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyProps) {
     const [selectedFile, setSelectedFile] = useState<string | null>(null)
     // remain: Image
     const [name, setName] = useState<string | null>(null)
@@ -36,11 +36,11 @@ export default function EditProperty() {
     }
 
     return (
-        <div className="flex w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
+        <div className="flex z-50 w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
             <div className="flex h-[2.5rem] p-[0.625rem] [0.75rem] items-center gap-[1.5rem] self-stretch sticky top-0 bg-white">
                 <div className="flex items-center gap-[8px]">
                     <div className="flex items-center gap-1">
-                        <button>
+                        <button onClick={() => setIsEditPropertyVisible(false)}>
                             <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                 <path d="M4 11.3334L7.33333 8.00008L4 4.66675M8.66667 11.3334L12 8.00008L8.66667 4.66675" stroke="#64748B" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -169,7 +169,7 @@ export default function EditProperty() {
                 </div>
             </div>
             <div className="flex p-[16px] justify-center items-center gap-3 self-stretch border-t border-slate-300 fixed bottom-0 right-0 w-[32.5rem] bg-white">
-                <button className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] border border-blue-900 hover:bg-[#EFF6FF]">
+                <button className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] border border-blue-900 hover:bg-[#EFF6FF]" onClick={() => setIsEditPropertyVisible(false)}>
                     Cancel
                 </button>
                 <button 
