@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -8,21 +8,19 @@ export const apiClient = axios.create({
   },
 });
 
+const getCookie = (name: string) => {
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? match[2] : null;
+};
 // Request Interceptor
 apiClient.interceptors.request.use(
   (config) => {
     config.withCredentials = true;
-    // const authToken = document.cookie
-    //   .split("; ")
-    //   .find((row) => row.startsWith("auth_token="))
-    //   ?.split("=")[1];
+    const token = getCookie("auth_token");
 
-    // // Attach the token manually if it exists
-    // if (authToken) {
-    //   config.headers["Authorization"] = `Bearer ${authToken}`;
-    // }
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkyMDYwMzMsImlhdCI6MTczOTE5NTIzMywidXNlcl9pZCI6MX0.ZGJAaiuhhVS8iZJ1aP4dUTM-rpUVzmAR7FJ_cY7tNRA"
-    config.headers.Authorization = `Bearer ${token}` ; 
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)
