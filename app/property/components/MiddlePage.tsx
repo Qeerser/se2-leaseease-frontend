@@ -52,7 +52,7 @@ export default function MiddlePage({ selectedProperty }: { selectedProperty: Pro
     };
 
     const handleDelete = () => {
-        console.log("Delete clicked");
+        
     };
 
     return (
