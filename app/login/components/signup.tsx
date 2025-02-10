@@ -1,7 +1,7 @@
 // pages/signup.tsx
 import { useState } from 'react';
 import type { NextPage } from 'next';
-
+import { register } from '@/src/api/auth'
 interface SignUpProps {
     setPage: (page: string) => void;
 }
@@ -118,7 +118,7 @@ const SignUp: NextPage<SignUpProps> = ({ setPage }) => {
                             </div>
                         </div>
 
-                        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
+                        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded" onClick={()=>register(1,name,"ban na",email,password,accountType)}>
                             Sign up
                         </button>
 

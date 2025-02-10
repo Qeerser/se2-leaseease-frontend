@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { apiClient } from './axios';
 
 export const createProperty = async (
+    LessorID: number,
     Location: string,
     Size: string,
     Price: number,
@@ -9,9 +10,9 @@ export const createProperty = async (
 ): Promise<string | null> => {
     try {
         const res: AxiosResponse = await apiClient.post(
-          `/property/create`,
+          `/properties/create`,
             {
-                LessorID: "hi",     
+                LessorID: LessorID,     
                 Location: Location,
                 Size: Size,
                 Price: Price, 
@@ -32,7 +33,7 @@ export const updateProperty = async (
 ):Promise<string | null> => {
     try {
         const res: AxiosResponse = await apiClient.post(
-          `/property/update/${PropertyID}`,
+          `/properties/update/${PropertyID}`,
             {
                 PropertyID: PropertyID,
                 Price: Price, 
@@ -51,7 +52,7 @@ export const deleteProperty = async (
 ):Promise<string | null> => {
     try {
         const res: AxiosResponse = await apiClient.post(
-            `/property/delete/${PropertyID}`,
+            `/properties/delete/${PropertyID}`,
             {
                 PropertyID: PropertyID
             },
@@ -63,4 +64,28 @@ export const deleteProperty = async (
     }
     return "Delete Successfully"
     }
-    
+export const getAllProperties = async (
+    page: number,
+    pageSize: number
+    ): Promise<any | null> => {
+    try {
+        const res: AxiosResponse = await apiClient.get(
+        `/properties/all?page=${page}&pageSize=${pageSize}`
+        );
+        return res.data;
+    } catch (error) {
+        return null;
+    }
+    };
+export const getPropertyByID = async (
+    PropertyID: number
+    ): Promise<any | null> => {
+    try {
+        const res: AxiosResponse = await apiClient.get(
+        `/properties/${PropertyID}`
+        );
+        return res.data;
+    } catch (error) {
+        return null;
+    }
+    };

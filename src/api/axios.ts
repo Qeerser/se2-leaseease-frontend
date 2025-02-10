@@ -11,6 +11,18 @@ export const apiClient = axios.create({
 // Request Interceptor
 apiClient.interceptors.request.use(
   (config) => {
+    config.withCredentials = true;
+    // const authToken = document.cookie
+    //   .split("; ")
+    //   .find((row) => row.startsWith("auth_token="))
+    //   ?.split("=")[1];
+
+    // // Attach the token manually if it exists
+    // if (authToken) {
+    //   config.headers["Authorization"] = `Bearer ${authToken}`;
+    // }
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzkyMDYwMzMsImlhdCI6MTczOTE5NTIzMywidXNlcl9pZCI6MX0.ZGJAaiuhhVS8iZJ1aP4dUTM-rpUVzmAR7FJ_cY7tNRA"
+    config.headers.Authorization = `Bearer ${token}` ; 
     return config;
   },
   (error) => Promise.reject(error)
