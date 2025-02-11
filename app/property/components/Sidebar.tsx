@@ -5,14 +5,15 @@ import { useState, useRef, useEffect } from "react"
 import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
+import { getAllProperties } from "@/src/api/property"
 
 type Property = {
     id: number
     name: string
     rating: number
     location: string
-    size: string
-    price: string
+    size: number
+    price: number
     date: string
     image: string
     reviews: number
@@ -22,7 +23,8 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
-    
+    const [properties, setProperties] = useState<Property[]>([])
+
 
     const sortOptionRef = useRef<HTMLDivElement>(null)
 
@@ -39,68 +41,85 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
 
         document.addEventListener("mousedown", handleClickOutside)
 
+        fetchAllProperties()
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside)
         }
     }, [])
 
-
-    const properties: Property[] = Array.from({ length: 15 }, (_, i) => {
-        const randomDate = new Date(Date.now() + Math.random() * 31536000000)
-            .toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
-            .replace(",", "")
-
-        return {
-            id: i + 1,
-            name: [
-                "Luxury Condo",
-                "Cozy Apartment",
-                "Modern House",
-                "Beachfront Villa",
-                "Penthouse Suite",
-                "Urban Studio",
-                "Rustic Cabin",
-                "High-Rise Loft",
-                "Lakeview Cottage",
-                "Garden Bungalow",
-            ][i % 10],
-
-            rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
-            location: [
-                "Sathorn, Bangkok",
-                "Jatujak, Bangkok",
-                "Ekkamai, Bangkok",
-                "Phuket, Thailand",
-                "Silom, Bangkok",
-                "Chiang Mai, Thailand",
-                "Hua Hin, Thailand",
-                "Pattaya, Thailand",
-                "Samui, Thailand",
-                "Krabi, Thailand",
-            ][i % 10],
-
-            size: Math.floor(Math.random() * (200 - 30 + 1) + 30) + " sqm",
-            price: `$${(Math.random() * (500000 - 50000) + 50000).toLocaleString()}`,
-            date: randomDate,
-            image: `https://loremflickr.com/2048/1280?random=${i + 1}`,
-            reviews: Math.floor(Math.random() * 500) + 1
+    const fetchAllProperties = async () => {
+        try {
+            const data: Property[] = await getAllProperties(); // Ensure correct type
+            if (data) {
+                console.log("Fetched Properties:", data);
+                setProperties(data);
+            } else {
+                console.error("Failed to fetch properties.");
+            }
+        } catch (error) {
+            console.error("Error fetching properties:", error);
         }
-    })
+    };
+
+
+
+    // const properties: Property[] = Array.from({ length: 15 }, (_, i) => {
+    //     const randomDate = new Date(Date.now() + Math.random() * 31536000000)
+    //         .toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
+    //         .replace(",", "")
+
+    //     return {
+    //         id: i + 1,
+    //         name: [
+    //             "Luxury Condo",
+    //             "Cozy Apartment",
+    //             "Modern House",
+    //             "Beachfront Villa",
+    //             "Penthouse Suite",
+    //             "Urban Studio",
+    //             "Rustic Cabin",
+    //             "High-Rise Loft",
+    //             "Lakeview Cottage",
+    //             "Garden Bungalow",
+    //         ][i % 10],
+
+    //         rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+    //         location: [
+    //             "Sathorn, Bangkok",
+    //             "Jatujak, Bangkok",
+    //             "Ekkamai, Bangkok",
+    //             "Phuket, Thailand",
+    //             "Silom, Bangkok",
+    //             "Chiang Mai, Thailand",
+    //             "Hua Hin, Thailand",
+    //             "Pattaya, Thailand",
+    //             "Samui, Thailand",
+    //             "Krabi, Thailand",
+    //         ][i % 10],
+
+    //         size: Math.floor(Math.random() * (200 - 30 + 1) + 30) + " sqm",
+    //         price: `$${(Math.random() * (500000 - 50000) + 50000).toLocaleString()}`,
+    //         date: randomDate,
+    //         image: `https://loremflickr.com/2048/1280?random=${i + 1}`,
+    //         reviews: Math.floor(Math.random() * 500) + 1
+    //     }
+    // })
 
     const sortedProperties = [...properties].sort((a, b) => {
         switch (selectedSort) {
-            case "A-Z":
-                return a.name.localeCompare(b.name)
-            case "Z-A":
-                return b.name.localeCompare(a.name)
-            case "Most Popular":
-                return b.rating - a.rating
-            case "Least Popular":
-                return a.rating - b.rating
-            case "Newest":
-                return new Date(b.date).getTime() - new Date(a.date).getTime()
-            case "Oldest":
-                return new Date(a.date).getTime() - new Date(b.date).getTime()
+            // case "A-Z":
+            //     return a.name.localeCompare(b.name)
+            // case "Z-A":
+            //     return b.name.localeCompare(a.name)
+            // case "Most Popular":
+            //     return b.rating - a.rating
+            // case "Least Popular":
+            //     return a.rating - b.rating
+            // case "Newest":
+            //     return new Date(b.date).getTime() - new Date(a.date).getTime()
+            // case "Oldest":
+            //     return new Date(a.date).getTime() - new Date(b.date).getTime()
             default:
                 return 0
         }
@@ -121,7 +140,7 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
             </div>
 
             <div className="flex py-0 flex-col items-center gap-1 self-stretch overflow-y-auto">
-                {sortedProperties.map((property: Property) => (
+                {properties.map((property: Property) => (
                     <PropertySingle
                         key={property.id}
                         property={property}
@@ -142,6 +161,6 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
                 </button>
             </div>
             {isCreateNewPropertyVisible && <CreateNewProperty setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible} />}
-        </div> 
+        </div>
     )
 }

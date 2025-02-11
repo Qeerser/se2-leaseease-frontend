@@ -9,8 +9,8 @@ type Property = {
     name: string
     rating: number
     location: string
-    size: string
-    price: string
+    size: number
+    price: number
     date: string
     image: string
     reviews: number

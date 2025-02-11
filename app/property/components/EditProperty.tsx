@@ -135,7 +135,7 @@ export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyP
 
                         </div>
                         <div className="flex items-center gap-[4px] self-stretch">
-                            <div className={`flex p-[8px] items-center gap-[10px] flex-1 rounded-[6px] border ${errors.location ? "border-red-500" : "border-slate-200"}`}>
+                            <div className={`flex p-[8px] items-center gap-[10px] flex-1 rounded-[6px] border ${errors.size ? "border-red-500" : "border-slate-200"}`}>
                                 <input 
                                     type="number" 
                                     className="text-base font-normal leading-[24px] w-full outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
@@ -154,7 +154,7 @@ export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyP
                                 Price* (Baht per month)
                             </div>
                         </div>
-                        <div className={`flex p-[8px] items-center gap-[10px] self-stretch rounded-[6px] border ${errors.location ? "border-red-500" : "border-slate-200"}`}>
+                        <div className={`flex p-[8px] items-center gap-[10px] self-stretch rounded-[6px] border ${errors.price ? "border-red-500" : "border-slate-200"}`}>
                             <input 
                                 type="number" 
                                 className="w-full text-base font-normal leading-[24px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
@@ -173,7 +173,7 @@ export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyP
                     Cancel
                 </button>
                 <button 
-                    className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-blue-900 text-white"
+                    className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-blue-900 text-white hover:bg-blue-700"
                     onClick={handleSubmit}
                 >
                     Edit Property

@@ -24,7 +24,7 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
         }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const newErrors: typeof errors = {}
 
         if (!name) newErrors.name = true
@@ -33,8 +33,34 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
         if (!price) newErrors.price = true
 
         setErrors(newErrors)
-        //test create
-        createProperty(1,"ban kwai","XXL",128,"exploded")
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+    
+        if (location && size !== null && price !== null) {
+            try {
+                // change input
+                const response = await createProperty(
+                    1,
+                    location,
+                    size.toString(),
+                    price,
+                    "Available"
+                );
+    
+                if (response) {
+                    console.log(response)
+                    alert("Property created successfully!");
+                    setIsCreateNewPropertyVisible(false);
+                } else {
+                    alert("Failed to create property.");
+                }
+            } catch (error) {
+                console.error("Error creating property:", error);
+                alert("An unexpected error occurred.");
+            }
+        }
     }
 
     return (
@@ -171,11 +197,11 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
                 </div>
             </div>
             <div className="flex p-[16px] justify-center items-center gap-3 self-stretch border-t border-slate-300 fixed bottom-0 right-0 w-[32.5rem] bg-white">
-                <button className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] border border-blue-900 hover:bg-[#EFF6FF]">
+                <button className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] border border-blue-900 hover:bg-[#EFF6FF]" onClick={() => setIsCreateNewPropertyVisible(false)}>
                     Cancel
                 </button>
                 <button 
-                    className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-blue-900 text-white"
+                    className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-blue-900 text-white hover:bg-blue-700"
                     onClick={handleSubmit}
                 >
                     Create Property
