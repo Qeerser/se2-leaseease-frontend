@@ -11,6 +11,17 @@ export default function SignIn() {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
 
+  const handleLogin = async () => {
+    try {
+      const response = await login(email, password);
+      if (response?.data.token) {
+        router.push("/property");
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
@@ -66,7 +77,7 @@ export default function SignIn() {
             <button
               type="submit"
               className="w-full bg-blue-600 text-white p-2 rounded"
-              onClick={() => login(email, password)}
+              onClick={() => handleLogin()}
             >
               Sign in
             </button>
