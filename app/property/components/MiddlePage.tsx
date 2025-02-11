@@ -3,18 +3,7 @@ import React, { useState } from "react";
 import Table from "./Table";
 import ButtonGroup from "./ButtonGroup";
 import PropertyDescription from "./PropertyDescription";
-
-type Property = {
-    id: number
-    name: string
-    rating: number
-    location: string
-    size: number
-    price: number
-    date: string
-    image: string
-    reviews: number
-}
+import { Property } from '../../../type/Property'
 
 export default function MiddlePage({ selectedProperty }: { selectedProperty: Property | null }) {
     if (!selectedProperty) {

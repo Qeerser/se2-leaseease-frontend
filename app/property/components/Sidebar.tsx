@@ -6,18 +6,7 @@ import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
 import { getAllProperties } from "@/src/api/property"
-
-type Property = {
-    id: number
-    name: string
-    rating: number
-    location: string
-    size: number
-    price: number
-    date: string
-    image: string
-    reviews: number
-}
+import { Property } from '../../../type/Property'
 
 export default function PropertySidebar({ setSelectedProperty }: { setSelectedProperty: (property: Property) => void }) {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
@@ -50,17 +39,34 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
 
     const fetchAllProperties = async () => {
         try {
-            const data: Property[] = await getAllProperties(); // Ensure correct type
+            const data: Property[] = await getAllProperties()
             if (data) {
-                console.log("Fetched Properties:", data);
-                setProperties(data);
+                console.log("Fetched Properties:", data)
+
+                const data_random: Property[] = data.map((property, index) => ({
+                    ...property,
+                    rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+                    reviews: Math.floor(Math.random() * 500) + 1,
+                    image: `https://loremflickr.com/2048/1280?random=${index + 1}`,
+                    date: new Date(Date.now() + Math.random() * 31536000000)
+                        .toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        })
+                        .replace(",", ""),
+                }))
+
+                setProperties(data_random)
             } else {
-                console.error("Failed to fetch properties.");
+                console.error("Failed to fetch properties.")
             }
         } catch (error) {
-            console.error("Error fetching properties:", error);
+            console.error("Error fetching properties:", error)
         }
-    };
+    }
 
 
 
@@ -108,18 +114,18 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
 
     const sortedProperties = [...properties].sort((a, b) => {
         switch (selectedSort) {
-            // case "A-Z":
-            //     return a.name.localeCompare(b.name)
-            // case "Z-A":
-            //     return b.name.localeCompare(a.name)
-            // case "Most Popular":
-            //     return b.rating - a.rating
-            // case "Least Popular":
-            //     return a.rating - b.rating
-            // case "Newest":
-            //     return new Date(b.date).getTime() - new Date(a.date).getTime()
-            // case "Oldest":
-            //     return new Date(a.date).getTime() - new Date(b.date).getTime()
+            case "A-Z":
+                return a.name.localeCompare(b.name)
+            case "Z-A":
+                return b.name.localeCompare(a.name)
+            case "Most Popular":
+                return b.rating - a.rating
+            case "Least Popular":
+                return a.rating - b.rating
+            case "Newest":
+                return new Date(b.date).getTime() - new Date(a.date).getTime()
+            case "Oldest":
+                return new Date(a.date).getTime() - new Date(b.date).getTime()
             default:
                 return 0
         }
@@ -140,7 +146,7 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
             </div>
 
             <div className="flex py-0 flex-col items-center gap-1 self-stretch overflow-y-auto">
-                {properties.map((property: Property) => (
+                {sortedProperties.map((property: Property) => (
                     <PropertySingle
                         key={property.id}
                         property={property}
@@ -160,7 +166,10 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
                     </p>
                 </button>
             </div>
-            {isCreateNewPropertyVisible && <CreateNewProperty setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible} />}
+            {isCreateNewPropertyVisible && <CreateNewProperty
+                setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible}
+                addProperty={(property) => setProperties((prev) => [...prev, property])}
+            />}
         </div>
     )
 }

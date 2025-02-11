@@ -4,19 +4,9 @@ import { useState } from "react"
 import Sidebar from "./components/Sidebar"
 import Header from "./components/Header"
 import MiddlePage from "./components/MiddlePage"
+import { Property } from '../../type/Property'
 // import Slider_Request from "./components/Slider_Request"
 
-type Property = {
-    id: number
-    name: string
-    rating: number
-    location: string
-    size: number
-    price: number
-    date: string
-    image: string
-    reviews: number
-}
 
 export default function PropertyPage({ children, }: { children: React.ReactNode }) {
 

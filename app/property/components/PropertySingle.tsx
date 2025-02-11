@@ -1,12 +1,5 @@
 // properties active css
-
-type Property = {
-    id: number
-    name: string
-    rating: number
-    location: string
-    image: string
-}
+import { Property } from '../../../type/Property'
 
 type ChildProps = {
     property: Property
