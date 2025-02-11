@@ -2,20 +2,26 @@ import { apiClient } from "./axios";
 // import Cookies from "js-cookie";
 
 export const login = async (email: string, password: string) => {
-  const response = await apiClient.post("api/v1/auth/login", {
-    email,
-    password,
-  });
-  console.log("Login Response:", response);
+  try {
+    const response = await apiClient.post("api/v1/auth/login", {
+      email,
+      password,
+    });
 
-  const token = response.data.token; // Ensure backend sends { token: "your_jwt_token" }
+    // console.log("Login Response:", response.data);
 
-  if (token) {
-    localStorage.setItem("token", token); // Store token in localStorage
-  } else {
-    console.error("Token not found in response");
+    if (response.data && response.data.token) {
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      return token;
+    } else {
+      console.error("Token not found in response");
+      return null;
+    }
+  } catch (error: any) {
+    console.error("Login failed:", error.response?.data || error.message);
+    return null;
   }
-  return response;
 };
 
 export const register = async (
