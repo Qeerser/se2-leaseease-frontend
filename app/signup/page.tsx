@@ -174,7 +174,7 @@ const SignUp = () => {
               Already have an account?{" "}
               <span
                 className="text-blue-600 cursor-pointer"
-                onClick={() => handleRegister()}
+                onClick={() => router.push("/login")}
               >
                 Sign In
               </span>
