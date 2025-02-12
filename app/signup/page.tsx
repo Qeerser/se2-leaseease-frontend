@@ -11,6 +11,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [accountType, setAccountType] = useState("lessee");
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,14 +29,16 @@ const SignUp = () => {
         accountType
       );
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      if (response.message == "User registered successfully") {
-        console.log("HI");
-        router.push("/login");
-      }
+      router.push("/login");
+      // if (response.message == "User registered successfully") {
+      //   console.log("HI");
+      //   router.push("/login");
+      // }
       console.log(response);
     } catch (error) {
       console.error("Registration failed:", error);
+      setError("Registration not successful. Please try again.");
+      
     }
   };
 
@@ -180,6 +183,11 @@ const SignUp = () => {
               </span>
             </p>
           </form>
+          {error && (
+            <div className="mb-4 text-black text-center text-2xl font-semibold bg-red-500 p-4 rounded-lg">
+              <p>{error}</p>
+            </div>
+          )}
         </div>
         <div
           className="w-1/2 bg-cover bg-center"
