@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/src/api/auth";
+import { useLogin } from "@/hooks/useRequiresAuth";
 const handleSubmit = (e: React.FormEvent) => {
   e.preventDefault(); // Prevent default form submission
 };
@@ -10,6 +11,7 @@ export default function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  useLogin();
 
   const handleLogin = async () => {
     try {
