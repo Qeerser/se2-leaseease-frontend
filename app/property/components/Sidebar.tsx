@@ -8,11 +8,17 @@ import CreateNewProperty from "./CreateNewProperty"
 import { getAllProperties } from "@/src/api/property"
 import { Property } from '../../../type/Property'
 
-export default function PropertySidebar({ setSelectedProperty }: { setSelectedProperty: (property: Property) => void }) {
+type PropertySidebarProps = {
+    setSelectedProperty: (property: Property) => void;
+    properties: Property[];
+    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
+};
+
+export default function PropertySidebar({ setSelectedProperty, properties, setProperties }: PropertySidebarProps) {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
-    const [properties, setProperties] = useState<Property[]>([])
+    // const [properties, setProperties] = useState<Property[]>([])
 
 
     const sortOptionRef = useRef<HTMLDivElement>(null)

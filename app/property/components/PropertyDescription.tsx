@@ -4,37 +4,25 @@ import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import EditProperty from "./EditProperty";
 import DeleteProperty from "./DeleteProperty";
+import {Property} from "../../../type/Property";
 
-interface PropertyDescriptionProps {
-  imageUrl: string;
-  title: string;
-  updatedAt: string;
-  rating: number;
-  reviews: number;
-  location: string;
-  size: number;
-  price: number;
+type PropertyDescriptionProps = {
+    Property: Property
+    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
+    setSelectedProperty: React.Dispatch<React.SetStateAction<Property|null>>; 
 }
 
-const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
-  imageUrl,
-  title,
-  updatedAt,
-  rating,
-  reviews,
-  location,
-  size,
-  price,
-}) => {
+export default function PropertyDescription({ Property, setProperties, setSelectedProperty }: PropertyDescriptionProps) {
+
   const [isEditPropertyVisible, setIsEditPropertyVisible] = useState<boolean>(false)
   const [isDeletePropertyVisible, setIsDeletePropertyVisible] = useState<boolean>(false)
-
+  
   return (
     <div className="flex items-start gap-5 w-[67.78vw] h-[27.92vh] rounded-md">
       {/* Image */}
       <img
-        src={imageUrl}
-        alt={title}
+        src={Property.image}
+        alt={Property.name}
         className="w-[29.17vw] h-full rounded-md object-cover"
       />
 
@@ -42,7 +30,7 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
       <div className="w-[38.61vw] h-full flex flex-col justify-between relative ">
         {/* Header */}
         <div className="flex justify-between items-start">
-          <h1 className="text-xl font-bold">{title}</h1>
+          <h1 className="text-xl font-bold">{Property.name}</h1>
           <div className="absolute top-0 right-0 flex flex-col gap-2">
             <button
               onClick={() => setIsEditPropertyVisible(true)}
@@ -63,10 +51,10 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
         </div>
 
         {/* Metadata */}
-        <p className="text-gray-500 text-sm mt-2">Updated at {updatedAt}</p>
+        <p className="text-gray-500 text-sm mt-2">Updated at {Property.date}</p>
         <div className="flex items-center text-yellow-500 mt-2">
-          <span className="font-bold text-lg">{rating} ⭐</span>
-          <span className="ml-1 text-gray-500">({reviews})</span>
+          <span className="font-bold text-lg">{Property.rating} ⭐</span>
+          <span className="ml-1 text-gray-500">({Property.reviews})</span>
         </div>
 
         {/* Property Details */}
@@ -75,26 +63,24 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
             <strong>Location:</strong>
           </p>
           <p className="text-gray-700">
-            {location}
+            {Property.location}
           </p>
           <p className="text-gray-700">
             <strong>Size:</strong>
           </p>
           <p className="text-gray-700">
-            {size}
+            {Property.size}
           </p>
           <p className="text-gray-700">
             <strong>Price:</strong>
           </p>
           <p className="text-gray-700">
-            {price}
+            {Property.price}
           </p>
         </div>
       </div>
-      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible}/>}
-      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible}/>}
+      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible} PropertyID={Property.id} setProperties={setProperties} Property={Property}/>}
+      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible} PropertyID={Property.id} setProperties={setProperties} setSelectedProperty={setSelectedProperty}/>}
     </div>
   );
 };
-
-export default PropertyDescription;

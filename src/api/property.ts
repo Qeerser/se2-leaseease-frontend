@@ -35,33 +35,52 @@ export const createProperty = async (
 };
 
 export const updateProperty = async (
-  PropertyID: number,
+  id: number,
+  Name: string,
+  LessorID: number,
+  Location: string,
+  Size: string,
   Price: number,
   AvailabilityStatus: string
 ): Promise<string | null> => {
   try {
-    const res: AxiosResponse = await apiClient.post(
-      `/api/v1/properties/update/${PropertyID}`,
+    const res: AxiosResponse = await apiClient.put(
+      `/api/v1/properties/update/${id}`,
+      JSON.stringify({
+          Name,
+          LessorID,
+          Location,
+          Size,
+          Price,
+          AvailabilityStatus
+      }),
       {
-        PropertyID: PropertyID,
-        Price: Price,
-        AvailabilityStatus: AvailabilityStatus,
+          headers: {
+              "Content-Type": "application/json",
+          },
       }
     );
+
+    // Make sure to return the response data
+    if (res.status === 200) {
+      return "Update Successfully";
+    } 
+    else{
+      return "Update Fail";
+    }
+
   } catch (error) {
+    console.error("Error in updating property:", error);
     return null;
   }
-  return "Update Successfully";
 };
+
 export const deleteProperty = async (
   PropertyID: number
 ): Promise<string | null> => {
   try {
-    const res: AxiosResponse = await apiClient.post(
+    const res: AxiosResponse = await apiClient.delete(
       `/api/v1/properties/delete/${PropertyID}`,
-      {
-        PropertyID: PropertyID,
-      }
     );
   } catch (error) {
     return null;
