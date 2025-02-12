@@ -45,7 +45,7 @@ export default function PropertySidebar({ setSelectedProperty, properties, setPr
 
     const fetchAllProperties = async () => {
         try {
-            const data: Property[] = await getAllProperties()
+            const data: Property[] = await getAllProperties() || []
             if (data) {
                 console.log("Fetched Properties:", data)
 
@@ -73,8 +73,6 @@ export default function PropertySidebar({ setSelectedProperty, properties, setPr
             console.error("Error fetching properties:", error)
         }
     }
-
-
 
     // const properties: Property[] = Array.from({ length: 15 }, (_, i) => {
     //     const randomDate = new Date(Date.now() + Math.random() * 31536000000)
