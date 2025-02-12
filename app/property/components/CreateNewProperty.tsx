@@ -5,9 +5,22 @@ import { Dispatch, SetStateAction, useState } from "react"
 import { createProperty } from "@/src/api/property"
 type CreateNewPropertyProps = {
     setIsCreateNewPropertyVisible: Dispatch<SetStateAction<boolean>>
+    addProperty: (property: Property) => void
 }
 
-export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: CreateNewPropertyProps) {
+type Property = {
+    id: number
+    name: string
+    rating: number
+    location: string
+    size: number
+    price: number
+    date: string
+    image: string
+    reviews: number
+}
+
+export default function CreateNewProperty({ setIsCreateNewPropertyVisible, addProperty }: CreateNewPropertyProps) {
     const [selectedFile, setSelectedFile] = useState<string | null>(null)
     // remain: Image
     const [name, setName] = useState<string | null>(null)
@@ -15,7 +28,7 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
     const [size, setSize] = useState<number | null>(null)
     const [price, setPrice] = useState<number | null>(null)
 
-    const [errors, setErrors] = useState<{ name?: boolean; location?: boolean; size?:boolean; price?:boolean }>({})
+    const [errors, setErrors] = useState<{ name?: boolean; location?: boolean; size?: boolean; price?: boolean }>({})
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -24,7 +37,7 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
         }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const newErrors: typeof errors = {}
 
         if (!name) newErrors.name = true
@@ -33,8 +46,49 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
         if (!price) newErrors.price = true
 
         setErrors(newErrors)
-        //test create
-        createProperty(1,"ban kwai","XXL",128,"exploded")
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        try {
+            const response = await createProperty(
+                name ?? "",
+                1,
+                location ?? "",
+                (size ?? 0).toString(),
+                price ?? 0,
+                "Available"
+            );
+
+            if (response) {
+                console.log(response)
+                const data_random = {
+                    id: Math.floor(Math.random() * 100000),
+                    name: name ?? "",
+                    size: size ?? 0,
+                    price: price ?? 0,
+                    location: location ?? "",
+                    rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+                    reviews: Math.floor(Math.random() * 500) + 1,
+                    image: `https://loremflickr.com/2048/1280?random=${Math.floor(Math.random() * 1000) + 1}`,
+                    date: new Date(Date.now() + Math.random() * 31536000000)
+                        .toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        })
+                        .replace(",", ""),
+                }
+                addProperty(data_random)
+                setIsCreateNewPropertyVisible(false);
+            } else {
+            }
+        } catch (error) {
+            console.error("Error creating property:", error);
+        }
     }
 
     return (
@@ -102,9 +156,9 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
                         </div>
 
                         <div className={`flex p-[8px] w-full rounded-[6px] border ${errors.name ? "border-red-500" : "border-slate-200"}`}>
-                            <input 
-                                className="text-base font-normal leading-[24px] w-full outline-none" 
-                                style={{ fontFamily: 'Inter' }} 
+                            <input
+                                className="text-base font-normal leading-[24px] w-full outline-none"
+                                style={{ fontFamily: 'Inter' }}
                                 placeholder="Property Name"
                                 value={name || ""}
                                 onChange={(e) => setName(e.target.value)}
@@ -119,9 +173,9 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
                             </div>
                         </div>
                         <div className={`flex p-[8px] items-start gap-[10px] flex-1 self-stretch rounded-[6px] border ${errors.location ? "border-red-500" : "border-slate-200"}`}>
-                            <textarea 
-                                className="text-base font-normal leading-[24px] w-full h-full outline-none resize-none" 
-                                style={{ fontFamily: 'Inter' }} 
+                            <textarea
+                                className="text-base font-normal leading-[24px] w-full h-full outline-none resize-none"
+                                style={{ fontFamily: 'Inter' }}
                                 placeholder="Property Location"
                                 value={location || ""}
                                 onChange={(e) => setLocation(e.target.value)}
@@ -137,12 +191,12 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
 
                         </div>
                         <div className="flex items-center gap-[4px] self-stretch">
-                            <div className={`flex p-[8px] items-center gap-[10px] flex-1 rounded-[6px] border ${errors.location ? "border-red-500" : "border-slate-200"}`}>
-                                <input 
-                                    type="number" 
-                                    className="text-base font-normal leading-[24px] w-full outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
-                                    style={{ fontFamily: 'Inter' }} 
-                                    placeholder="eg. 100.00" 
+                            <div className={`flex p-[8px] items-center gap-[10px] flex-1 rounded-[6px] border ${errors.size ? "border-red-500" : "border-slate-200"}`}>
+                                <input
+                                    type="number"
+                                    className="text-base font-normal leading-[24px] w-full outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    style={{ fontFamily: 'Inter' }}
+                                    placeholder="eg. 100.00"
                                     value={size || ""}
                                     onChange={(e) => setSize(Number(e.target.value) || null)}
                                 />
@@ -156,12 +210,12 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
                                 Price* (Baht per month)
                             </div>
                         </div>
-                        <div className={`flex p-[8px] items-center gap-[10px] self-stretch rounded-[6px] border ${errors.location ? "border-red-500" : "border-slate-200"}`}>
-                            <input 
-                                type="number" 
-                                className="w-full text-base font-normal leading-[24px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
-                                style={{ fontFamily: 'Inter' }} 
-                                placeholder="eg. 1,000.00" 
+                        <div className={`flex p-[8px] items-center gap-[10px] self-stretch rounded-[6px] border ${errors.price ? "border-red-500" : "border-slate-200"}`}>
+                            <input
+                                type="number"
+                                className="w-full text-base font-normal leading-[24px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                style={{ fontFamily: 'Inter' }}
+                                placeholder="eg. 1,000.00"
                                 value={price || ""}
                                 onChange={(e) => setPrice(Number(e.target.value) || null)}
                             />
@@ -171,11 +225,11 @@ export default function CreateNewProperty({ setIsCreateNewPropertyVisible }: Cre
                 </div>
             </div>
             <div className="flex p-[16px] justify-center items-center gap-3 self-stretch border-t border-slate-300 fixed bottom-0 right-0 w-[32.5rem] bg-white">
-                <button className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] border border-blue-900 hover:bg-[#EFF6FF]">
+                <button className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] border border-blue-900 hover:bg-[#EFF6FF]" onClick={() => setIsCreateNewPropertyVisible(false)}>
                     Cancel
                 </button>
-                <button 
-                    className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-blue-900 text-white"
+                <button
+                    className="flex p-[12px] justify-center items-center gap-2 flex-1 rounded-[6px] bg-blue-900 text-white hover:bg-blue-700"
                     onClick={handleSubmit}
                 >
                     Create Property

@@ -12,8 +12,8 @@ interface PropertyDescriptionProps {
   rating: number;
   reviews: number;
   location: string;
-  size: string;
-  price: string;
+  size: number;
+  price: number;
 }
 
 const PropertyDescription: React.FC<PropertyDescriptionProps> = ({

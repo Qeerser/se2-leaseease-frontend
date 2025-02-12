@@ -5,24 +5,15 @@ import { useState, useRef, useEffect } from "react"
 import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
-
-type Property = {
-    id: number
-    name: string
-    rating: number
-    location: string
-    size: string
-    price: string
-    date: string
-    image: string
-    reviews: number
-}
+import { getAllProperties } from "@/src/api/property"
+import { Property } from '../../../type/Property'
 
 export default function PropertySidebar({ setSelectedProperty }: { setSelectedProperty: (property: Property) => void }) {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
-    
+    const [properties, setProperties] = useState<Property[]>([])
+
 
     const sortOptionRef = useRef<HTMLDivElement>(null)
 
@@ -39,53 +30,87 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
 
         document.addEventListener("mousedown", handleClickOutside)
 
+        fetchAllProperties()
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside)
         }
     }, [])
 
+    const fetchAllProperties = async () => {
+        try {
+            const data: Property[] = await getAllProperties()
+            if (data) {
+                console.log("Fetched Properties:", data)
 
-    const properties: Property[] = Array.from({ length: 15 }, (_, i) => {
-        const randomDate = new Date(Date.now() + Math.random() * 31536000000)
-            .toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
-            .replace(",", "")
+                const data_random: Property[] = data.map((property, index) => ({
+                    ...property,
+                    rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+                    reviews: Math.floor(Math.random() * 500) + 1,
+                    image: `https://loremflickr.com/2048/1280?random=${index + 1}`,
+                    date: new Date(Date.now() + Math.random() * 31536000000)
+                        .toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        })
+                        .replace(",", ""),
+                }))
 
-        return {
-            id: i + 1,
-            name: [
-                "Luxury Condo",
-                "Cozy Apartment",
-                "Modern House",
-                "Beachfront Villa",
-                "Penthouse Suite",
-                "Urban Studio",
-                "Rustic Cabin",
-                "High-Rise Loft",
-                "Lakeview Cottage",
-                "Garden Bungalow",
-            ][i % 10],
-
-            rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
-            location: [
-                "Sathorn, Bangkok",
-                "Jatujak, Bangkok",
-                "Ekkamai, Bangkok",
-                "Phuket, Thailand",
-                "Silom, Bangkok",
-                "Chiang Mai, Thailand",
-                "Hua Hin, Thailand",
-                "Pattaya, Thailand",
-                "Samui, Thailand",
-                "Krabi, Thailand",
-            ][i % 10],
-
-            size: Math.floor(Math.random() * (200 - 30 + 1) + 30) + " sqm",
-            price: `$${(Math.random() * (500000 - 50000) + 50000).toLocaleString()}`,
-            date: randomDate,
-            image: `https://loremflickr.com/2048/1280?random=${i + 1}`,
-            reviews: Math.floor(Math.random() * 500) + 1
+                setProperties(data_random)
+            } else {
+                console.error("Failed to fetch properties.")
+            }
+        } catch (error) {
+            console.error("Error fetching properties:", error)
         }
-    })
+    }
+
+
+
+    // const properties: Property[] = Array.from({ length: 15 }, (_, i) => {
+    //     const randomDate = new Date(Date.now() + Math.random() * 31536000000)
+    //         .toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
+    //         .replace(",", "")
+
+    //     return {
+    //         id: i + 1,
+    //         name: [
+    //             "Luxury Condo",
+    //             "Cozy Apartment",
+    //             "Modern House",
+    //             "Beachfront Villa",
+    //             "Penthouse Suite",
+    //             "Urban Studio",
+    //             "Rustic Cabin",
+    //             "High-Rise Loft",
+    //             "Lakeview Cottage",
+    //             "Garden Bungalow",
+    //         ][i % 10],
+
+    //         rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+    //         location: [
+    //             "Sathorn, Bangkok",
+    //             "Jatujak, Bangkok",
+    //             "Ekkamai, Bangkok",
+    //             "Phuket, Thailand",
+    //             "Silom, Bangkok",
+    //             "Chiang Mai, Thailand",
+    //             "Hua Hin, Thailand",
+    //             "Pattaya, Thailand",
+    //             "Samui, Thailand",
+    //             "Krabi, Thailand",
+    //         ][i % 10],
+
+    //         size: Math.floor(Math.random() * (200 - 30 + 1) + 30) + " sqm",
+    //         price: `$${(Math.random() * (500000 - 50000) + 50000).toLocaleString()}`,
+    //         date: randomDate,
+    //         image: `https://loremflickr.com/2048/1280?random=${i + 1}`,
+    //         reviews: Math.floor(Math.random() * 500) + 1
+    //     }
+    // })
 
     const sortedProperties = [...properties].sort((a, b) => {
         switch (selectedSort) {
@@ -141,7 +166,10 @@ export default function PropertySidebar({ setSelectedProperty }: { setSelectedPr
                     </p>
                 </button>
             </div>
-            {isCreateNewPropertyVisible && <CreateNewProperty setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible} />}
-        </div> 
+            {isCreateNewPropertyVisible && <CreateNewProperty
+                setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible}
+                addProperty={(property) => setProperties((prev) => [...prev, property])}
+            />}
+        </div>
     )
 }
