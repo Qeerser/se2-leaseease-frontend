@@ -97,7 +97,7 @@ export const getAllProperties = async (): Promise<any[]> => {
       if (res.data && Array.isArray(res.data)) {
         return res.data;
       } else {
-        console.error("Unexpected API response format:", res.data);
+        // console.error("Unexpected API response format:", res.data);
         return [];
       }
     } catch (error) {
