@@ -1,11 +1,27 @@
 "use client"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useState, useEffect } from "react"
+import {deleteProperty} from "@/src/api/property"
+import { Property } from '../../../type/Property'
 
 type DeletePropertyProps = {
     setIsDeletePropertyVisible: Dispatch<SetStateAction<boolean>>
+    PropertyID: number
+    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
+    setSelectedProperty: React.Dispatch<React.SetStateAction<Property|null>>; 
 }
 
-export default function DeleteProperty({ setIsDeletePropertyVisible }: DeletePropertyProps) {
+export default function DeleteProperty({ setIsDeletePropertyVisible, PropertyID, setProperties, setSelectedProperty }: DeletePropertyProps) {
+    const handleDelete = async (PropertyID: number) =>{
+        try {
+            const result = await deleteProperty(PropertyID);
+            setIsDeletePropertyVisible(false);
+            setProperties((prev) => prev.filter((p) => p.id !== PropertyID));
+            setSelectedProperty(null);
+        } catch (error) {
+            console.error("Error deleting property:", error);
+        }
+    }
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="flex w-[32rem] p-6 flex-col items-start gap-4 rounded-lg bg-white shadow-lg">
@@ -26,7 +42,7 @@ export default function DeleteProperty({ setIsDeletePropertyVisible }: DeletePro
                         Cancel
                     </button>
                     <div className="flex flex-col items-start gap-[0.625rem] pl-2">
-                        <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md bg-[#B91C1C] text-white">
+                        <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md bg-[#B91C1C] text-white" onClick={() => handleDelete(PropertyID)}>
                             Delete
                         </button>
                     </div>

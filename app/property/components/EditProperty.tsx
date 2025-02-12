@@ -2,18 +2,23 @@
 
 "use client"
 import { Dispatch, SetStateAction, useState } from "react"
+import { Property } from '../../../type/Property'
+import {updateProperty} from "@/src/api/property"
 
 type EditPropertyProps = {
     setIsEditPropertyVisible: Dispatch<SetStateAction<boolean>>
+    PropertyID: number
+    setProperties: React.Dispatch<React.SetStateAction<Property[]>>
+    Property: Property
 }
 
-export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyProps) {
-    const [selectedFile, setSelectedFile] = useState<string | null>(null)
+export default function EditProperty({ setIsEditPropertyVisible, PropertyID, setProperties, Property }: EditPropertyProps) {
+    const [selectedFile, setSelectedFile] = useState<string | null>(Property.image)
     // remain: Image
-    const [name, setName] = useState<string | null>(null)
-    const [location, setLocation] = useState<string | null>(null)
-    const [size, setSize] = useState<number | null>(null)
-    const [price, setPrice] = useState<number | null>(null)
+    const [name, setName] = useState<string | null>(Property.name)
+    const [location, setLocation] = useState<string | null>(Property.location)
+    const [size, setSize] = useState<number | null>(Property.size)
+    const [price, setPrice] = useState<number | null>(Property.price)
 
     const [errors, setErrors] = useState<{ name?: boolean; location?: boolean; size?:boolean; price?:boolean }>({})
 
@@ -24,7 +29,7 @@ export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyP
         }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const newErrors: typeof errors = {}
 
         if (!name) newErrors.name = true
@@ -33,6 +38,45 @@ export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyP
         if (!price) newErrors.price = true
 
         setErrors(newErrors)
+        if (Object.keys(newErrors).length > 0) {
+                    setErrors(newErrors);
+                    return;
+                }
+        
+        try {
+            const response = await updateProperty(
+                PropertyID,
+                name ?? "",
+                1,
+                location ?? "",
+                (size ?? 0).toString(),
+                price ?? 0,
+                "Available"
+            );
+
+            if (response) {
+                console.log(response)
+                setIsEditPropertyVisible(false)
+                // Update the property in the properties state
+                setProperties((prevProperties) => {
+                    return prevProperties.map((property) =>
+                    property.id === PropertyID
+                        ? {
+                            ...property,
+                            name: name ?? "",  
+                            location: location ?? "",
+                            size: size ?? 0,    
+                            price: price ?? 0,  
+                            availabilityStatus: "Available",
+                        }
+                        : property
+                    );
+                });
+            } else {
+            }
+        } catch (error) {
+            console.error("Error creating property:", error);
+        }
     }
 
     return (
@@ -53,7 +97,7 @@ export default function EditProperty({ setIsEditPropertyVisible }: EditPropertyP
                     </div>
                     <div className="w-[0.5px] h-[10px] bg-slate-400"></div>
                     <div className="text-slate-600 text-xs font-normal leading-[16px]" style={{ fontFamily: 'Inter' }}>
-                        Create New Property
+                        Edit Property
                     </div>
                 </div>
             </div>
