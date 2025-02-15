@@ -1,12 +1,15 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MiddlePage from "./components/MiddlePage";
 import { Property } from "../../type/Property";
-import { useRequiresAuth } from "@/hooks/useRequiresAuth";
-// import Slider_Request from "./components/Slider_Request"
+import { useAuth } from "@/hooks/useAuth";
+
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { login } from "@/store/authSlice";
+import { useRouter } from "next/navigation";
 
 export default function PropertyPage({
   children,
@@ -18,7 +21,18 @@ export default function PropertyPage({
     null
   );
 
-  // useRequiresAuth()
+  const { user, isAuthenticated } = useAuth();
+
+  const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, router]);
+
 
   return (
     <div className="flex w-full h-full flex-col items-center rounded-[0.375rem] bg-slate-200">
