@@ -2,12 +2,12 @@ import { apiClient } from "./axios";
 
 //  Define Backend Response Type
 interface ApiResponse<T> {
-  StatusCode: number;
-  Message: string;
-  Data?: T;
+  status_code: number;
+  message: string;
+  data?: T;
 }
 
-//  Login (Only Returns Success/Failure Message)
+//  Login (Only Returns Success/Failure message)
 export const login = async (
   email: string,
   password: string
@@ -21,11 +21,11 @@ export const login = async (
       }
     );
 
-    return response.data.Message; // Return success message from backend
+    return response.data.message; // Return success message from backend
   } catch (error: any) {
     console.error(
       "Login failed:",
-      error.response?.data?.Message || error.message
+      error.response?.data?.message || error.message
     );
     return null;
   }
@@ -51,11 +51,11 @@ export const register = async (
       }
     );
 
-    return response.data.Message; // Return success message from backend
+    return response.data.message; // Return success message from backend
   } catch (error: any) {
     console.error(
       "Registration failed:",
-      error.response?.data?.Message || error.message
+      error.response?.data?.message || error.message
     );
     return null;
   }
