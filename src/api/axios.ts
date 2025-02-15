@@ -20,7 +20,7 @@ apiClient.interceptors.request.use(
 
 // Response Interceptor
 apiClient.interceptors.response.use(
-  (response) => response.data, // Only return the data
+  (response) => response,
   (error) => {
     console.error("API Error:", error.response?.data || error.message);
     return Promise.reject(error);
