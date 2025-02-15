@@ -8,9 +8,6 @@ export const login = async (email: string, password: string) => {
       password,
     });
     if (response) {
-      console.log(response);
-      const token = response.data.token;
-      localStorage.setItem("token", token);
       return response;
     } else {
       console.error("Token not found in response");

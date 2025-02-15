@@ -16,9 +16,9 @@ export default function SignIn() {
   const handleLogin = async () => {
     try {
       const response = await login(email, password);
-      if (response?.data.token) {
-        router.push("/property");
-      }
+      // if (response?.data.token) {
+      //  router.push("/property");
+      // }
     } catch (error) {
       console.error("Registration failed:", error);
     }
