@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { use,useEffect, useState } from "react";
+import LoadPage from "@/components/ui/loadpage";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { login } from "@/store/authSlice";
+import { login ,fetchUserInfo } from "@/store/authSlice";
 import { useRouter } from "next/navigation";
 
 
@@ -16,56 +17,25 @@ export default function SignIn() {
   const [password, setPassword] = useState<string>("");
 
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.auth);
+  const { user ,loading } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
   const handleLogin = async () => {
     const resultAction = await dispatch(login({ email, password }));
-
+    await dispatch(fetchUserInfo());
     if (login.fulfilled.match(resultAction)) {
       router.push("/property"); // Redirect if login is successful
     }
+  
   };
 
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await login(email, password);
-  //     // if (response?.data.token) {
-  //     //  router.push("/property");
-  //     // }
-  //   } catch (error) {
-  //     console.error("Registration failed:", error);
-  //   }
-  // };
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     loading ? (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100">
-        <div className="flex flex-col items-center">
-          <svg
-            className="animate-spin h-8 w-8 text-blue-600"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8v8z"
-            ></path>
-          </svg>
-          <p className="mt-4 text-gray-700">Loading...</p>
-        </div>
-      </div>
-    ):(<div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <LoadPage/>):(<div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
         <div
           className="w-1/2 bg-cover bg-center"

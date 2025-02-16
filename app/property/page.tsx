@@ -1,15 +1,14 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MiddlePage from "./components/MiddlePage";
 import { Property } from "../../type/Property";
 import { useAuth } from "@/hooks/useAuth";
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { login } from "@/store/authSlice";
-import { useRouter } from "next/navigation";
+
+import LoadPage from "@/components/ui/loadpage";
 
 export default function PropertyPage({
   children,
@@ -21,20 +20,10 @@ export default function PropertyPage({
     null
   );
 
-  const { user, isAuthenticated } = useAuth();
-
-  const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.auth);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isAuthenticated, router]);
+  const { loading} = useAuth();
 
 
-  return (
+  return (loading ? (LoadPage) :(
     <div className="flex w-full h-full flex-col items-center rounded-[0.375rem] bg-slate-200">
       <Header />
       <div className="flex justify-center items-center flex-1 self-stretch">
@@ -55,5 +44,5 @@ export default function PropertyPage({
       </div>
       {/* <Slider_Request /> */}
     </div>
-  );
+  ));
 }

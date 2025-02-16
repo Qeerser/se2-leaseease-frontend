@@ -10,7 +10,10 @@ interface ApiResponse<T> {
 
 interface User {
   id: string;
-  username: string;
+  role: string;
+  email: string;
+  name: string;
+  address: string;
 }
 
 interface AuthState {
@@ -32,7 +35,7 @@ export const fetchUserInfo = createAsyncThunk<ApiResponse<User>, void, { rejectV
   async (_, { rejectWithValue }) => {
     try {
       // เนื่องจากใช้ HttpOnly cookie, browser จะส่ง cookie ไปให้กับ API โดยอัตโนมัติ
-      const response = await apiClient.get<ApiResponse<User>>("api/v2/users/");
+      const response = await apiClient.get<ApiResponse<User>>("api/v2/auth/check");
       return response.data; // สมมติว่า response.data คือข้อมูลผู้ใช้
     } catch (error: any) {
       return rejectWithValue(
@@ -57,15 +60,22 @@ export const login = createAsyncThunk(
     }
   );
 
+  export const logout = createAsyncThunk(
+    "auth/logout",
+    async (_, { rejectWithValue }) => {
+      try {
+        await apiClient.post<ApiResponse<User>>("api/v2/auth/logout");
+        return null;
+      } catch (error: any) {
+        return rejectWithValue(error.message);
+      }
+    }
+  );
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout(state) {
-      state.user = null;
-      state.isAuthenticated = false;
-      state.error = null;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -95,10 +105,15 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user =  null;
+        state.isAuthenticated = false;
+        state.loading = false;
+      })
+
   },
 });
 
-export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
