@@ -1,8 +1,13 @@
 "use client";
-import { useState } from "react";
+import { use,useEffect, useState } from "react";
+import LoadPage from "@/components/ui/loadpage";
+
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { login ,fetchUserInfo } from "@/store/authSlice";
 import { useRouter } from "next/navigation";
-import { login } from "@/src/api/auth";
-import { useLogin } from "@/hooks/useRequiresAuth";
+
+
+
 const handleSubmit = (e: React.FormEvent) => {
   e.preventDefault(); // Prevent default form submission
 };
@@ -10,22 +15,27 @@ const handleSubmit = (e: React.FormEvent) => {
 export default function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const dispatch = useAppDispatch();
+  const { user ,loading } = useAppSelector((state) => state.auth);
   const router = useRouter();
-  useLogin();
 
   const handleLogin = async () => {
-    try {
-      const response = await login(email, password);
-      if (response?.data.token) {
-        router.push("/property");
-      }
-    } catch (error) {
-      console.error("Registration failed:", error);
+    const resultAction = await dispatch(login({ email, password }));
+    await dispatch(fetchUserInfo());
+    if (login.fulfilled.match(resultAction)) {
+      router.push("/property"); // Redirect if login is successful
     }
+  
   };
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    loading ? (
+    <LoadPage/>):(<div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
         <div
           className="w-1/2 bg-cover bg-center"
@@ -96,6 +106,6 @@ export default function SignIn() {
           </form>
         </div>
       </div>
-    </div>
+    </div>)
   );
 }

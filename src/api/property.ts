@@ -1,39 +1,46 @@
 import { AxiosResponse } from "axios";
 import { apiClient } from "./axios";
 
-export const createProperty = async (
-    Name: string,
-    LessorID: number,
-    Location: string,
-    Size: string,
-    Price: number,
-    AvailabilityStatus: string
-): Promise<string | null> => {
-    try {
-        const res: AxiosResponse = await apiClient.post(
-            `/api/v1/properties/create`,
-            JSON.stringify({
-                Name,
-                LessorID,
-                Location,
-                Size,
-                Price,
-                AvailabilityStatus
-            }),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+//  Define Backend Response Type
+interface ApiResponse<T> {
+  status_code: number;
+  message: string;
+  data?: T;
+}
 
-        return res.data
-    } catch (error) {
-        console.error("Error creating property:", error);
-        return null;
-    }
+//  Create a Property
+export const createProperty = async (
+  Name: string,
+  LessorID: number,
+  Location: string,
+  Size: string,
+  Price: number,
+  AvailabilityStatus: string
+): Promise<string | null> => {
+  try {
+    const res: AxiosResponse<ApiResponse<null>> = await apiClient.post(
+      "/api/v1/properties/create",
+      {
+        Name,
+        LessorID,
+        Location,
+        Size,
+        Price,
+        AvailabilityStatus,
+      }
+    );
+
+    return res.data.message || "Create Successfully";
+  } catch (error: any) {
+    console.error(
+      "Error creating property:",
+      error.response?.data?.message || error.message
+    );
+    return null;
+  }
 };
 
+//  Update a Property
 export const updateProperty = async (
   id: number,
   Name: string,
@@ -44,76 +51,79 @@ export const updateProperty = async (
   AvailabilityStatus: string
 ): Promise<string | null> => {
   try {
-    const res: AxiosResponse = await apiClient.put(
+    const res: AxiosResponse<ApiResponse<null>> = await apiClient.put(
       `/api/v1/properties/update/${id}`,
-      JSON.stringify({
-          Name,
-          LessorID,
-          Location,
-          Size,
-          Price,
-          AvailabilityStatus
-      }),
       {
-          headers: {
-              "Content-Type": "application/json",
-          },
+        Name,
+        LessorID,
+        Location,
+        Size,
+        Price,
+        AvailabilityStatus,
       }
     );
 
-    // Make sure to return the response data
-    if (res.status === 200) {
-      return "Update Successfully";
-    } 
-    else{
-      return "Update Fail";
-    }
-
-  } catch (error) {
-    console.error("Error in updating property:", error);
+    return res.data.message || "Update Successfully";
+  } catch (error: any) {
+    console.error(
+      "Error updating property:",
+      error.response?.data?.message || error.message
+    );
     return null;
   }
 };
 
+//  Delete a Property
 export const deleteProperty = async (
   PropertyID: number
 ): Promise<string | null> => {
   try {
-    const res: AxiosResponse = await apiClient.delete(
-      `/api/v1/properties/delete/${PropertyID}`,
+    const res: AxiosResponse<ApiResponse<null>> = await apiClient.delete(
+      `/api/v1/properties/delete/${PropertyID}`
     );
-  } catch (error) {
+
+    return res.data.message || "Delete Successfully";
+  } catch (error: any) {
+    console.error(
+      "Error deleting property:",
+      error.response?.data?.message || error.message
+    );
     return null;
   }
-  return "Delete Successfully";
 };
+
+// 📜 Get All Properties
 export const getAllProperties = async (): Promise<any[]> => {
-    try {
-      const res: AxiosResponse = await apiClient.get("/api/v1/properties", {
-        withCredentials: true,
-      });
-  
-      // Ensure we return only the data, not the whole response object
-      if (res.data && Array.isArray(res.data)) {
-        return res.data;
-      } else {
-        // console.error("Unexpected API response format:", res.data);
-        return [];
-      }
-    } catch (error) {
-      console.error("Error fetching properties:", error);
-      return [];
-    }
-  };
+  try {
+    const res: AxiosResponse<ApiResponse<any[]>> = await apiClient.get(
+      "/api/v1/properties"
+    );
+
+    return res.data.data || [];
+  } catch (error: any) {
+    console.error(
+      "Error fetching properties:",
+      error.response?.data?.message || error.message
+    );
+    return [];
+  }
+};
+
+// 🔍 Get Property by ID
 export const getPropertyByID = async (
   PropertyID: number
 ): Promise<any | null> => {
   try {
-    const res: AxiosResponse = await apiClient.get(
+    const res: AxiosResponse<ApiResponse<any>> = await apiClient.get(
       `/api/v1/properties/${PropertyID}`
     );
-    return res;
-  } catch (error) {
+
+    return res.data.data || null;
+  } catch (error: any) {
+    console.error(
+      "Error fetching property by ID:",
+      error.response?.data?.message || error.message
+    );
     return null;
   }
 };
