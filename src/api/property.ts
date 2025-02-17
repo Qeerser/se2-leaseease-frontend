@@ -92,14 +92,23 @@ export const deleteProperty = async (
   }
 };
 
+interface data{
+  properties: any[]
+  total_records: number,
+  total_pages: number,
+  current_page: number,
+  page_size: number
+}
+
 // 📜 Get All Properties
 export const getAllProperties = async (): Promise<any[]> => {
   try {
-    const res: AxiosResponse<ApiResponse<any[]>> = await apiClient.get(
+    const res: AxiosResponse<ApiResponse<data>> = await apiClient.get(
       "/api/v1/properties"
     );
 
-    return res.data.data || [];
+    return res.data.data?.properties || [];
+    
   } catch (error: any) {
     console.error(
       "Error fetching properties:",

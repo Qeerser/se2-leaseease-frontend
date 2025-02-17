@@ -4,7 +4,6 @@
 import { forwardRef } from "react"
 import { useAppDispatch } from "@/store/hooks";
 import { logout } from "@/store/authSlice";
-
 type DrowdownProps = {
     isAccountOptionVisible: boolean
 }
@@ -14,9 +13,7 @@ const AccountDetail = forwardRef<HTMLDivElement, DrowdownProps>(({ isAccountOpti
     const handleLogout = () => {
         dispatch(logout());
     }
-
-    if (!isAccountOptionVisible) return null
-
+    
     return (
         <div ref={ref} className="absolute right-8 top-14 z-10 flex w-40 flex-col items-start rounded-md border border-slate-200 bg-white shadow-md">
             <div className="flex flex-col items-start self-stretch p-1 cursor-pointer hover:bg-[#E2E8F0]">

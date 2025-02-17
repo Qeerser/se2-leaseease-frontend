@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { apiClient } from '@/src/api/axios';
 
-
 interface ApiResponse<T> {
     statusCode: number;
     message: string;
@@ -34,9 +33,8 @@ export const fetchUserInfo = createAsyncThunk<ApiResponse<User>, void, { rejectV
   'auth/fetchUserInfo',
   async (_, { rejectWithValue }) => {
     try {
-      // เนื่องจากใช้ HttpOnly cookie, browser จะส่ง cookie ไปให้กับ API โดยอัตโนมัติ
       const response = await apiClient.get<ApiResponse<User>>("api/v2/auth/check");
-      return response.data; // สมมติว่า response.data คือข้อมูลผู้ใช้
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ API'
@@ -64,7 +62,7 @@ export const login = createAsyncThunk(
     "auth/logout",
     async (_, { rejectWithValue }) => {
       try {
-        await apiClient.post<ApiResponse<User>>("api/v2/auth/logout");
+        await apiClient.post<ApiResponse<null>>("api/v2/auth/logout");
         return null;
       } catch (error: any) {
         return rejectWithValue(error.message);
@@ -84,6 +82,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUserInfo.fulfilled, (state, action : PayloadAction<ApiResponse<User>>) => {
+        console.log("fetchUserInfo.fulfilled");
         state.loading = false;
         state.user = action.payload.data || null;
         state.isAuthenticated = true;
@@ -106,11 +105,26 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
+      .addCase(logout.pending, (state) => {
+        console.log("Logout pending, setting isAuthenticated to false");
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(logout.fulfilled, (state) => {
-        state.user =  null;
+        console.log("Logout fulfilled, setting isAuthenticated to false");
+        state.user = null;
         state.isAuthenticated = false;
         state.loading = false;
+        state.error = null;
       })
+      .addCase(logout.rejected, (state) => {
+        console.log("Logout rejected, setting isAuthenticated to false");
+        state.user = null;
+        state.isAuthenticated = false;
+        state.loading = false;
+        state.error = null; 
+      })
+
 
   },
 });
