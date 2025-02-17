@@ -5,6 +5,7 @@ import LoadPage from "@/components/ui/loadpage";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { login ,fetchUserInfo } from "@/store/authSlice";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 
 
@@ -29,9 +30,12 @@ export default function SignIn() {
   
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  // const {isAuthenticated} = useAuth();
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     router.push("/property");
+  //   }
+  // }, [isAuthenticated]);
 
   return (
     loading ? (

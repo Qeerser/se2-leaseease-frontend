@@ -1,15 +1,27 @@
-import { useEffect } from "react";
-import { useAppSelector } from "@/store/hooks";
+import { useEffect, useState } from "react";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { useRouter } from "next/navigation";
+import { fetchUserInfo } from "@/store/authSlice";
 
 export function useAuth() {
   const router = useRouter();
-  const { isAuthenticated,loading,  user } = useAppSelector((state) => state.auth);
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login"); // Redirect ไปหน้า login ถ้าไม่ได้ล็อกอิน
-    }
-  }, [isAuthenticated, router]);
+  const { isAuthenticated, loading, user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const [hasFetched, setHasFetched] = useState(false); // Track if dispatch has finished
 
-  return { user,loading, isAuthenticated };
+  useEffect(() => {
+    const fetchAndCheckAuth = async () => {
+      await dispatch(fetchUserInfo());
+      setHasFetched(true); // Mark as fetched after dispatch completes
+    };
+    fetchAndCheckAuth();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (hasFetched && !loading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [hasFetched, isAuthenticated, loading, router]);
+
+  return { user, loading, isAuthenticated };
 }

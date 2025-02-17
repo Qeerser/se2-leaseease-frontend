@@ -15,15 +15,18 @@ export default function PropertyPage({
 }: {
   children: React.ReactNode;
 }) {
+  const {loading} = useAuth();
   const [properties, setProperties] = useState<Property[]>([]);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(
     null
   );
 
-  const { loading} = useAuth();
+  
 
 
-  return (loading ? (LoadPage) :(
+  return (
+    loading ? (<LoadPage/>) :
+    (
     <div className="flex w-full h-full flex-col items-center rounded-[0.375rem] bg-slate-200">
       <Header />
       <div className="flex justify-center items-center flex-1 self-stretch">
