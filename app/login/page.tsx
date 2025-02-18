@@ -18,6 +18,7 @@ export default function SignIn() {
 
   const dispatch = useAppDispatch();
   const { user ,loading } = useAppSelector((state) => state.auth);
+  const [errors, setErrors] = useState("");
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -104,6 +105,11 @@ export default function SignIn() {
               </span>
             </p>
           </form>
+            {errors && (
+            <div className="mb-4 text-red-500 text-center text-1xl font-semibold">
+              <p>{errors}</p>
+            </div>
+            )}
         </div>
       </div>
     </div>)
