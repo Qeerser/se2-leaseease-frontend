@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.git": true,
+      "**/.next": true,
+      "**s.json": true,
+      "**k.json": true,
+      "**g.json": true,
+      "**.config**": true,
+      "**.lock": true,
+      "**.d*": true,
+    }
+  }
+  

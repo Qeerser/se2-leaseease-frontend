@@ -7,29 +7,29 @@ interface ApiResponse<T> {
   data?: T;
 }
 
-//  Login (Only Returns Success/Failure message)
-export const login = async (
-  email: string,
-  password: string
-): Promise<string | null> => {
-  try {
-    const response = await apiClient.post<ApiResponse<null>>(
-      "api/v1/auth/login",
-      {
-        email,
-        password,
-      }
-    );
+// //  Login (Only Returns Success/Failure message)
+// export const login = async (
+//   email: string,
+//   password: string
+// ): Promise<string | null> => {
+//   try {
+//     const response = await apiClient.post<ApiResponse<null>>(
+//       "api/v1/auth/login",
+//       {
+//         email,
+//         password,
+//       }
+//     );
 
-    return response.data.message; // Return success message from backend
-  } catch (error: any) {
-    console.error(
-      "Login failed:",
-      error.response?.data?.message || error.message
-    );
-    return null;
-  }
-};
+//     return response.data.message; // Return success message from backend
+//   } catch (error: any) {
+//     console.error(
+//       "Login failed:",
+//       error.response?.data?.message || error.message
+//     );
+//     return null;
+//   }
+// };
 
 //  Register (Same as Before)
 export const register = async (

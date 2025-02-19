@@ -7,6 +7,7 @@ import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
 import { getAllProperties } from "@/src/api/property"
 import { Property } from '../../../type/Property'
+import { useAppSelector } from "@/store/hooks"
 
 type PropertySidebarProps = {
     setSelectedProperty: (property: Property) => void;
@@ -20,7 +21,7 @@ export default function PropertySidebar({ setSelectedProperty, properties, setPr
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
     // const [properties, setProperties] = useState<Property[]>([])
 
-
+    const {isAuthenticated} = useAppSelector((state) => state.auth)
     const sortOptionRef = useRef<HTMLDivElement>(null)
 
     const toggleSortOption = (): void => {
@@ -36,7 +37,7 @@ export default function PropertySidebar({ setSelectedProperty, properties, setPr
 
         document.addEventListener("mousedown", handleClickOutside)
 
-        fetchAllProperties()
+        if (isAuthenticated) fetchAllProperties()
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside)
