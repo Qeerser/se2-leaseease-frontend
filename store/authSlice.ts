@@ -33,7 +33,7 @@ export const fetchUserInfo = createAsyncThunk<ApiResponse<User>, void, { rejectV
   'auth/fetchUserInfo',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await apiClient.get<ApiResponse<User>>("api/v2/auth/check");
+      const response = await apiClient.get<ApiResponse<User>>("auth/check");
       return response.data;
     } catch (error: any) {
       return rejectWithValue(
@@ -47,7 +47,7 @@ export const login = createAsyncThunk(
     "auth/login",
     async (credentials: { email: string; password: string }, { rejectWithValue }) => {
       try {
-        const response = await apiClient.post<ApiResponse<User>>("api/v2/auth/login", {
+        const response = await apiClient.post<ApiResponse<User>>("auth/login", {
             email: credentials.email,
             password: credentials.password,
           });
@@ -62,7 +62,7 @@ export const login = createAsyncThunk(
     "auth/logout",
     async (_, { rejectWithValue }) => {
       try {
-        await apiClient.post<ApiResponse<null>>("api/v2/auth/logout");
+        await apiClient.post<ApiResponse<null>>("auth/logout");
         return null;
       } catch (error: any) {
         return rejectWithValue(error.message);
@@ -82,7 +82,6 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUserInfo.fulfilled, (state, action : PayloadAction<ApiResponse<User>>) => {
-        console.log("fetchUserInfo.fulfilled");
         state.loading = false;
         state.user = action.payload.data || null;
         state.isAuthenticated = true;
@@ -106,19 +105,16 @@ const authSlice = createSlice({
         state.error = action.payload as string;
       })
       .addCase(logout.pending, (state) => {
-        console.log("Logout pending, setting isAuthenticated to false");
         state.loading = true;
         state.error = null;
       })
       .addCase(logout.fulfilled, (state) => {
-        console.log("Logout fulfilled, setting isAuthenticated to false");
         state.user = null;
         state.isAuthenticated = false;
         state.loading = false;
         state.error = null;
       })
       .addCase(logout.rejected, (state) => {
-        console.log("Logout rejected, setting isAuthenticated to false");
         state.user = null;
         state.isAuthenticated = false;
         state.loading = false;

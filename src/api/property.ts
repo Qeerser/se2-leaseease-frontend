@@ -19,7 +19,7 @@ export const createProperty = async (
 ): Promise<string | null> => {
   try {
     const res: AxiosResponse<ApiResponse<null>> = await apiClient.post(
-      "/api/v1/properties/create",
+      "properties/create",
       {
         Name,
         LessorID,
@@ -52,7 +52,7 @@ export const updateProperty = async (
 ): Promise<string | null> => {
   try {
     const res: AxiosResponse<ApiResponse<null>> = await apiClient.put(
-      `/api/v1/properties/update/${id}`,
+      `properties/update/${id}`,
       {
         Name,
         LessorID,
@@ -79,7 +79,7 @@ export const deleteProperty = async (
 ): Promise<string | null> => {
   try {
     const res: AxiosResponse<ApiResponse<null>> = await apiClient.delete(
-      `/api/v1/properties/delete/${PropertyID}`
+      `properties/delete/${PropertyID}`
     );
 
     return res.data.message || "Delete Successfully";
@@ -104,7 +104,7 @@ interface data{
 export const getAllProperties = async (): Promise<any[]> => {
   try {
     const res: AxiosResponse<ApiResponse<data>> = await apiClient.get(
-      "/api/v1/properties"
+      "properties/get"
     );
 
     return res.data.data?.properties || [];
@@ -124,7 +124,7 @@ export const getPropertyByID = async (
 ): Promise<any | null> => {
   try {
     const res: AxiosResponse<ApiResponse<any>> = await apiClient.get(
-      `/api/v1/properties/${PropertyID}`
+      `properties/get/${PropertyID}`
     );
 
     return res.data.data || null;

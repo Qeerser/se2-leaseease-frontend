@@ -12,9 +12,9 @@ export function useAuth() {
   useEffect(() => {
     const fetchAndCheckAuth = async () => {
       await dispatch(fetchUserInfo());
-      setHasFetched(true); // Mark as fetched after dispatch completes
     };
-    fetchAndCheckAuth();
+    if (!isAuthenticated) fetchAndCheckAuth();
+    setHasFetched(true);
   }, [dispatch]);
 
   useEffect(() => {

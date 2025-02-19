@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
+import propertyReducer from "./propertySlice";
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer, // รวม Reducer ที่ยังไม่ใช้จริง
+    auth: authReducer,
+    property: propertyReducer, 
   },
 });
 
