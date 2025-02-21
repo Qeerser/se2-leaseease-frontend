@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import EditProperty from "./EditProperty";
 import DeleteProperty from "./DeleteProperty";
-import {Property} from "../../../type/Property";
+import { Property } from "@/type/Property";
 
 type PropertyDescriptionProps = {
     Property: Property

@@ -3,21 +3,10 @@
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { createProperty } from "@/src/api/property";
+import { Property } from "@/type/Property";
 type CreateNewPropertyProps = {
   setIsCreateNewPropertyVisible: Dispatch<SetStateAction<boolean>>;
   addProperty: (property: Property) => void;
-};
-
-type Property = {
-  id: number;
-  name: string;
-  rating: number;
-  location: string;
-  size: number;
-  price: number;
-  date: string;
-  image: string;
-  reviews: number;
 };
 
 export default function CreateNewProperty({
