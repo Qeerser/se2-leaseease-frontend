@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Table from "./Table";
 import ButtonGroup from "./ButtonGroup";
 import PropertyDescription from "./PropertyDescription";
-import { Property } from '../../../type/Property'
+import { Property } from '@/type/Property'
 
 type PropertyDescriptionProps = {
     selectedProperty: Property | null;
