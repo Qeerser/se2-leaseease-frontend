@@ -1,22 +1,24 @@
 "use client"
 import { Dispatch, SetStateAction, useState, useEffect } from "react"
-import {deleteProperty} from "@/src/api/property"
-import { Property } from '../../../type/Property'
+// import {deleteProperty} from "@/src/api/property"
+// import { Property } from '../../../type/Property'
+import { useAppDispatch } from "@/store/hooks";
+import { deleteProperty, Property} from "@/store/propertySlice";
 
 type DeletePropertyProps = {
     setIsDeletePropertyVisible: Dispatch<SetStateAction<boolean>>
     PropertyID: number
-    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
-    setSelectedProperty: React.Dispatch<React.SetStateAction<Property|null>>; 
+    setSelectedPropertyID: React.Dispatch<React.SetStateAction<number|null>>; 
 }
 
-export default function DeleteProperty({ setIsDeletePropertyVisible, PropertyID, setProperties, setSelectedProperty }: DeletePropertyProps) {
+export default function DeleteProperty({ setIsDeletePropertyVisible, PropertyID, setSelectedPropertyID }: DeletePropertyProps) {
+    const dispatch = useAppDispatch();
     const handleDelete = async (PropertyID: number) =>{
         try {
-            const result = await deleteProperty(PropertyID);
+            await dispatch(deleteProperty(PropertyID)).unwrap();  // Unwraps the promise to handle errors properly
             setIsDeletePropertyVisible(false);
-            setProperties((prev) => prev.filter((p) => p.id !== PropertyID));
-            setSelectedProperty(null);
+            setSelectedPropertyID(null);
+            console.log("Property deleting successfully");
         } catch (error) {
             console.error("Error deleting property:", error);
         }

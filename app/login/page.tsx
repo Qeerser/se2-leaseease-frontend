@@ -1,11 +1,10 @@
 "use client";
-import { use,useEffect, useState } from "react";
+import { useState } from "react";
 import LoadPage from "@/components/ui/loadpage";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { login ,fetchUserInfo } from "@/store/authSlice";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
 
 
 

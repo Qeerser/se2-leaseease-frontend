@@ -4,25 +4,28 @@ import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import EditProperty from "./EditProperty";
 import DeleteProperty from "./DeleteProperty";
-import { Property } from "@/type/Property";
+import { Property} from "@/store/propertySlice";
 
 type PropertyDescriptionProps = {
-    Property: Property
-    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
-    setSelectedProperty: React.Dispatch<React.SetStateAction<Property|null>>; 
+    selectedProperty: Property
+    setSelectedPropertyID: React.Dispatch<React.SetStateAction<number|null>>; 
 }
 
-export default function PropertyDescription({ Property, setProperties, setSelectedProperty }: PropertyDescriptionProps) {
+export default function PropertyDescription({ selectedProperty, setSelectedPropertyID }: PropertyDescriptionProps) {
 
   const [isEditPropertyVisible, setIsEditPropertyVisible] = useState<boolean>(false)
   const [isDeletePropertyVisible, setIsDeletePropertyVisible] = useState<boolean>(false)
-  
+  // console.log(selectedProperty)
+  if (!selectedProperty) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex items-start gap-5 w-[67.78vw] h-[27.92vh] rounded-md">
       {/* Image */}
       <img
-        src={Property.image}
-        alt={Property.name}
+        src={selectedProperty.image}
+        alt={selectedProperty.name}
         className="w-[29.17vw] h-full rounded-md object-cover"
       />
 
@@ -30,7 +33,7 @@ export default function PropertyDescription({ Property, setProperties, setSelect
       <div className="w-[38.61vw] h-full flex flex-col justify-between relative ">
         {/* Header */}
         <div className="flex justify-between items-start">
-          <h1 className="text-xl font-bold">{Property.name}</h1>
+          <h1 className="text-xl font-bold">{selectedProperty.name}</h1>
           <div className="absolute top-0 right-0 flex flex-col gap-2">
             <button
               onClick={() => setIsEditPropertyVisible(true)}
@@ -51,10 +54,10 @@ export default function PropertyDescription({ Property, setProperties, setSelect
         </div>
 
         {/* Metadata */}
-        <p className="text-gray-500 text-sm mt-2">Updated at {Property.date}</p>
+        <p className="text-gray-500 text-sm mt-2">Updated at {selectedProperty.date}</p>
         <div className="flex items-center text-yellow-500 mt-2">
-          <span className="font-bold text-lg">{Property.rating} ⭐</span>
-          <span className="ml-1 text-gray-500">({Property.reviews})</span>
+          <span className="font-bold text-lg">{selectedProperty.rating} ⭐</span>
+          <span className="ml-1 text-gray-500">({selectedProperty.reviews})</span>
         </div>
 
         {/* Property Details */}
@@ -63,24 +66,24 @@ export default function PropertyDescription({ Property, setProperties, setSelect
             <strong>Location:</strong>
           </p>
           <p className="text-gray-700">
-            {Property.location}
+            {selectedProperty.location}
           </p>
           <p className="text-gray-700">
             <strong>Size:</strong>
           </p>
           <p className="text-gray-700">
-            {Property.size}
+            {selectedProperty.size}
           </p>
           <p className="text-gray-700">
             <strong>Price:</strong>
           </p>
           <p className="text-gray-700">
-            {Property.price}
+            {selectedProperty.price}
           </p>
         </div>
       </div>
-      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible} PropertyID={Property.id} setProperties={setProperties} Property={Property}/>}
-      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible} PropertyID={Property.id} setProperties={setProperties} setSelectedProperty={setSelectedProperty}/>}
+      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible} PropertyID={selectedProperty.id} selectedProperty={selectedProperty}/>}
+      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible} PropertyID={selectedProperty.id} setSelectedPropertyID={setSelectedPropertyID}/>}
     </div>
   );
 };

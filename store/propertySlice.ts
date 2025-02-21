@@ -1,27 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
-import { apiClient } from '@/src/api/axios';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
+import {apiClient} from "@/src/api/axios"
 
-// ────────────────────────────────────────────────────────────────
-// Define Types
-// ────────────────────────────────────────────────────────────────
-
-interface ApiResponse<T> {
-  status_code: number;
-  message: string;
-  data?: T;
-}
-
-export interface Property {
-  id?: number; // id is optional if not provided on create
-  Name: string;
-  Location: string;
-  Size: string;
-  Price: number;
-  AvailabilityStatus: string;
-}
-
-interface PropertiesData {
+interface Data {
   properties: Property[];
   total_records: number;
   total_pages: number;
@@ -29,231 +10,171 @@ interface PropertiesData {
   page_size: number;
 }
 
+interface ApiResponse<T> {
+  status_code: number;
+  message: string;
+  data?: T;
+}
+
+export type Property = {
+  id: number;
+  name: string;
+  rating: number;
+  location: string;
+  size: string;
+  price: number;
+  date: string;
+  image: string;
+  reviews: number;
+  status: string;
+  detail: string;
+};
+
 interface PropertiesState {
   properties: Property[];
-  selectedProperty: Property | null;
+  totalRecords: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
   loading: boolean;
   error: string | null;
-  message: string | null;
 }
 
 const initialState: PropertiesState = {
   properties: [],
-  selectedProperty: null,
+  totalRecords: 0,
+  totalPages: 0,
+  currentPage: 1,
+  pageSize: 10,
   loading: false,
   error: null,
-  message: null,
 };
 
-// ────────────────────────────────────────────────────────────────
-// Async Thunks
-// ────────────────────────────────────────────────────────────────
-
-// Fetch all properties
-export const fetchProperties = createAsyncThunk<
-  Property[],
-  void,
-  { rejectValue: string }
->('properties/fetchProperties', async (_, { rejectWithValue }) => {
-  try {
-    const res: AxiosResponse<ApiResponse<PropertiesData>> = await apiClient.get(
-      'properties/get'
-    );
-    return res.data.data?.properties || [];
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || error.message || 'Failed to fetch properties'
-    );
-  }
-});
-
-// Fetch property by ID
-export const fetchPropertyById = createAsyncThunk<
-  Property,
-  number,
-  { rejectValue: string }
->('properties/fetchPropertyById', async (propertyId, { rejectWithValue }) => {
-  try {
-    const res: AxiosResponse<ApiResponse<Property>> = await apiClient.get(
-      `properties/get/${propertyId}`
-    );
-    if (res.data.data) {
-      return res.data.data;
+// ** Fetch Properties **
+export const fetchProperties = createAsyncThunk(
+  "properties/get",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res: AxiosResponse<ApiResponse<Data>> = await apiClient.get("properties/get");
+      return res.data.data!;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
-    return rejectWithValue('Property not found');
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || error.message || 'Failed to fetch property'
-    );
   }
-});
+);
 
-// Create a new property
-export const createPropertyThunk = createAsyncThunk<
-  string,
-  {
-    Name: string;
-    Location: string;
-    Size: string;
-    Price: number;
-    AvailabilityStatus: string;
-  },
-  { rejectValue: string }
->('properties/createProperty', async (propertyData, { rejectWithValue }) => {
-  try {
-    const res: AxiosResponse<ApiResponse<null>> = await apiClient.post(
-      'properties/create',
-      propertyData
-    );
-    return res.data.message || 'Create Successfully';
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || error.message || 'Failed to create property'
-    );
+// ** Create Property **
+export const createProperty = createAsyncThunk(
+  "properties/create",
+  async (property: Property, { rejectWithValue }) => {
+    try {
+      const res = await apiClient.post("properties/create", property);
+      property.id = res.data.data.property_id;
+      return property;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
-// Update an existing property
-export const updatePropertyThunk = createAsyncThunk<
-  string,
-  {
-    id: number;
-    Name: string;
-    Location: string;
-    Size: string;
-    Price: number;
-    AvailabilityStatus: string;
-  },
-  { rejectValue: string }
->('properties/updateProperty', async (propertyData, { rejectWithValue }) => {
-  const { id, ...data } = propertyData;
-  try {
-    const res: AxiosResponse<ApiResponse<null>> = await apiClient.put(
-      `properties/update/${id}`,
-      data
-    );
-    return res.data.message || 'Update Successfully';
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || error.message || 'Failed to update property'
-    );
+// ** Update Property **
+export const updateProperty = createAsyncThunk(
+  "properties/update",
+  async (property: Property, { rejectWithValue }) => {
+    try {
+      await apiClient.put(`properties/update/${property.id}`, property);
+      return property;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
-// Delete a property
-export const deletePropertyThunk = createAsyncThunk<
-  string,
-  number,
-  { rejectValue: string }
->('properties/deleteProperty', async (propertyId, { rejectWithValue }) => {
-  try {
-    const res: AxiosResponse<ApiResponse<null>> = await apiClient.delete(
-      `properties/delete/${propertyId}`
-    );
-    return res.data.message || 'Delete Successfully';
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || error.message || 'Failed to delete property'
-    );
+// ** Delete Property **
+export const deleteProperty = createAsyncThunk(
+  "properties/delete",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      await apiClient.delete(`properties/delete/${id}`);
+      return id;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
-// ────────────────────────────────────────────────────────────────
-// Slice
-// ────────────────────────────────────────────────────────────────
-
-const propertySlice = createSlice({
-  name: 'properties',
+const propertiesSlice = createSlice({
+  name: "properties",
   initialState,
-  reducers: {
-    // You can add synchronous reducers here if needed
-    clearMessage(state) {
-      state.message = null;
-    },
-    clearError(state) {
-      state.error = null;
-    },
-    clearSelectedProperty(state) {
-      state.selectedProperty = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    // Fetch all properties
     builder
+      // Fetch Properties
       .addCase(fetchProperties.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchProperties.fulfilled, (state, action: PayloadAction<Property[]>) => {
+      .addCase(fetchProperties.fulfilled, (state, action: PayloadAction<any>) => {
+        // console.log(action.payload)
         state.loading = false;
-        state.properties = action.payload;
+        state.properties = action.payload.properties || [];
+        state.totalRecords = action.payload.total_records || 0;
+        state.totalPages = action.payload.total_pages || 0;
+        state.currentPage = action.payload.current_page || 1;
+        state.pageSize = action.payload.page_size || 10;
       })
       .addCase(fetchProperties.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch properties';
-      });
+        state.error = action.payload as string;
+      })
 
-    // Fetch property by ID
-    builder
-      .addCase(fetchPropertyById.pending, (state) => {
+      // Create Property
+      .addCase(createProperty.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchPropertyById.fulfilled, (state, action: PayloadAction<Property>) => {
+      .addCase(createProperty.fulfilled, (state, action: PayloadAction<Property>) => {
         state.loading = false;
-        state.selectedProperty = action.payload;
+        state.properties.push(action.payload);
+        state.totalRecords += 1;
       })
-      .addCase(fetchPropertyById.rejected, (state, action) => {
+      .addCase(createProperty.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch property';
-      });
+        state.error = action.payload as string;
+      })
 
-    // Create property
-    builder
-      .addCase(createPropertyThunk.pending, (state) => {
+      // Update Property
+      .addCase(updateProperty.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(createPropertyThunk.fulfilled, (state, action: PayloadAction<string>) => {
+      .addCase(updateProperty.fulfilled, (state, action: PayloadAction<Property>) => {
         state.loading = false;
-        state.message = action.payload;
+        const index = state.properties.findIndex((prop) => prop.id === action.payload.id);
+        if (index !== -1) {
+          state.properties[index] = { ...state.properties[index], ...action.payload };
+        }
       })
-      .addCase(createPropertyThunk.rejected, (state, action) => {
+      .addCase(updateProperty.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to create property';
-      });
+        state.error = action.payload as string;
+      })
 
-    // Update property
-    builder
-      .addCase(updatePropertyThunk.pending, (state) => {
+      // Delete Property
+      .addCase(deleteProperty.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(updatePropertyThunk.fulfilled, (state, action: PayloadAction<string>) => {
+      .addCase(deleteProperty.fulfilled, (state, action: PayloadAction<number>) => {
         state.loading = false;
-        state.message = action.payload;
+        state.properties = state.properties.filter((prop) => prop.id !== action.payload);
+        state.totalRecords -= 1;
       })
-      .addCase(updatePropertyThunk.rejected, (state, action) => {
+      .addCase(deleteProperty.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to update property';
-      });
-
-    // Delete property
-    builder
-      .addCase(deletePropertyThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deletePropertyThunk.fulfilled, (state, action: PayloadAction<string>) => {
-        state.loading = false;
-        state.message = action.payload;
-      })
-      .addCase(deletePropertyThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || 'Failed to delete property';
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { clearMessage, clearError, clearSelectedProperty } = propertySlice.actions;
-export default propertySlice.reducer;
+export default propertiesSlice.reducer;

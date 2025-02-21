@@ -1,19 +1,25 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Table from "./Table";
 import ButtonGroup from "./ButtonGroup";
 import PropertyDescription from "./PropertyDescription";
-import { Property } from '@/type/Property'
+// import { Property } from '@/type/Property'
+import { useAppSelector } from "@/store/hooks";
 
 type PropertyDescriptionProps = {
-    selectedProperty: Property | null;
-    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
-    setSelectedProperty: React.Dispatch<React.SetStateAction<Property|null>>;
+    selectedPropertyID: number | null;
+    setSelectedPropertyID: React.Dispatch<React.SetStateAction<number|null>>;
 }
 
-export default function MiddlePage({ selectedProperty, setProperties, setSelectedProperty }: PropertyDescriptionProps) {
-    if (!selectedProperty) {
+export default function MiddlePage({ selectedPropertyID, setSelectedPropertyID }: PropertyDescriptionProps) {
+    if (!selectedPropertyID) {
         return <p className="flex items-center justify-center text-center m-auto">Select a property to view details</p>;
+    }
+    const { properties ,loading } = useAppSelector((state) => state.property);
+    const selectedProperty = properties.find((e) => e.id == selectedPropertyID)
+    
+    if (!selectedProperty) {
+        return <p className="flex items-center justify-center text-center m-auto">Property not found.</p>;
     }
 
     const handleButtonClick = (activeButton: string) => {
@@ -23,9 +29,8 @@ export default function MiddlePage({ selectedProperty, setProperties, setSelecte
     return (
         <div>
             <PropertyDescription
-                Property={selectedProperty}
-                setProperties={setProperties}
-                setSelectedProperty={setSelectedProperty}
+                selectedProperty={selectedProperty!}
+                setSelectedPropertyID={setSelectedPropertyID}
             />
 
             <div className="flex flex-col items-start gap-5 flex-1 self-stretch my-[20px]">
