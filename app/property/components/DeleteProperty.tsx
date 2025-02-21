@@ -8,15 +8,16 @@ import { deleteProperty, Property} from "@/store/propertySlice";
 type DeletePropertyProps = {
     setIsDeletePropertyVisible: Dispatch<SetStateAction<boolean>>
     PropertyID: number
-    setSelectedProperty: React.Dispatch<React.SetStateAction<Property|null>>; 
+    setSelectedPropertyID: React.Dispatch<React.SetStateAction<number|null>>; 
 }
 
-export default function DeleteProperty({ setIsDeletePropertyVisible, PropertyID, setSelectedProperty }: DeletePropertyProps) {
+export default function DeleteProperty({ setIsDeletePropertyVisible, PropertyID, setSelectedPropertyID }: DeletePropertyProps) {
     const dispatch = useAppDispatch();
     const handleDelete = async (PropertyID: number) =>{
         try {
             await dispatch(deleteProperty(PropertyID)).unwrap();  // Unwraps the promise to handle errors properly
             setIsDeletePropertyVisible(false);
+            setSelectedPropertyID(null);
             console.log("Property deleting successfully");
         } catch (error) {
             console.error("Error deleting property:", error);

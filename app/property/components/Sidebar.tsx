@@ -1,7 +1,7 @@
 // finished
 
 "use client"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react"
 import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
@@ -10,10 +10,10 @@ import { fetchProperties, Property} from "@/store/propertySlice";
 // import { Property } from '../../../type/Property'
 
 type PropertySidebarProps = {
-    setSelectedProperty: (property: Property) => void;
+    setSelectedPropertyID: Dispatch<SetStateAction<number|null>>;
 };
 
-export default function PropertySidebar({ setSelectedProperty }: PropertySidebarProps) {
+export default function PropertySidebar({ setSelectedPropertyID }: PropertySidebarProps) {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
@@ -90,7 +90,7 @@ export default function PropertySidebar({ setSelectedProperty }: PropertySidebar
                         isPropertyActive={property.id === activeProperty}
                         onClick={() => {
                             setActiveProperty(property.id)
-                            setSelectedProperty(property)
+                            setSelectedPropertyID(property.id)
                         }}
                     />
                 ))}

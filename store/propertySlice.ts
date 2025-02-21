@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { configureStore } from "@reduxjs/toolkit";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import {apiClient} from "@/src/api/axios"
 
 interface Data {
@@ -69,7 +68,8 @@ export const createProperty = createAsyncThunk(
   "properties/create",
   async (property: Property, { rejectWithValue }) => {
     try {
-      await apiClient.post("properties/create", property);
+      const res = await apiClient.post("properties/create", property);
+      property.id = res.data.data.property_id;
       return property;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -115,6 +115,7 @@ const propertiesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchProperties.fulfilled, (state, action: PayloadAction<any>) => {
+        // console.log(action.payload)
         state.loading = false;
         state.properties = action.payload.properties || [];
         state.totalRecords = action.payload.total_records || 0;

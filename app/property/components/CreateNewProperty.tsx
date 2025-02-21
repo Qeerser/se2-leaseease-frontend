@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useAppDispatch } from "@/store/hooks";
-import { createProperty, Property} from "@/store/propertySlice";
+import { useAppDispatch , useAppSelector} from "@/store/hooks";
+import { fetchProperties ,createProperty, Property} from "@/store/propertySlice";
 
 type CreateNewPropertyProps = {
   setIsCreateNewPropertyVisible: Dispatch<SetStateAction<boolean>>;
@@ -44,14 +44,14 @@ export default function CreateNewProperty({
 
     try {
       const propertyData: Property = {
-        id: Math.floor(Math.random() * 100000),
+        id: 0,
         name: name ?? "",
         size: (size?.toString() ?? "udf") + " sqft",
         price: price ?? 0,
         location: location ?? "",
         detail: detail ?? "",
-        rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
-        reviews: Math.floor(Math.random() * 500) + 1,
+        rating: 0,
+        reviews: 0,
         image: `https://loremflickr.com/2048/1280?random=${
           Math.floor(Math.random() * 1000) + 1
         }`,
