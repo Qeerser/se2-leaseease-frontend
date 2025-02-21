@@ -15,7 +15,6 @@ interface ApiResponse<T> {
 export interface Property {
   id?: number; // id is optional if not provided on create
   Name: string;
-  LessorID: number;
   Location: string;
   Size: string;
   Price: number;
@@ -94,7 +93,6 @@ export const createPropertyThunk = createAsyncThunk<
   string,
   {
     Name: string;
-    LessorID: number;
     Location: string;
     Size: string;
     Price: number;
@@ -121,7 +119,6 @@ export const updatePropertyThunk = createAsyncThunk<
   {
     id: number;
     Name: string;
-    LessorID: number;
     Location: string;
     Size: string;
     Price: number;

@@ -11,7 +11,6 @@ interface ApiResponse<T> {
 //  Create a Property
 export const createProperty = async (
   Name: string,
-  LessorID: number,
   Location: string,
   Detail: string,
   Size: string,
@@ -23,7 +22,6 @@ export const createProperty = async (
       "properties/create",
       {
         Name,
-        LessorID,
         Location,
         // Detail,
         Size,
@@ -46,7 +44,6 @@ export const createProperty = async (
 export const updateProperty = async (
   id: number,
   Name: string,
-  LessorID: number,
   Location: string,
   Size: string,
   Price: number,
@@ -57,7 +54,6 @@ export const updateProperty = async (
       `properties/update/${id}`,
       {
         Name,
-        LessorID,
         Location,
         Size,
         Price,

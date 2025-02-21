@@ -52,7 +52,6 @@ export default function CreateNewProperty({
     try {
       const response = await createProperty(
         name ?? "",
-        1,
         location ?? "",
         detail ?? "",
         (size ?? 0).toString(),
@@ -60,8 +59,8 @@ export default function CreateNewProperty({
         "Available"
       );
       console.log(response);
-      if (response === "201") {
-        console.log(response);
+    //   const data = await response?.json()
+
         const data_random = {
           id: Math.floor(Math.random() * 100000),
           name: name ?? "",
@@ -86,8 +85,6 @@ export default function CreateNewProperty({
         };
         addProperty(data_random);
         setIsCreateNewPropertyVisible(false);
-      } else {
-      }
     } catch (error) {
       console.error("Error creating property:", error);
     }
