@@ -2,25 +2,31 @@
 
 "use client"
 import { Dispatch, SetStateAction, useState } from "react"
-import { Property } from '../../../type/Property'
-import {updateProperty} from "@/src/api/property"
-
+// import { Property } from '../../../type/Property'
+import { useAppDispatch } from "@/store/hooks";
+import { updateProperty, Property} from "@/store/propertySlice";
 type EditPropertyProps = {
     setIsEditPropertyVisible: Dispatch<SetStateAction<boolean>>
-    PropertyID: number
-    setProperties: React.Dispatch<React.SetStateAction<Property[]>>
-    Property: Property
+    PropertyID: number,
+    selectedProperty: Property
 }
 
-export default function EditProperty({ setIsEditPropertyVisible, PropertyID, setProperties, Property }: EditPropertyProps) {
-    const [selectedFile, setSelectedFile] = useState<string | null>(Property.image)
-    // remain: Image
-    const [name, setName] = useState<string | null>(Property.name)
-    const [location, setLocation] = useState<string | null>(Property.location)
-    const [size, setSize] = useState<number | null>(Property.size)
-    const [price, setPrice] = useState<number | null>(Property.price)
+export default function EditProperty({ setIsEditPropertyVisible, PropertyID, selectedProperty }: EditPropertyProps) {
+    const dispatch = useAppDispatch();
+    // const { properties, loading } = useAppSelector((state) => state.property);
+    // const selectedProperty = properties.find((property) => property.id === PropertyID);
+
+    // const [editProperty, setEditProperty] = useState<Property | null>(selectedProperty ?? null);
+
+    const [selectedFile, setSelectedFile] = useState<string | null>(selectedProperty?.image ?? null);
+    const [name, setName] = useState<string | null>(selectedProperty?.name || "");
+    const [location, setLocation] = useState<string | null>(selectedProperty?.location || "");
+    const [size, setSize] = useState<string | null>(selectedProperty?.size || "");
+    const [price, setPrice] = useState<number | null>(selectedProperty?.price || null);
+
 
     const [errors, setErrors] = useState<{ name?: boolean; location?: boolean; size?:boolean; price?:boolean }>({})
+    
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -31,53 +37,37 @@ export default function EditProperty({ setIsEditPropertyVisible, PropertyID, set
 
     const handleSubmit = async () => {
         const newErrors: typeof errors = {}
-
-        if (!name) newErrors.name = true
-        if (!location) newErrors.location = true
-        if (!size) newErrors.size = true
-        if (!price) newErrors.price = true
-
-        setErrors(newErrors)
+    
+        if (!name) newErrors.name = true;
+        if (!location) newErrors.location = true;
+        if (!size) newErrors.size = true;
+        if (!price) newErrors.price = true;
+    
+        setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) {
-                    setErrors(newErrors);
-                    return;
-                }
-        
-        try {
-            const response = await updateProperty(
-                PropertyID,
-                name ?? "",
-                1,
-                location ?? "",
-                (size ?? 0).toString(),
-                price ?? 0,
-                "Available"
-            );
-
-            if (response) {
-                console.log(response)
-                setIsEditPropertyVisible(false)
-                // Update the property in the properties state
-                setProperties((prevProperties) => {
-                    return prevProperties.map((property) =>
-                    property.id === PropertyID
-                        ? {
-                            ...property,
-                            name: name ?? "",  
-                            location: location ?? "",
-                            size: size ?? 0,    
-                            price: price ?? 0,  
-                            availabilityStatus: "Available",
-                        }
-                        : property
-                    );
-                });
-            } else {
-            }
-        } catch (error) {
-            console.error("Error creating property:", error);
+            return;
         }
-    }
+        const editProperty: Property = {
+            name: name || "",      
+            location: location || "", 
+            size: size || "",
+            price: price ?? 0,     
+            id: selectedProperty?.id || PropertyID,                
+            rating: selectedProperty?.rating || 0,
+            date: selectedProperty?.date || new Date().toISOString(),  
+            image: selectedProperty?.image || "",             
+            reviews: selectedProperty?.reviews || 0,
+            status: selectedProperty?.status || "Available",   
+            detail: selectedProperty?.detail || "",
+        }
+        try {
+            await dispatch(updateProperty(editProperty)).unwrap();  // Unwraps the promise to handle errors properly
+            setIsEditPropertyVisible(false);
+            console.log("Property updated successfully");
+        } catch (error) {
+            console.error("Error updating property:", error);
+        }
+    };
 
     return (
         <div className="flex z-50 w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
@@ -186,7 +176,7 @@ export default function EditProperty({ setIsEditPropertyVisible, PropertyID, set
                                     style={{ fontFamily: 'Inter' }} 
                                     placeholder="eg. 100.00" 
                                     value={size || ""}
-                                    onChange={(e) => setSize(Number(e.target.value) || null)}
+                                    onChange={(e) => setSize((e.target.value) || null)}
                                 />
                             </div>
                         </div>

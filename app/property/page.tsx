@@ -4,7 +4,8 @@ import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MiddlePage from "./components/MiddlePage";
-import { Property } from "../../type/Property";
+// import { Property } from "../../type/Property";
+import { Property} from "@/store/propertySlice";
 import { useAuth } from "@/hooks/useAuth";
 
 
@@ -16,13 +17,7 @@ export default function PropertyPage({
   children: React.ReactNode;
 }) {
   const {loading} = useAuth();
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(
-    null
-  );
-
-  
-
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
   return (
     loading ? (<LoadPage/>) :
@@ -32,14 +27,11 @@ export default function PropertyPage({
       <div className="flex justify-center items-center flex-1 self-stretch">
         <Sidebar
           setSelectedProperty={setSelectedProperty}
-          properties={properties}
-          setProperties={setProperties}
         />
         {/* KNOTT */}
         <div className="flex p-[2rem] flex-col items-start gap-[0.625rem] flex-1 self-stretch bg-white">
           <MiddlePage
             selectedProperty={selectedProperty}
-            setProperties={setProperties}
             setSelectedProperty={setSelectedProperty}
           />
         </div>

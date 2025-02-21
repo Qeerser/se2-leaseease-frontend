@@ -5,17 +5,15 @@ import { useState, useRef, useEffect } from "react"
 import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
-import { getAllProperties } from "@/src/api/property"
-import { Property } from '../../../type/Property'
-import { useAppSelector } from "@/store/hooks"
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchProperties, Property} from "@/store/propertySlice";
+// import { Property } from '../../../type/Property'
 
 type PropertySidebarProps = {
     setSelectedProperty: (property: Property) => void;
-    properties: Property[];
-    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
 };
 
-export default function PropertySidebar({ setSelectedProperty, properties, setProperties }: PropertySidebarProps) {
+export default function PropertySidebar({ setSelectedProperty }: PropertySidebarProps) {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
@@ -23,6 +21,8 @@ export default function PropertySidebar({ setSelectedProperty, properties, setPr
 
     const {isAuthenticated} = useAppSelector((state) => state.auth)
     const sortOptionRef = useRef<HTMLDivElement>(null)
+    const dispatch = useAppDispatch();
+    const { properties ,loading } = useAppSelector((state) => state.property);
 
     const toggleSortOption = (): void => {
         setIsSortOptionVisible(!isSortOptionVisible)
@@ -37,85 +37,17 @@ export default function PropertySidebar({ setSelectedProperty, properties, setPr
 
         document.addEventListener("mousedown", handleClickOutside)
 
-        if (isAuthenticated) fetchAllProperties()
+        if (isAuthenticated) {
+            const func = async () => {
+                await dispatch(fetchProperties())
+            }
+            func();
+        }
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside)
         }
     }, [])
-
-    const fetchAllProperties = async () => {
-        try {
-            const data: Property[] = await getAllProperties() || []
-            if (data) {
-                console.log("Fetched Properties:", data)
-
-                const data_random: Property[] = data.map((property, index) => ({
-                    ...property,
-                    rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
-                    reviews: Math.floor(Math.random() * 500) + 1,
-                    image: `https://loremflickr.com/2048/1280?random=${index + 1}`,
-                    date: new Date(Date.now() + Math.random() * 31536000000)
-                        .toLocaleString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        })
-                        .replace(",", ""),
-                }))
-
-                setProperties(data_random)
-            } else {
-                console.error("Failed to fetch properties.")
-            }
-        } catch (error) {
-            console.error("Error fetching properties:", error)
-        }
-    }
-
-    // const properties: Property[] = Array.from({ length: 15 }, (_, i) => {
-    //     const randomDate = new Date(Date.now() + Math.random() * 31536000000)
-    //         .toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
-    //         .replace(",", "")
-
-    //     return {
-    //         id: i + 1,
-    //         name: [
-    //             "Luxury Condo",
-    //             "Cozy Apartment",
-    //             "Modern House",
-    //             "Beachfront Villa",
-    //             "Penthouse Suite",
-    //             "Urban Studio",
-    //             "Rustic Cabin",
-    //             "High-Rise Loft",
-    //             "Lakeview Cottage",
-    //             "Garden Bungalow",
-    //         ][i % 10],
-
-    //         rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
-    //         location: [
-    //             "Sathorn, Bangkok",
-    //             "Jatujak, Bangkok",
-    //             "Ekkamai, Bangkok",
-    //             "Phuket, Thailand",
-    //             "Silom, Bangkok",
-    //             "Chiang Mai, Thailand",
-    //             "Hua Hin, Thailand",
-    //             "Pattaya, Thailand",
-    //             "Samui, Thailand",
-    //             "Krabi, Thailand",
-    //         ][i % 10],
-
-    //         size: Math.floor(Math.random() * (200 - 30 + 1) + 30) + " sqm",
-    //         price: `$${(Math.random() * (500000 - 50000) + 50000).toLocaleString()}`,
-    //         date: randomDate,
-    //         image: `https://loremflickr.com/2048/1280?random=${i + 1}`,
-    //         reviews: Math.floor(Math.random() * 500) + 1
-    //     }
-    // })
 
     const sortedProperties = [...properties].sort((a, b) => {
         switch (selectedSort) {
@@ -173,7 +105,6 @@ export default function PropertySidebar({ setSelectedProperty, properties, setPr
             </div>
             {isCreateNewPropertyVisible && <CreateNewProperty
                 setIsCreateNewPropertyVisible={setIsCreateNewPropertyVisible}
-                addProperty={(property) => setProperties((prev) => [...prev, property])}
             />}
         </div>
     )

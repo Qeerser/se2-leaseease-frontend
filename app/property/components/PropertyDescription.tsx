@@ -4,15 +4,15 @@ import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import EditProperty from "./EditProperty";
 import DeleteProperty from "./DeleteProperty";
-import { Property } from "@/type/Property";
+// import { Property } from "@/type/Property";
+import { Property} from "@/store/propertySlice";
 
 type PropertyDescriptionProps = {
     Property: Property
-    setProperties: React.Dispatch<React.SetStateAction<Property[]>>; 
     setSelectedProperty: React.Dispatch<React.SetStateAction<Property|null>>; 
 }
 
-export default function PropertyDescription({ Property, setProperties, setSelectedProperty }: PropertyDescriptionProps) {
+export default function PropertyDescription({ Property, setSelectedProperty }: PropertyDescriptionProps) {
 
   const [isEditPropertyVisible, setIsEditPropertyVisible] = useState<boolean>(false)
   const [isDeletePropertyVisible, setIsDeletePropertyVisible] = useState<boolean>(false)
@@ -79,8 +79,8 @@ export default function PropertyDescription({ Property, setProperties, setSelect
           </p>
         </div>
       </div>
-      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible} PropertyID={Property.id} setProperties={setProperties} Property={Property}/>}
-      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible} PropertyID={Property.id} setProperties={setProperties} setSelectedProperty={setSelectedProperty}/>}
+      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible} PropertyID={Property.id} selectedProperty={Property}/>}
+      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible} PropertyID={Property.id} setSelectedProperty={setSelectedProperty}/>}
     </div>
   );
 };

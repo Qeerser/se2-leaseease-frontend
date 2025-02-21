@@ -1,23 +1,20 @@
-// api for create new property
-
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
-import { createProperty } from "@/src/api/property";
-import { Property } from "@/type/Property";
+import { useAppDispatch } from "@/store/hooks";
+import { createProperty, Property} from "@/store/propertySlice";
+
 type CreateNewPropertyProps = {
   setIsCreateNewPropertyVisible: Dispatch<SetStateAction<boolean>>;
-  addProperty: (property: Property) => void;
 };
 
 export default function CreateNewProperty({
   setIsCreateNewPropertyVisible,
-  addProperty,
 }: CreateNewPropertyProps) {
+  const dispatch = useAppDispatch();
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
-  // remain: Image
   const [name, setName] = useState<string | null>(null);
   const [location, setLocation] = useState<string | null>(null);
-  const [detail, setDetail] = useState<string | null> (null)
+  const [detail, setDetail] = useState<string | null>(null);
   const [size, setSize] = useState<number | null>(null);
   const [price, setPrice] = useState<number | null>(null);
 
@@ -37,54 +34,33 @@ export default function CreateNewProperty({
 
   const handleSubmit = async () => {
     const newErrors: typeof errors = {};
-
     if (!name) newErrors.name = true;
     if (!location) newErrors.location = true;
     if (!size) newErrors.size = true;
     if (!price) newErrors.price = true;
 
     setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
+    if (Object.keys(newErrors).length > 0) return;
 
     try {
-      const response = await createProperty(
-        name ?? "",
-        location ?? "",
-        detail ?? "",
-        (size ?? 0).toString(),
-        price ?? 0,
-        "Available"
-      );
-      console.log(response);
-    //   const data = await response?.json()
+      const propertyData: Property = {
+        id: Math.floor(Math.random() * 100000),
+        name: name ?? "",
+        size: (size?.toString() ?? "udf") + " sqft",
+        price: price ?? 0,
+        location: location ?? "",
+        detail: detail ?? "",
+        rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+        reviews: Math.floor(Math.random() * 500) + 1,
+        image: `https://loremflickr.com/2048/1280?random=${
+          Math.floor(Math.random() * 1000) + 1
+        }`,
+        date: new Date().toISOString(),
+        status: "available",
+      };
 
-        const data_random = {
-          id: Math.floor(Math.random() * 100000),
-          name: name ?? "",
-          size: size ?? 0,
-          price: price ?? 0,
-          location: location ?? "",
-          detail: detail ?? "",
-          rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
-          reviews: Math.floor(Math.random() * 500) + 1,
-          image: `https://loremflickr.com/2048/1280?random=${
-            Math.floor(Math.random() * 1000) + 1
-          }`,
-          date: new Date(Date.now() + Math.random() * 31536000000)
-            .toLocaleString("en-GB", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })
-            .replace(",", ""),
-        };
-        addProperty(data_random);
-        setIsCreateNewPropertyVisible(false);
+      await dispatch(createProperty(propertyData));
+      setIsCreateNewPropertyVisible(false);
     } catch (error) {
       console.error("Error creating property:", error);
     }
