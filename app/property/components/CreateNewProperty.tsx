@@ -17,6 +17,7 @@ export default function CreateNewProperty({
   // remain: Image
   const [name, setName] = useState<string | null>(null);
   const [location, setLocation] = useState<string | null>(null);
+  const [detail, setDetail] = useState<string | null> (null)
   const [size, setSize] = useState<number | null>(null);
   const [price, setPrice] = useState<number | null>(null);
 
@@ -53,6 +54,7 @@ export default function CreateNewProperty({
         name ?? "",
         1,
         location ?? "",
+        detail ?? "",
         (size ?? 0).toString(),
         price ?? 0,
         "Available"
@@ -66,6 +68,7 @@ export default function CreateNewProperty({
           size: size ?? 0,
           price: price ?? 0,
           location: location ?? "",
+          detail: detail ?? "",
           rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
           reviews: Math.floor(Math.random() * 500) + 1,
           image: `https://loremflickr.com/2048/1280?random=${
@@ -129,7 +132,6 @@ export default function CreateNewProperty({
           <div className="w-[0.5px] h-[10px] bg-slate-400"></div>
           <div
             className="text-slate-600 text-xs font-normal leading-[16px]"
-            style={{ fontFamily: "Inter" }}
           >
             Create New Property
           </div>
@@ -145,7 +147,7 @@ export default function CreateNewProperty({
             <div className="flex items-start gap-[10px] self-stretch">
               <div
                 className="text-slate-700 text-xs font-medium leading-[16px]"
-                style={{ fontFamily: "Inter" }}
+
               >
                 Image*
               </div>
@@ -168,7 +170,7 @@ export default function CreateNewProperty({
               <div className="flex items-center gap-[10px]">
                 <div
                   className="text-slate-700 text-sm font-normal"
-                  style={{ fontFamily: "Inter" }}
+    
                 >
                   {selectedFile ? selectedFile : "No file chosen"}
                 </div>
@@ -180,7 +182,7 @@ export default function CreateNewProperty({
             <div className="flex items-start gap-[10px] self-stretch">
               <div
                 className="text-slate-700 text-xs font-medium leading-[16px]"
-                style={{ fontFamily: "Inter" }}
+
               >
                 Name*
               </div>
@@ -193,7 +195,7 @@ export default function CreateNewProperty({
             >
               <input
                 className="text-base font-normal leading-[24px] w-full outline-none"
-                style={{ fontFamily: "Inter" }}
+
                 placeholder="Property Name"
                 value={name || ""}
                 onChange={(e) => setName(e.target.value)}
@@ -201,11 +203,11 @@ export default function CreateNewProperty({
             </div>
           </div>
 
-          <div className="flex h-[144px] flex-col items-start gap-[4px] self-stretch">
+          <div className="flex flex-col items-start gap-[4px] self-stretch">
             <div className="flex items-start gap-[10px] self-stretch">
               <div
                 className="text-slate-700 text-xs font-medium leading-[16px]"
-                style={{ fontFamily: "Inter" }}
+
               >
                 Location*
               </div>
@@ -215,12 +217,36 @@ export default function CreateNewProperty({
                 errors.location ? "border-red-500" : "border-slate-200"
               }`}
             >
-              <textarea
-                className="text-base font-normal leading-[24px] w-full h-full outline-none resize-none"
-                style={{ fontFamily: "Inter" }}
+              <input
+                className="text-base font-normal leading-[24px] w-full outline-none"
+
                 placeholder="Property Location"
                 value={location || ""}
                 onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="flex h-[144px] flex-col items-start gap-[4px] self-stretch">
+            <div className="flex items-start gap-[10px] self-stretch">
+              <div
+                className="text-slate-700 text-xs font-medium leading-[16px]"
+
+              >
+                Detail
+              </div>
+            </div>
+            <div
+              className={`flex p-[8px] items-start gap-[10px] flex-1 self-stretch rounded-[6px] border ${
+                "border-slate-200"
+              }`}
+            >
+              <textarea
+                className="text-base font-normal leading-[24px] w-full h-full outline-none resize-none"
+
+                placeholder="Property Detail"
+                value={detail || ""}
+                onChange={(e) => setDetail(e.target.value)}
               />
             </div>
           </div>
@@ -229,7 +255,7 @@ export default function CreateNewProperty({
             <div className="flex items-start gap-[10px] self-stretch">
               <div
                 className="text-slate-700 text-xs font-medium leading-[16px]"
-                style={{ fontFamily: "Inter" }}
+
               >
                 Size* (Square meter)
               </div>
@@ -243,7 +269,7 @@ export default function CreateNewProperty({
                 <input
                   type="number"
                   className="text-base font-normal leading-[24px] w-full outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  style={{ fontFamily: "Inter" }}
+    
                   placeholder="eg. 100.00"
                   value={size || ""}
                   onChange={(e) => setSize(Number(e.target.value) || null)}
@@ -256,7 +282,7 @@ export default function CreateNewProperty({
             <div className="flex items-start gap-[10px] self-stretch">
               <div
                 className="text-slate-700 text-xs font-medium leading-[16px]"
-                style={{ fontFamily: "Inter" }}
+
               >
                 Price* (Baht per month)
               </div>
@@ -269,7 +295,7 @@ export default function CreateNewProperty({
               <input
                 type="number"
                 className="w-full text-base font-normal leading-[24px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                style={{ fontFamily: "Inter" }}
+
                 placeholder="eg. 1,000.00"
                 value={price || ""}
                 onChange={(e) => setPrice(Number(e.target.value) || null)}

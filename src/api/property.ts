@@ -13,6 +13,7 @@ export const createProperty = async (
   Name: string,
   LessorID: number,
   Location: string,
+  Detail: string,
   Size: string,
   Price: number,
   AvailabilityStatus: string
@@ -24,6 +25,7 @@ export const createProperty = async (
         Name,
         LessorID,
         Location,
+        // Detail,
         Size,
         Price,
         AvailabilityStatus,
