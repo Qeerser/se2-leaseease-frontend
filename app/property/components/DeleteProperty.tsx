@@ -3,21 +3,19 @@ import { Dispatch, SetStateAction, useState, useEffect } from "react"
 // import {deleteProperty} from "@/src/api/property"
 // import { Property } from '../../../type/Property'
 import { useAppDispatch } from "@/store/hooks";
-import { deleteProperty, Property} from "@/store/propertySlice";
+import { deleteProperty, Property, setSelectedProperty} from "@/store/propertySlice";
 
 type DeletePropertyProps = {
     setIsDeletePropertyVisible: Dispatch<SetStateAction<boolean>>
-    PropertyID: number
-    setSelectedPropertyID: React.Dispatch<React.SetStateAction<number|null>>; 
 }
 
-export default function DeleteProperty({ setIsDeletePropertyVisible, PropertyID, setSelectedPropertyID }: DeletePropertyProps) {
+export default function DeleteProperty({ setIsDeletePropertyVisible}: DeletePropertyProps) {
     const dispatch = useAppDispatch();
-    const handleDelete = async (PropertyID: number) =>{
+    const handleDelete = async () =>{
         try {
-            await dispatch(deleteProperty(PropertyID)).unwrap();  // Unwraps the promise to handle errors properly
+            await dispatch(deleteProperty()).unwrap();  // Unwraps the promise to handle errors properly
             setIsDeletePropertyVisible(false);
-            setSelectedPropertyID(null);
+            dispatch(setSelectedProperty(null));
             console.log("Property deleting successfully");
         } catch (error) {
             console.error("Error deleting property:", error);
@@ -44,7 +42,7 @@ export default function DeleteProperty({ setIsDeletePropertyVisible, PropertyID,
                         Cancel
                     </button>
                     <div className="flex flex-col items-start gap-[0.625rem] pl-2">
-                        <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md bg-[#B91C1C] text-white" onClick={() => handleDelete(PropertyID)}>
+                        <button className="flex h-10 min-h-10 max-h-10 px-4 py-2 flex-col justify-center items-center gap-[0.625rem] rounded-md bg-[#B91C1C] text-white" onClick={() => handleDelete()}>
                             Delete
                         </button>
                     </div>

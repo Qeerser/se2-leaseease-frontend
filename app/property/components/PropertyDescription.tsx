@@ -5,13 +5,11 @@ import { Pencil, Trash2 } from "lucide-react";
 import EditProperty from "./EditProperty";
 import DeleteProperty from "./DeleteProperty";
 import { Property} from "@/store/propertySlice";
+import { useAppSelector } from "@/store/hooks";
 
-type PropertyDescriptionProps = {
-    selectedProperty: Property
-    setSelectedPropertyID: React.Dispatch<React.SetStateAction<number|null>>; 
-}
 
-export default function PropertyDescription({ selectedProperty, setSelectedPropertyID }: PropertyDescriptionProps) {
+export default function PropertyDescription() {
+  const { selectedProperty } = useAppSelector((state) => state.property);
 
   const [isEditPropertyVisible, setIsEditPropertyVisible] = useState<boolean>(false)
   const [isDeletePropertyVisible, setIsDeletePropertyVisible] = useState<boolean>(false)
@@ -82,8 +80,8 @@ export default function PropertyDescription({ selectedProperty, setSelectedPrope
           </p>
         </div>
       </div>
-      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible} PropertyID={selectedProperty.id} selectedProperty={selectedProperty}/>}
-      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible} PropertyID={selectedProperty.id} setSelectedPropertyID={setSelectedPropertyID}/>}
+      {isEditPropertyVisible && <EditProperty setIsEditPropertyVisible = {setIsEditPropertyVisible} />}
+      {isDeletePropertyVisible && <DeleteProperty setIsDeletePropertyVisible = {setIsDeletePropertyVisible} />}
     </div>
   );
 };

@@ -10,6 +10,13 @@
       "**.config**": true,
       "**.lock": true,
       "**.d*": true,
-    }
+    },
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "editor.indentSize": "tabSize",
+    
+      "editor.tabSize": 4,   // Change to your preferred tab size
+      "editor.insertSpaces": false,  // Use tabs instead of spaces
+      "editor.detectIndentation": false  // Ensure all files use the same setting
   }
   

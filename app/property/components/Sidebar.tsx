@@ -1,24 +1,21 @@
 // finished
 
 "use client"
-import { useState, useRef, useEffect, Dispatch, SetStateAction } from "react"
+import { useState, useRef, useEffect, Dispatch, SetStateAction, use } from "react"
 import SortOption from "./SortOption"
 import PropertySingle from "./PropertySingle"
 import CreateNewProperty from "./CreateNewProperty"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchProperties, Property} from "@/store/propertySlice";
+import { fetchProperties, Property, setSelectedProperty} from "@/store/propertySlice";
 // import { Property } from '../../../type/Property'
 
-type PropertySidebarProps = {
-    setSelectedPropertyID: Dispatch<SetStateAction<number|null>>;
-};
 
-export default function PropertySidebar({ setSelectedPropertyID }: PropertySidebarProps) {
+export default function PropertySidebar() {
     const [isSortOptionVisible, setIsSortOptionVisible] = useState<boolean>(false)
     const [isCreateNewPropertyVisible, setIsCreateNewPropertyVisible] = useState<boolean>(false)
     const [selectedSort, setSelectedSort] = useState<string>("A-Z")
     // const [properties, setProperties] = useState<Property[]>([])
-
+    
     const {isAuthenticated} = useAppSelector((state) => state.auth)
     const sortOptionRef = useRef<HTMLDivElement>(null)
     const dispatch = useAppDispatch();
@@ -90,7 +87,7 @@ export default function PropertySidebar({ setSelectedPropertyID }: PropertySideb
                         isPropertyActive={property.id === activeProperty}
                         onClick={() => {
                             setActiveProperty(property.id)
-                            setSelectedPropertyID(property.id)
+                            dispatch(setSelectedProperty(property))
                         }}
                     />
                 ))}

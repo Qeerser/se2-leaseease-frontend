@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/hooks";
 import { register, requestOTP } from "@/store/authSlice";
-
 const SignUp = () => {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -14,7 +13,7 @@ const SignUp = () => {
   const [accountType, setAccountType] = useState("lessee");
   const [error, setError] = useState("");
 
-    const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   interface Errors {
     name?: string;
@@ -30,17 +29,27 @@ const SignUp = () => {
     e.preventDefault();
     // Handle form submission here (e.g., API call)
     console.log({ name, surname, dob, email, password, accountType });
-
   };
 
   const handleRegister = async () => {
     const errors = validate();
-    if (Object.values(errors).some(value => value.trim() !== "")) {
+    if (Object.values(errors).some((value) => value.trim() !== "")) {
       setErrors(errors);
-      return ;
+      return;
     }
     try {
-      await dispatch(register({ user: { id:'0', role: accountType, name, email, address: 'peace home' }, password }));
+      await dispatch(
+        register({
+          user: {
+            id: "0",
+            role: accountType,
+            name,
+            email,
+            address: "peace home",
+          },
+          password,
+        })
+      );
       await dispatch(requestOTP());
       router.push("/otp");
     } catch (error) {
@@ -51,15 +60,19 @@ const SignUp = () => {
 
   const validate = () => {
     const error: { [key: string]: string } = {};
-  
+
     if (!email) error.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(email)) error.email = "Email not valid";
     else error.email = "";
 
     if (!password) error.password = "Password is required";
-    else if (password.length < 8) error.password = "Password is too short, Must be more than 8 characters";
-    else if (!/[A-Z]/.test(password)) error.password = "Password required at least one uppercase letter";
-    else if (!/[0-9]/.test(password)) error.password = "Password required digit";
+    else if (password.length < 8)
+      error.password =
+        "Password is too short, Must be more than 8 characters";
+    else if (!/[A-Z]/.test(password))
+      error.password = "Password required at least one uppercase letter";
+    else if (!/[0-9]/.test(password))
+      error.password = "Password required digit";
     else error.password = "";
 
     if (!name) error.name = "Name is required";
@@ -69,8 +82,8 @@ const SignUp = () => {
     else error.surname = "";
 
     if (!dob) error.dob = "Date of birth is required";
-    else error.dob = ""
-  
+    else error.dob = "";
+
     return error;
   };
 
@@ -88,7 +101,10 @@ const SignUp = () => {
           <form onSubmit={handleSubmit} className="space-y-4 p-6">
             <div className="mb-4 flex space-x-5">
               <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700"
+                >
                   Name
                 </label>
                 <input
@@ -101,13 +117,16 @@ const SignUp = () => {
                   required
                 />
                 {errors.name && (
-                <div className=" text-red-500">
-                <p>{errors.name}</p>
-                </div>
+                  <div className=" text-red-500">
+                    <p>{errors.name}</p>
+                  </div>
                 )}
               </div>
               <div className="mb-4">
-                <label htmlFor="surname" className="block text-gray-700">
+                <label
+                  htmlFor="surname"
+                  className="block text-gray-700"
+                >
                   Surname
                 </label>
                 <input
@@ -120,14 +139,17 @@ const SignUp = () => {
                   required
                 />
                 {errors.surname && (
-                <div className=" text-red-500">
-                <p>{errors.surname}</p>
-                </div>
+                  <div className=" text-red-500">
+                    <p>{errors.surname}</p>
+                  </div>
                 )}
               </div>
             </div>
             <div className="mb-4">
-              <label htmlFor="dob" className="block text-gray-700">
+              <label
+                htmlFor="dob"
+                className="block text-gray-700"
+              >
                 Date of Birth
               </label>
               <input
@@ -141,12 +163,15 @@ const SignUp = () => {
               />
               {errors.dob && (
                 <div className=" text-red-500">
-                <p>{errors.dob}</p>
+                  <p>{errors.dob}</p>
                 </div>
-                )}
+              )}
             </div>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -160,12 +185,15 @@ const SignUp = () => {
               />
               {errors.email && (
                 <div className=" text-red-500">
-                <p>{errors.email}</p>
+                  <p>{errors.email}</p>
                 </div>
-                )}
+              )}
             </div>
             <div className="mb-6">
-              <label htmlFor="password" className="block text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -179,9 +207,9 @@ const SignUp = () => {
               />
               {errors.password && (
                 <div className=" text-red-500">
-                <p>{errors.password}</p>
+                  <p>{errors.password}</p>
                 </div>
-                )}
+              )}
             </div>
 
             <div className="mb-6">
@@ -195,7 +223,9 @@ const SignUp = () => {
                     className="form-radio h-5 w-5 text-blue-500"
                     value="lessee"
                     checked={accountType === "lessee"}
-                    onChange={() => setAccountType("lessee")}
+                    onChange={() =>
+                      setAccountType("lessee")
+                    }
                   />
                   <span className="ml-2">
                     Lessee{" "}
@@ -210,7 +240,9 @@ const SignUp = () => {
                     className="form-radio h-5 w-5 text-blue-500"
                     value="lessor"
                     checked={accountType === "lessor"}
-                    onChange={() => setAccountType("lessor")}
+                    onChange={() =>
+                      setAccountType("lessor")
+                    }
                   />
                   <span className="ml-2">
                     Lessor{" "}

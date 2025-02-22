@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks"
-import { useRouter } from "next/navigation"
-import { useRef, useState } from "react"
-import { requestOTP, verifyOTP } from "@/store/authSlice"
-import LoadPage from "@/components/ui/loadpage"
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { requestOTP, verifyOTP } from "@/store/authSlice";
+import LoadPage from "@/components/ui/loadpage";
 
 export default function Page() {
     const dispatch = useAppDispatch()
@@ -13,27 +13,31 @@ export default function Page() {
     const inputRefs = useRef<HTMLInputElement[]>([])
     const [inputError, setInputError] = useState<boolean>(false)
 
-    const handleVerifyOTP = async () => {
-        try {
-            const response = await dispatch(verifyOTP(inputRefs.current.map((input) => input.value).join(''))).unwrap()
-            router.push('/login')
-        } catch (error) {
-            console.error("Verification failed:", error)
-            setInputError(true)
-        }
-    }
+	const handleVerifyOTP = async () => {
+		try {
+			const response = await dispatch(
+				verifyOTP(
+					inputRefs.current.map((input) => input.value).join("")
+				)
+			).unwrap();
+			router.push("/login");
+		} catch (error) {
+			console.error("Verification failed:", error);
+			setInputError(true);
+		}
+	};
 
-    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-        const paste = e.clipboardData.getData('text')
-        if (paste.length === 6 && /^\d+$/.test(paste)) {
-            paste.split('').forEach((char, index) => {
-                if (inputRefs.current[index]) {
-                    inputRefs.current[index].value = char
-                }
-            })
-        }
-        e.preventDefault()
-    }
+	const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+		const paste = e.clipboardData.getData("text");
+		if (paste.length === 6 && /^\d+$/.test(paste)) {
+			paste.split("").forEach((char, index) => {
+				if (inputRefs.current[index]) {
+					inputRefs.current[index].value = char;
+				}
+			});
+		}
+		e.preventDefault();
+	};
 
     const handleResendOTP = async () => {
         try {

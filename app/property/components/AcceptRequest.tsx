@@ -13,7 +13,7 @@ export default function AcceptRequest({ setIsAcceptRequestVisible }: AcceptReque
                 <div className="flex w-[26.5rem] flex-col items-start">
                     <div className="flex items-center gap-[0.625rem] self-stretch">
                         <p className="text-[1.125rem] font-semibold text-[#1E293B]">
-                            Accept Request?
+                           Accept Request?
                         </p>
                     </div>
                     <div className="flex items-center self-stretch gap-[0.625rem] pt-2">

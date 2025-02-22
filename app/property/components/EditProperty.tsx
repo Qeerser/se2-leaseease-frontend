@@ -1,23 +1,21 @@
 // api for create new property
 
 "use client"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, use, useState } from "react"
 // import { Property } from '../../../type/Property'
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateProperty, Property} from "@/store/propertySlice";
 type EditPropertyProps = {
     setIsEditPropertyVisible: Dispatch<SetStateAction<boolean>>
-    PropertyID: number,
-    selectedProperty: Property
 }
 
-export default function EditProperty({ setIsEditPropertyVisible, PropertyID, selectedProperty }: EditPropertyProps) {
+export default function EditProperty({ setIsEditPropertyVisible}: EditPropertyProps) {
     const dispatch = useAppDispatch();
     // const { properties, loading } = useAppSelector((state) => state.property);
     // const selectedProperty = properties.find((property) => property.id === PropertyID);
 
     // const [editProperty, setEditProperty] = useState<Property | null>(selectedProperty ?? null);
-
+    const selectedProperty = useAppSelector((state) => state.property.selectedProperty);
     const [selectedFile, setSelectedFile] = useState<string | null>(selectedProperty?.image ?? null);
     const [name, setName] = useState<string | null>(selectedProperty?.name || "");
     const [location, setLocation] = useState<string | null>(selectedProperty?.location || "");
@@ -52,7 +50,7 @@ export default function EditProperty({ setIsEditPropertyVisible, PropertyID, sel
             location: location || "", 
             size: size || "",
             price: price ?? 0,     
-            id: selectedProperty?.id || PropertyID,                
+            id: selectedProperty?.id || 0,                
             rating: selectedProperty?.rating || 0,
             date: selectedProperty?.date || new Date().toISOString(),  
             image: selectedProperty?.image || "",             
