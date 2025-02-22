@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { apiClient } from '@/src/api/axios';
 
 interface ApiResponse<T> {
-    statusCode: number;
+    status_code: number;
     message: string;
     data?: T;
   }
@@ -20,6 +20,7 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  email: string
 }
 
 const initialState: AuthState = {
@@ -27,6 +28,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  email: ""
 };
 
 export const fetchUserInfo = createAsyncThunk<ApiResponse<User>, void, { rejectValue: string }>(
@@ -69,6 +71,62 @@ export const login = createAsyncThunk(
       }
     }
   );
+
+  export const register = createAsyncThunk(
+    "auth/register",
+    async (credentials: { user: User, password: string }, { rejectWithValue }) => {
+      try {
+        const response = await apiClient.post<ApiResponse<User>>("auth/register", {
+            email: credentials.user.email,
+            password: credentials.password,
+            name: credentials.user.name,
+            address: credentials.user.address,
+            userType: credentials.user.role
+          });
+        return credentials.user.email
+      } catch (error: any) {
+        return rejectWithValue(error.message);
+      }
+    }
+  )
+
+  export const requestOTP = createAsyncThunk(
+    "auth/requestOTP",
+    async (_, { getState, rejectWithValue }) => {
+      try {
+        const state = getState() as { auth: AuthState }
+        const email = state.auth.email
+        const response = await apiClient.post<ApiResponse<null>>("auth/request-otp", {
+            email
+          });
+        return null
+      } catch (error: any) {
+        return rejectWithValue(error.message);
+      }
+    }
+  )
+
+  export const verifyOTP = createAsyncThunk(
+    "auth/verifyOTP",
+    async (otp: string, { getState, rejectWithValue }) => {
+      try {
+        const state = getState() as { auth: AuthState }
+        const email = state.auth.email
+        const response = await apiClient.post<ApiResponse<null>>("auth/verify-otp", {
+            email,
+            otp
+          });
+        // console.log(response.data)
+        if (response.data.status_code !== 200) {
+          return rejectWithValue(response.data.message)
+        }
+        return null
+      } catch (error: any) {
+        return rejectWithValue('error from here');
+      }
+    }
+  )
+
 
 const authSlice = createSlice({
   name: 'auth',
@@ -120,8 +178,29 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = null; 
       })
-
-
+      .addCase(register.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(register.fulfilled, (state, action: PayloadAction<string>) => {
+        state.email = action.payload
+        state.loading = false;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(verifyOTP.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyOTP.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(verifyOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
   },
 });
 
