@@ -11,7 +11,7 @@ export default function Page() {
     const { loading, error } = useAppSelector((state) => state.auth)
     const router = useRouter()
     const inputRefs = useRef<HTMLInputElement[]>([])
-    const [inputError, setInputError] = useState(false)
+    const [inputError, setInputError] = useState<boolean>(false)
 
     const handleVerifyOTP = async () => {
         try {
@@ -76,7 +76,6 @@ export default function Page() {
                             maxLength={1}
                             pattern="[0-9]"
                             className={`flex flex-col justify-center items-center w-16 h-20 gap-[0.625rem] rounded bg-slate-100 text-center text-black text-4xl font-normal outline-none leading-[2.5rem] ${inputError ? 'border border-red-500' : ''}`}
-                            // className={`flex flex-col justify-center items-center w-16 h-20 gap-[0.625rem] rounded bg-slate-100 text-center text-black text-4xl font-normal leading-[2.5rem] border border-red-400`}
                             ref={(el) => {
                                 inputRefs.current[index] = el!;
                             }}

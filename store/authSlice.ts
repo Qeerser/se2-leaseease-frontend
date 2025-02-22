@@ -81,7 +81,7 @@ export const login = createAsyncThunk(
             password: credentials.password,
             name: credentials.user.name,
             address: credentials.user.address,
-            userType: credentials.user.role
+            role: credentials.user.role
           });
         return credentials.user.email
       } catch (error: any) {
@@ -127,6 +127,35 @@ export const login = createAsyncThunk(
     }
   )
 
+  export const forgotPassword = createAsyncThunk(
+    "auth/forgotPassword",
+    async (credentials: { email: string }, { rejectWithValue }) => {
+      try {
+        const response = await apiClient.post<ApiResponse<null>>("auth/forgot-password", {
+            email: credentials.email,
+          });
+        return null
+      } catch (error: any) {
+        return rejectWithValue(error.message);
+      }
+    }
+    )
+  
+  export const resetPassword = createAsyncThunk(
+    "auth/resetPassword",
+    async (credentials: { email: string, password: string, token: string }, { rejectWithValue }) => {
+      try {
+        const response = await apiClient.post<ApiResponse<null>>("auth/reset-password", {
+            email: credentials.email,
+            password: credentials.password,
+            token: credentials.token
+          });
+        return null
+      } catch (error: any) {
+        return rejectWithValue(error.message);
+      }
+    }
+    )
 
 const authSlice = createSlice({
   name: 'auth',
