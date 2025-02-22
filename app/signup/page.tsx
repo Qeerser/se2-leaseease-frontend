@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { register } from "@/src/api/auth";
+import { useAppDispatch } from "@/store/hooks";
+import { register, requestOTP } from "@/store/authSlice";
 
 const SignUp = () => {
   const router = useRouter();
@@ -12,6 +13,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [accountType, setAccountType] = useState("lessee");
   const [error, setError] = useState("");
+
+    const dispatch = useAppDispatch()
 
   interface Errors {
     name?: string;
@@ -37,15 +40,9 @@ const SignUp = () => {
       return ;
     }
     try {
-      const response = await register(
-        name,
-        "banNa",
-        email,
-        password,
-        accountType
-      );
-      router.push("/login");
-      console.log(response);
+      await dispatch(register({ user: { id:'0', role: accountType, name, email, address: 'peace home' }, password }));
+      await dispatch(requestOTP());
+      router.push("/otp");
     } catch (error) {
       console.error("Registration failed:", error);
       setError("Registration failed");
