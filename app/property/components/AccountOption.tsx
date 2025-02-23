@@ -4,6 +4,7 @@
 import { forwardRef } from 'react';
 import { useAppDispatch } from '@/store/hooks';
 import { logout } from '@/store/authSlice';
+import { useRouter } from 'next/navigation';
 
 type DrowdownProps = {
     isAccountOptionVisible: boolean;
@@ -11,7 +12,9 @@ type DrowdownProps = {
 
 const AccountDetail = forwardRef<HTMLDivElement, DrowdownProps>(({ isAccountOptionVisible }, ref) => {
     const dispatch = useAppDispatch();
+    const router = useRouter();
     const handleLogout = () => {
+        router.replace('/login');
         dispatch(logout());
     };
 

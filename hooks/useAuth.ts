@@ -19,9 +19,9 @@ export function useAuth() {
 
     useEffect(() => {
         if (hasFetched && !loading && !isAuthenticated) {
-            router.push('/login');
+            router.replace('/login');
         }
-    }, [hasFetched, isAuthenticated, loading, router]);
+    }, [isAuthenticated, loading, router]);
 
     return { user, loading, isAuthenticated };
 }

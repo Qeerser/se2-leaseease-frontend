@@ -18,16 +18,20 @@ export default function SignIn() {
     const { user, loading } = useAppSelector((state) => state.auth);
     const [errors, setErrors] = useState('');
     const router = useRouter();
+    const [click, setClick] = useState<boolean>(false);
 
     const handleLogin = async () => {
+        setClick(true);
         const resultAction = await dispatch(login({ email, password }));
-        await dispatch(fetchUserInfo());
+
         if (login.fulfilled.match(resultAction)) {
-            router.push('/property');
+            setTimeout(() => {
+                router.replace('/property');
+            }, 500);
         }
     };
 
-    return loading ? (
+    return loading || click ? (
         <LoadPage />
     ) : (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">

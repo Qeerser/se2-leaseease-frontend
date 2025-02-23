@@ -40,7 +40,7 @@ export const fetchUserInfo = createAsyncThunk<ApiResponse<User>, void, { rejectV
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ API');
         }
-    },
+    }
 );
 
 export const login = createAsyncThunk(
@@ -55,12 +55,13 @@ export const login = createAsyncThunk(
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
-    },
+    }
 );
 
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
     try {
         await apiClient.post<ApiResponse<null>>('auth/logout');
+        await new Promise((resolve) => setTimeout(resolve, 500));
         return null;
     } catch (error: any) {
         return rejectWithValue(error.message);
@@ -82,7 +83,7 @@ export const register = createAsyncThunk(
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
-    },
+    }
 );
 
 export const requestOTP = createAsyncThunk('auth/requestOTP', async (_, { getState, rejectWithValue }) => {
@@ -127,7 +128,7 @@ export const forgotPassword = createAsyncThunk(
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
-    },
+    }
 );
 
 export const resetPassword = createAsyncThunk(
@@ -143,7 +144,7 @@ export const resetPassword = createAsyncThunk(
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
-    },
+    }
 );
 
 const authSlice = createSlice({

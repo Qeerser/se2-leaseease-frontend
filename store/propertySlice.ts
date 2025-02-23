@@ -58,7 +58,25 @@ const initialState: PropertiesState = {
 export const fetchProperties = createAsyncThunk('properties/get', async (_, { rejectWithValue }) => {
     try {
         const res: AxiosResponse<ApiResponse<Data>> = await apiClient.get('properties/get');
-        return res.data.data!;
+		//dummy data
+        const data: Data = res.data.data!;
+        if (data) {
+			const data_random: Property[] = data.properties.map((property, index) => ({
+				...property,
+				rating: parseFloat((Math.random() * (5 - 3.5) + 3.5).toFixed(1)),
+				reviews: Math.floor(Math.random() * 500) + 1,
+				image: `https://loremflickr.com/2048/1280?random=${index + 1}`,
+				date: new Date(property.date).toLocaleString('en-GB', {
+					day: '2-digit',
+					month: 'short',
+					year: 'numeric',
+					hour: '2-digit',
+					minute: '2-digit',
+				}),
+			}));
+
+            return { ...data, properties: data_random };
+        }
     } catch (error: any) {
         return rejectWithValue(error.message);
     }
