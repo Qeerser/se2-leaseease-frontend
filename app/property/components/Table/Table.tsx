@@ -1,8 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import Slider_Request from './Slider_Request';
+import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
+import Slider_Request from '../Slider_Request';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ReviewTable from './ReviewTable';
+import RequestTable from './RequestTable';
+import LesseeTable from './LesseeTable';
 
-const Table: React.FC = () => {
+interface TableProps {
+	tableType: string
+}
+
+export interface eachtableProps {
+	rowsPerPage: number;
+	currentPage: number;
+	setCurrentRequest: Dispatch<SetStateAction<number | null>>;
+}
+
+const Table: React.FC<TableProps> = ({tableType}) => {
     const [currentRequest, setCurrentRequest] = useState<number | null>(null);
     const [sortColumn, setSortColumn] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -158,49 +171,18 @@ const Table: React.FC = () => {
         handleSort('name');
     }, []);
 
-    const paginatedData = tableData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
+	const table = 
+		(tableType=='Request')?<RequestTable rowsPerPage={rowsPerPage} currentPage={currentPage} setCurrentRequest={setCurrentRequest}/>:
+		(tableType=='Lessee')?<LesseeTable rowsPerPage={rowsPerPage} currentPage={currentPage} setCurrentRequest={setCurrentRequest}/>:
+		<ReviewTable rowsPerPage={rowsPerPage} currentPage={currentPage} setCurrentRequest={setCurrentRequest}/>
+	
     return (
         <div className="flex flex-col w-[72.72vw] h-[45vh] rounded-lg border border-slate-200 bg-white">
-            {/* Table Header */}
-            <div className="flex w-full bg-white rounded-lg text-slate-400">
-                <div className="px-6 py-3 text-left w-[40%]" onClick={() => handleSort('name')}>
-                    Name {sortColumn === 'name' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-                </div>
-                <div className="px-6 py-3 text-left w-[20%]" onClick={() => handleSort('rating')}>
-                    Rating {sortColumn === 'rating' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-                </div>
-                <div className="px-6 py-3 text-left w-[25%]" onClick={() => handleSort('requestedAt')}>
-                    Requested At {sortColumn === 'requestedAt' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-                </div>
-                <div className="px-6 py-3 text-left w-[15%]">Detail</div>
-            </div>
-
-            {/* Table Body */}
-            <div className="w-full h-full overflow-y-auto text-slate-600">
-                <div className="w-full">
-                    {paginatedData.map((row, index) => (
-                        <div key={index} className="flex w-full bg-white h-[56px] items-center border border-gray-200">
-                            <div className="px-6 w-[40%]">{row.name}</div>
-                            <div className="px-6 w-[20%]">
-                                {row.rating} ⭐ ({row.reviews})
-                            </div>
-                            <div className="px-6 w-[25%]">{row.requestedAt}</div>
-                            <div className="px-6 w-[15%]">
-                                <button
-                                    className="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                                    onClick={() => setCurrentRequest(0)}
-                                >
-                                    View Detail
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
+            {table}
 
             {/* Footer */}
-            <div className="h-[0.4wh] flex justify-end items-start gap-3 align-self-stretch text-black absolute bottom-4 right-4">
+            <div className="flex justify-end items-start gap-3 align-self-stretch text-black">
                 <span>Rows per page:</span>
                 <select
                     className="border border-gray-300 rounded-md px-2 py-1"

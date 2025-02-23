@@ -1,12 +1,13 @@
 'use client';
-import React from 'react';
-import Table from './Table';
+import React, { useState } from 'react';
+import Table from './Table/Table';
 import ButtonGroup from './ButtonGroup';
 import PropertyDescription from './PropertyDescription';
 import { useAppSelector } from '@/store/hooks';
 
 export default function MiddlePage() {
     const { selectedProperty } = useAppSelector((state) => state.property);
+	const [tableType, setTable] = useState('Request')
     if (!selectedProperty) {
         return <p className="flex items-center justify-center text-center m-auto">Select a property to view details</p>;
     }
@@ -16,6 +17,7 @@ export default function MiddlePage() {
     }
 
     const handleButtonClick = (activeButton: string) => {
+		setTable(activeButton)
         console.log('Active button:', activeButton);
     };
 
@@ -27,7 +29,7 @@ export default function MiddlePage() {
                 <ButtonGroup buttons={['Request', 'Lessee', 'Review']} onClick={handleButtonClick} />
             </div>
 
-            <Table />
+            <Table tableType={tableType}/>
         </div>
     );
 }
