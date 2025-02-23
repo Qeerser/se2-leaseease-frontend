@@ -1,73 +1,69 @@
-"use client"
+'use client';
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks"
-import { useRouter } from "next/navigation"
-import { useRef, useState } from "react"
-import { requestOTP, verifyOTP } from "@/store/authSlice"
-import LoadPage from "@/components/ui/loadpage"
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
+import { requestOTP, verifyOTP } from '@/store/authSlice';
+import LoadPage from '@/components/ui/loadpage';
 
 export default function Page() {
-    const dispatch = useAppDispatch()
-    const { loading, error } = useAppSelector((state) => state.auth)
-    const router = useRouter()
-    const inputRefs = useRef<HTMLInputElement[]>([])
-    const [inputError, setInputError] = useState<boolean>(false)
+    const dispatch = useAppDispatch();
+    const { loading, error } = useAppSelector((state) => state.auth);
+    const router = useRouter();
+    const inputRefs = useRef<HTMLInputElement[]>([]);
+    const [inputError, setInputError] = useState<boolean>(false);
 
     const handleVerifyOTP = async () => {
         try {
-            const response = await dispatch(verifyOTP(inputRefs.current.map((input) => input.value).join(''))).unwrap()
-            router.push('/login')
+            const response = await dispatch(verifyOTP(inputRefs.current.map((input) => input.value).join(''))).unwrap();
+            router.push('/login');
         } catch (error) {
-            console.error("Verification failed:", error)
-            setInputError(true)
+            console.error('Verification failed:', error);
+            setInputError(true);
         }
-    }
+    };
 
     const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-        const paste = e.clipboardData.getData('text')
+        const paste = e.clipboardData.getData('text');
         if (paste.length === 6 && /^\d+$/.test(paste)) {
             paste.split('').forEach((char, index) => {
                 if (inputRefs.current[index]) {
-                    inputRefs.current[index].value = char
+                    inputRefs.current[index].value = char;
                 }
-            })
+            });
         }
-        e.preventDefault()
-    }
+        e.preventDefault();
+    };
 
     const handleResendOTP = async () => {
         try {
             await dispatch(requestOTP());
         } catch (error) {
-            console.error("Resend OTP failed:", error)
+            console.error('Resend OTP failed:', error);
         }
-    }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-        const { value } = e.target
+        const { value } = e.target;
         if (value.length === 1 && index < inputRefs.current.length - 1) {
-            inputRefs.current[index + 1].focus()
+            inputRefs.current[index + 1].focus();
         }
-    }
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
         if (e.key === 'Backspace' && index > 0 && !inputRefs.current[index]?.value) {
-            inputRefs.current[index - 1].focus()
+            inputRefs.current[index - 1].focus();
         }
-    }
+    };
 
-    return (
-        loading ? (
-            <LoadPage/>):
+    return loading ? (
+        <LoadPage />
+    ) : (
         <div className="flex w-[100vw] h-[100vh] justify-center items-center rounded-md bg-slate-200">
             <div className="flex flex-col justify-center items-center gap-10 p-12 px-16 rounded-xl bg-white">
                 <div className="flex flex-col justify-center items-center gap-2 p-4 px-0 self-stretch">
-                    <p className="text-slate-700 text-3xl font-semibold leading-[2.25rem]">
-                        Enter Your OTP
-                    </p>
-                    <p className="text-slate-700 text-base font-normal leading-6">
-                        OTP already sent to your email!
-                    </p>
+                    <p className="text-slate-700 text-3xl font-semibold leading-[2.25rem]">Enter Your OTP</p>
+                    <p className="text-slate-700 text-base font-normal leading-6">OTP already sent to your email!</p>
                 </div>
                 <div className="flex justify-center items-start gap-4 self-stretch">
                     {[...Array(6)].map((_, index) => (
@@ -86,10 +82,11 @@ export default function Page() {
                     ))}
                 </div>
                 <div className="flex flex-col items-center gap-3 self-stretch">
-                    <button className="flex h-[3.25rem] p-[0.875rem] justify-center items-center gap-[0.625rem] self-stretch rounded-lg bg-blue-900" onClick={handleVerifyOTP}>
-                        <p className="text-white text-base font-normal leading-6">
-                            Verify OTP
-                        </p>
+                    <button
+                        className="flex h-[3.25rem] p-[0.875rem] justify-center items-center gap-[0.625rem] self-stretch rounded-lg bg-blue-900"
+                        onClick={handleVerifyOTP}
+                    >
+                        <p className="text-white text-base font-normal leading-6">Verify OTP</p>
                     </button>
                     <div className="flex flex-col justify-center items-center gap-[0.625rem] self-stretch px-5">
                         <div className="flex items-center gap-[0.625rem]">
@@ -117,12 +114,7 @@ export default function Page() {
                         </div>
                     </div>
                     <div className="flex items-center gap-[0.625rem]">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 21 20"
-                            fill="none"
-                            className="w-5 h-5"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 20" fill="none" className="w-5 h-5">
                             <path
                                 d="M10.5003 15.8332L4.66699 9.99984M4.66699 9.99984L10.5003 4.1665M4.66699 9.99984H16.3337"
                                 stroke="#253B80"
@@ -131,14 +123,12 @@ export default function Page() {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <button onClick={() => router.push("/login")}>
-                            <p className="text-slate-700 text-base font-normal leading-6">
-                                Back to Login
-                            </p>
+                        <button onClick={() => router.push('/login')}>
+                            <p className="text-slate-700 text-base font-normal leading-6">Back to Login</p>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }

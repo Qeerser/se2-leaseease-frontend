@@ -1,27 +1,30 @@
 // finished
-"use client";
+'use client';
 
-import { forwardRef } from "react"
-import { useAppDispatch } from "@/store/hooks";
-import { logout } from "@/store/authSlice";
+import { forwardRef } from 'react';
+import { useAppDispatch } from '@/store/hooks';
+import { logout } from '@/store/authSlice';
 
 type DrowdownProps = {
-    isAccountOptionVisible: boolean
-}
+    isAccountOptionVisible: boolean;
+};
 
 const AccountDetail = forwardRef<HTMLDivElement, DrowdownProps>(({ isAccountOptionVisible }, ref) => {
     const dispatch = useAppDispatch();
     const handleLogout = () => {
         dispatch(logout());
-    }
-    
-    return (!isAccountOptionVisible ? (<></>):(
-        <div ref={ref} className="absolute right-8 top-14 z-10 flex w-40 flex-col items-start rounded-md border border-slate-200 bg-white shadow-md">
+    };
+
+    return !isAccountOptionVisible ? (
+        <></>
+    ) : (
+        <div
+            ref={ref}
+            className="absolute right-8 top-14 z-10 flex w-40 flex-col items-start rounded-md border border-slate-200 bg-white shadow-md"
+        >
             <div className="flex flex-col items-start self-stretch p-1 cursor-pointer hover:bg-[#E2E8F0]">
                 <div className="flex h-8 items-center self-stretch rounded-sm px-2">
-                    <div className="flex items-center gap-[0.625rem] flex-1 font-bold">
-                        My Account
-                    </div>
+                    <div className="flex items-center gap-[0.625rem] flex-1 font-bold">My Account</div>
                 </div>
             </div>
             <div className="flex flex-col items-start self-stretch">
@@ -29,9 +32,7 @@ const AccountDetail = forwardRef<HTMLDivElement, DrowdownProps>(({ isAccountOpti
             </div>
             <div className="flex flex-col items-start self-stretch p-1 cursor-pointer hover:bg-[#E2E8F0]">
                 <div className="flex h-8 items-center self-stretch rounded-sm px-2">
-                    <div className="flex items-center gap-[0.625rem] flex-1">
-                        Profile
-                    </div>
+                    <div className="flex items-center gap-[0.625rem] flex-1">Profile</div>
                 </div>
             </div>
             <div className="flex flex-col items-start self-stretch">
@@ -39,9 +40,7 @@ const AccountDetail = forwardRef<HTMLDivElement, DrowdownProps>(({ isAccountOpti
             </div>
             <div className="flex flex-col items-start self-stretch p-1 cursor-pointer hover:bg-[#E2E8F0]">
                 <div className="flex h-8 items-center self-stretch rounded-sm px-2">
-                    <div className="flex items-center gap-[0.625rem] flex-1">
-                        Lessee Mode
-                    </div>
+                    <div className="flex items-center gap-[0.625rem] flex-1">Lessee Mode</div>
                 </div>
             </div>
             <div className="flex flex-col items-start self-stretch">
@@ -55,7 +54,7 @@ const AccountDetail = forwardRef<HTMLDivElement, DrowdownProps>(({ isAccountOpti
                 </div>
             </div>
         </div>
-    ))
-})
+    );
+});
 
-export default AccountDetail
+export default AccountDetail;
