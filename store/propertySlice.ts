@@ -22,7 +22,7 @@ export type Property = {
     name: string;
     rating: number;
     location: string;
-    size: string;
+    size: number;
     price: number;
     date: string;
     image: string;
