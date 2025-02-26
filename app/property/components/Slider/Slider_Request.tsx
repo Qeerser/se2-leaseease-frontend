@@ -1,8 +1,8 @@
 'use client';
 
 import { Dispatch, SetStateAction, useState } from 'react';
-import AcceptRequest from './AcceptRequest';
-import RejectRequest from './RejectRequest';
+import AcceptRequest from '../AcceptRequest';
+import RejectRequest from '../RejectRequest';
 
 type Slider_RequestProps = {
     id: string;
@@ -18,7 +18,7 @@ export default function Slider_Request({ id, totalRequests, currentRequest, setC
     const [requestTime, setRequestTime] = useState('29 Oct 2024 22:45');
     const [propertyInfo, setPropertyInfo] = useState('Lorem ipsum dolor sit amet');
     const [purposeInfo, setPurposeInfo] = useState(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ullamcorper quam ac risus ornare...',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ullamcorper quam ac risus ornare...'
     );
 
     return (

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { eachtableProps } from './Table';
 
-const ReviewTable: React.FC<eachtableProps> = ({rowsPerPage, currentPage, setCurrentRequest}) => {
+const ReviewTable: React.FC = () => {
     const [sortColumn, setSortColumn] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
@@ -154,48 +153,47 @@ const ReviewTable: React.FC<eachtableProps> = ({rowsPerPage, currentPage, setCur
         handleSort('name');
     }, []);
 
-	const paginatedData = tableData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+    const paginatedData = tableData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
     return (
-        <div className='w-full h-full rounded-lg bg-slate-50'>
-			<div className="flex w-full bg-white rounded-t-lg text-slate-400 border-b border-gray-200">
-				<div className="px-6 py-3 text-left w-[40%]" onClick={() => handleSort('name')}>
-					Name {sortColumn === 'name' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-				</div>
-				<div className="px-6 py-3 text-left w-[20%]" onClick={() => handleSort('rating')}>
-					Rating {sortColumn === 'rating' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-				</div>
-				<div className="px-6 py-3 text-left w-[25%]" onClick={() => handleSort('reviewedAt')}>
-					Reviewed At {sortColumn === 'reviewedAt' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-				</div>
-				<div className="px-6 py-3 text-left w-[15%]">Detail</div>
-			</div>
+        <div className="w-full h-full rounded-lg bg-slate-50">
+            <div className="flex w-full bg-white rounded-t-lg text-slate-400 border-b border-gray-200">
+                <div className="px-6 py-3 text-left w-[40%]" onClick={() => handleSort('name')}>
+                    Name {sortColumn === 'name' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
+                </div>
+                <div className="px-6 py-3 text-left w-[20%]" onClick={() => handleSort('rating')}>
+                    Rating {sortColumn === 'rating' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
+                </div>
+                <div className="px-6 py-3 text-left w-[25%]" onClick={() => handleSort('reviewedAt')}>
+                    Reviewed At {sortColumn === 'reviewedAt' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
+                </div>
+                <div className="px-6 py-3 text-left w-[15%]">Detail</div>
+            </div>
 
-			{/* Table Body */}
-			<div className="w-full h-[calc(100%-96px)] overflow-y-auto text-slate-600">
-				<div className="w-full">
-					{paginatedData.map((row, index) => (
-						<div key={index} className="flex w-full bg-white h-[56px] items-center border border-gray-200">
-							<div className="px-6 w-[40%]">{row.name}</div>
-							<div className="px-6 w-[20%]">
-								{row.rating} ⭐ ({row.reviews})
-							</div>
-							<div className="px-6 w-[25%]">{row.reviewedAt}</div>
-							<div className="px-6 w-[15%]">
-								<button
-									className="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-									onClick={() => setCurrentRequest(0)}
-								>
-									View Detail
-								</button>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-			{/*Gray Space*/}
-			<div className="h-12 w-full border-t border-gray-200"></div>
-		</div>
-	
+            {/* Table Body */}
+            <div className="w-full h-[calc(100%-96px)] overflow-y-auto text-slate-600">
+                <div className="w-full">
+                    {paginatedData.map((row, index) => (
+                        <div key={index} className="flex w-full bg-white h-[56px] items-center border border-gray-200">
+                            <div className="px-6 w-[40%]">{row.name}</div>
+                            <div className="px-6 w-[20%]">
+                                {row.rating} ⭐ ({row.reviews})
+                            </div>
+                            <div className="px-6 w-[25%]">{row.reviewedAt}</div>
+                            <div className="px-6 w-[15%]">
+                                <button
+                                    className="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                                    onClick={() => setCurrentRequest(0)}
+                                >
+                                    View Detail
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {/*Gray Space*/}
+            <div className="h-12 w-full border-t border-gray-200"></div>
+        </div>
     );
 };
 
