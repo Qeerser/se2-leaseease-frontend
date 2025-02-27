@@ -83,7 +83,7 @@ const ReviewTable: React.FC = () => {
                                 <div className="px-6 w-[25%]">{row.reviewedAt}</div>
                                 <div className="px-6 w-[15%]">
                                     <button
-                                        className="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                                        className="px-4 py-2 text-sm text-blue-900 bg-blue-50 rounded-lg hover:bg-blue-100 border-blue-900 border"
                                         onClick={() => setCurrentRequest(0)}
                                     >
                                         View Detail
