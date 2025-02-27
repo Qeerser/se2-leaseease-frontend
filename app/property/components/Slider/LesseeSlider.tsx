@@ -91,19 +91,8 @@ export default function Slider_Lessee({ id, totalRequests, currentRequest, setCu
                 <div className="flex items-center gap-4 border-b pb-4">
                     <img src={imgPath} alt="User Avatar" className="w-[80px] h-[80px] rounded-full border" />
                     <div>
-                        <h2 className="text-slate-600 text-sm font-normal">{userName}</h2>
-                        <p className="text-slate-600 text-sm font-normal">{requestTime}</p>
-                        <div className="flex items-center text-yellow-500 text-sm">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                className="w-4 h-4 mr-1"
-                                viewBox="0 0 24 24"
-                            >
-                                <path d="M12 .288l2.833 8.718h9.167l-7.417 5.384 2.833 8.718-7.416-5.384-7.416 5.384 2.833-8.718-7.417-5.384h9.167z" />
-                            </svg>{' '}
-                            4.5 (99)
-                        </div>
+                        <h2 className="text-slate-400 text-sm font-normal">{userName}</h2>
+                        <p className="text-slate-400 text-sm font-normal">Requested at {requestTime}</p>
                     </div>
                 </div>
 
