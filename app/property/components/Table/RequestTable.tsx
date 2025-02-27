@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { getRequestData, requestData } from '@/src/api/data/request';
 import Footer from '../Footer';
-import Slider_Request from '../Slider/Slider_Request';
+import Slider_Request from '../Slider/RequestSlider';
 
 const RequestTable: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);

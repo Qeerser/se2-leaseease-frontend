@@ -1,7 +1,7 @@
 import { getReviewData, reviewData } from '@/src/api/data/review';
 import React, { useState, useEffect } from 'react';
 import Footer from '../Footer';
-import Slider_Request from '../Slider/Slider_Request';
+import Slider_Request from '../Slider/RequestSlider';
 
 const ReviewTable: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
