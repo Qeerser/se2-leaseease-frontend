@@ -69,7 +69,7 @@ export default function Slider_Request({ id, totalRequests, currentRequest, setC
                         fill="none"
                         className="w-[16px] h-[16px] border bg-slate-100 border-s-slate-300 g-8 rounded-sm"
                     >
-                        <path d="M12 10L8 6L4 10" stroke="#CBD5E1" strokeLinecap="round" stroke-linejoin="round" />
+                        <path d="M12 10L8 6L4 10" stroke="#CBD5E1" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@ export default function Slider_Request({ id, totalRequests, currentRequest, setC
                         fill="none"
                         className="w-[16px] h-[16px] border bg-slate-100 border-s-slate-300 g-8 rounded-sm"
                     >
-                        <path d="M4 6L8 10L12 6" stroke="#CBD5E1" strokeLinecap="round" stroke-linejoin="round" />
+                        <path d="M4 6L8 10L12 6" stroke="#CBD5E1" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
             </div>
