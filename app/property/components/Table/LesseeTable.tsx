@@ -1,6 +1,7 @@
 import { getLesseeData, lesseeData } from '@/src/api/data/lessee';
 import React, { useState, useEffect } from 'react';
 import Slider_Request from '../Slider/RequestSlider';
+import Footer from '../Footer';
 
 const LesseeTable: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);

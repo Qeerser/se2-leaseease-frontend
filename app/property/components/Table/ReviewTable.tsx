@@ -1,4 +1,5 @@
 import { getReviewData, reviewData } from '@/src/api/data/review';
+import Rating from '@mui/material/Rating';
 import React, { useState, useEffect } from 'react';
 import Footer from '../Footer';
 import Slider_Request from '../Slider/RequestSlider';
@@ -76,7 +77,8 @@ const ReviewTable: React.FC = () => {
                             >
                                 <div className="px-6 w-[40%]">{row.name}</div>
                                 <div className="px-6 w-[20%]">
-                                    {row.rating} ⭐ ({row.reviews})
+                                    <Rating name="read-only" value={row.rating} readOnly />
+                                    {row.rating}
                                 </div>
                                 <div className="px-6 w-[25%]">{row.reviewedAt}</div>
                                 <div className="px-6 w-[15%]">
