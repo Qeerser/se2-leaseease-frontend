@@ -1,7 +1,7 @@
 import { getLesseeData, lesseeData } from '@/src/api/data/lessee';
 import React, { useState, useEffect } from 'react';
-import Slider_Request from '../Slider/RequestSlider';
 import Footer from '../Footer';
+import LesseeSlider from '../Slider/LesseeSlider';
 
 const LesseeTable: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -103,7 +103,7 @@ const LesseeTable: React.FC = () => {
 
             {/*Slider*/}
             {currentRequest != null && (
-                <Slider_Request
+                <LesseeSlider
                     id={'0'}
                     totalRequests={tableData.length}
                     currentRequest={currentRequest}

@@ -20,7 +20,7 @@ export default function Slider_Lessee({ id, totalRequests, currentRequest, setCu
     const [purposeInfo, setPurposeInfo] = useState(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ullamcorper quam ac risus ornare...'
     );
-
+    const [lesseeStatus, setLesseeStatus] = useState('Active');
     return (
         <div className="flex z-50 w-[32.5rem] h-[calc(100vh-4rem)] p-0 flex-col items-start absolute right-0 bottom-0 border-l border-slate-300 bg-white shadow-[0px_4px_6px_-4px_rgba(0,_0,_0,_0.10),_0px_10px_15px_-3px_rgba(0,_0,_0,_0.10)]  overflow-y-auto">
             <div className="flex h-[2.5rem] p-[0.625rem] [0.75rem] items-center gap-[1.5rem] self-stretch">
@@ -59,7 +59,7 @@ export default function Slider_Lessee({ id, totalRequests, currentRequest, setCu
 
                 <div className="flex center gap-2 absolute right-2">
                     <p className="text-slate-600 text-sm font-normal">
-                        {currentRequest} of {totalRequests} Request
+                        {currentRequest} of {totalRequests} Lessee
                     </p>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,9 @@ export default function Slider_Lessee({ id, totalRequests, currentRequest, setCu
 
                 {/* Details Section */}
                 <div className="mt-6">
-                    <h3 className=" text-slate-400 text-sm font-normal">Property</h3>
+                    <h3 className=" text-slate-400 text-sm font-normal">Status</h3>
+                    <p className=" text-green-700 text-sm font-normal">{lesseeStatus}</p>
+                    <h3 className=" text-slate-400 text-sm font-normal mt-3">Property</h3>
                     <p className=" text-slate-600 text-sm font-normal">{propertyInfo}</p>
                     <h3 className=" text-slate-400 text-sm font-normal mt-3">Purpose</h3>
                     <p className=" text-slate-600 text-sm font-normal leading-relaxed">{purposeInfo}</p>
