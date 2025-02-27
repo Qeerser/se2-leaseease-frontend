@@ -51,7 +51,7 @@ export default function LesseeSlider({ id, totalRequests, currentRequest, setCur
                         className="text-slate-600 text-xs font-normal"
                         style={{ fontFamily: 'Inter', lineHeight: '16px' }}
                     >
-                        Create New Property
+                        Review Detail
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@ export default function LesseeSlider({ id, totalRequests, currentRequest, setCur
                 {/* 2 */}
 
                 {/* User Profile Section */}
-                <div className="flex items-center gap-4 border-b pb-4">
+                <div className="flex items-center gap-4">
                     <img src={imgPath} alt="User Avatar" className="w-[80px] h-[80px] rounded-full border" />
                     <div>
                         <h2 className="text-slate-400 text-sm font-normal">{userName}</h2>
@@ -105,7 +105,7 @@ export default function LesseeSlider({ id, totalRequests, currentRequest, setCur
                 </div>
 
                 {/* Details Section */}
-                <div className="mt-6">
+                <div className="">
                     <h3 className=" text-slate-400 text-sm font-normal">Status</h3>
                     <p className=" text-green-700 text-sm font-normal">{lesseeStatus}</p>
                     <h3 className=" text-slate-400 text-sm font-normal mt-3">Property</h3>
