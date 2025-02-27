@@ -73,12 +73,9 @@ const LesseeTable: React.FC = () => {
                                 <div className="px-6 w-[50%]">{row.name}</div>
                                 <div className="px-6 w-[25%]">{row.lastResponse}</div>
                                 <div className="px-6 w-[12.5%]">
-                                    <button
-                                        className="px-4 py-2 text-sm text-white bg-lime-400 rounded-lg hover:bg-blue-600"
-                                        onClick={() => setCurrentRequest(0)}
-                                    >
-                                        status
-                                    </button>
+                                    <div className="px-4 py-2 text-sm text-bold text-green-900 bg-green-100 rounded-full w-3/5">
+                                        Active
+                                    </div>
                                 </div>
                                 <div className="px-6 w-[12.5%]">
                                     <button
