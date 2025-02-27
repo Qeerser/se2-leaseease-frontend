@@ -88,6 +88,8 @@ const RequestTable: React.FC = () => {
                 {/*Gray Space*/}
                 <div className="h-12 w-full border-t border-gray-200"></div>
             </div>
+
+            {/*Footer*/}
             <Footer
                 rowsPerPage={rowsPerPage}
                 setRowsPerPage={setRowsPerPage}
@@ -95,6 +97,8 @@ const RequestTable: React.FC = () => {
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
             />
+
+            {/*Slider*/}
             {currentRequest != null && (
                 <Slider_Request
                     id={'0'}
