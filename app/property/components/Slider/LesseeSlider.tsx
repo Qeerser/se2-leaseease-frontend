@@ -1,17 +1,15 @@
 'use client';
 
 import { Dispatch, SetStateAction, useState } from 'react';
-import AcceptRequest from '../AcceptRequest';
-import RejectRequest from '../RejectRequest';
 
-type Slider_LesseeProps = {
+type LesseeSliderProps = {
     id: string;
     totalRequests: number;
     currentRequest: number;
     setCurrentRequest: Dispatch<SetStateAction<number | null>>;
 };
 
-export default function Slider_Lessee({ id, totalRequests, currentRequest, setCurrentRequest }: Slider_LesseeProps) {
+export default function LesseeSlider({ id, totalRequests, currentRequest, setCurrentRequest }: LesseeSliderProps) {
     const [status, setStatus] = useState<'Accept' | 'Reject' | 'None'>('None'); //example
     const [imgPath, setImgPath] = useState('/avatar.png');
     const [userName, setUserName] = useState('John Doe');

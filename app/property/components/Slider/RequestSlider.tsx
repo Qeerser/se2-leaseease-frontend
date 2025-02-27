@@ -5,14 +5,14 @@ import AcceptRequest from '../AcceptRequest';
 import RejectRequest from '../RejectRequest';
 import Rating from '@mui/material/Rating';
 
-type Slider_RequestProps = {
+type RequestSliderProps = {
     id: string;
     totalRequests: number;
     currentRequest: number;
     setCurrentRequest: Dispatch<SetStateAction<number | null>>;
 };
 
-export default function Slider_Request({ id, totalRequests, currentRequest, setCurrentRequest }: Slider_RequestProps) {
+export default function RequestSlider({ id, totalRequests, currentRequest, setCurrentRequest }: RequestSliderProps) {
     const [status, setStatus] = useState<'Accept' | 'Reject' | 'None'>('None'); //example
     const [imgPath, setImgPath] = useState('/avatar.png');
     const [userName, setUserName] = useState('John Doe');
