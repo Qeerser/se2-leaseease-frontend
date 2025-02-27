@@ -2,6 +2,8 @@
 
 import Rating from '@mui/material/Rating';
 import { Dispatch, SetStateAction, useState } from 'react';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
 
 type ReviewSliderProps = {
     id: string;
@@ -96,10 +98,12 @@ export default function ReviewSlider({ id, totalRequests, currentRequest, setCur
 
                 {/* Buttons */}
                 <div className="flex flex-col justify-end gap-2 mt-4 absolute top-10 right-4">
-                    <button className="h-[28px] px-4 py-1 border border-gray-300 rounded-lg text-slate-600 text-sm font-normal bg-white hover:bg-gray-100 shadow-md">
+                    <button className="h-[28px] px-4 py-1 border border-gray-300 rounded-lg text-slate-600 text-sm font-normal bg-white hover:bg-gray-100 shadow-md flex gap-x-2">
+                        <VisibilityOutlinedIcon fontSize="small" />
                         View Profile
                     </button>
-                    <button className="h-[28px] px-4 py-1 border border-blue-500 rounded-lg text-slate-600 text-sm font-normal bg-blue-100 hover:bg-blue-200 shadow-md">
+                    <button className="h-[28px] px-4 py-1 border border-blue-500 rounded-lg text-slate-600 text-sm font-normal bg-blue-100 hover:bg-blue-200 shadow-md flex gap-x-2">
+                        <NearMeOutlinedIcon fontSize="small" />
                         Send Message
                     </button>
                 </div>
@@ -107,10 +111,10 @@ export default function ReviewSlider({ id, totalRequests, currentRequest, setCur
                 {/* Details Section */}
                 <div className="">
                     <h3 className=" text-slate-400 text-sm font-normal mt-3">Rating</h3>
-                    <p className=" text-slate-600 text-sm font-normal flex items-center">
+                    <div className=" text-slate-600 text-sm font-normal flex items-center">
                         <p>{rating}</p>
                         <Rating name="read-only" value={rating} readOnly size="small" />
-                    </p>
+                    </div>
                     <h3 className=" text-slate-400 text-sm font-normal mt-3">Detail</h3>
                     <p className=" text-slate-600 text-sm font-normal leading-relaxed">{detail}</p>
                 </div>
