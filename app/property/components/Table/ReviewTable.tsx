@@ -76,9 +76,9 @@ const ReviewTable: React.FC = () => {
                                 className="flex w-full bg-white h-[56px] items-center border border-gray-200"
                             >
                                 <div className="px-6 w-[40%]">{row.name}</div>
-                                <div className="px-6 w-[20%] flex flex-row justify-items-center">
-                                    <Rating name="read-only" value={row.rating} readOnly />
-                                    {row.rating}
+                                <div className="px-6 w-[20%] flex items-center gap-x-1">
+                                    <p>{row.rating.toFixed(1)}</p>
+                                    <Rating name="read-only" value={row.rating} readOnly size="small" />
                                 </div>
                                 <div className="px-6 w-[25%]">{row.reviewedAt}</div>
                                 <div className="px-6 w-[15%]">
