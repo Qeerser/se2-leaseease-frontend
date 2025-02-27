@@ -1,18 +1,8 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { eachtableProps } from './Table';
-import { requestData } from '@/src/api/data/request';
-import { reviewData } from '@/src/api/data/review';
-import { lesseeData } from '@/src/api/data/lessee';
 
-export interface requestTableProps {
-	rowsPerPage: number;
-	currentPage: number;
-	setCurrentRequest: Dispatch<SetStateAction<number | null>>;
-	tableData: requestData[]
-	setTableData: Dispatch<SetStateAction<reviewData[]|requestData[]|lesseeData[]|null>>
-}
 
-const RequestTable: React.FC<requestTableProps> = ({rowsPerPage,currentPage,setCurrentRequest,tableData,setTableData}) => {
+const RequestTable: React.FC<eachtableProps> = ({rowsPerPage,currentPage,setCurrentRequest,tableData,setTableData}) => {
 	const [sortColumn, setSortColumn] = useState<string | null>(null);
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
@@ -20,14 +10,16 @@ const RequestTable: React.FC<requestTableProps> = ({rowsPerPage,currentPage,setC
 		const newOrder = sortColumn === column && sortOrder === 'asc' ? 'desc' : 'asc';
 		setSortColumn(column);
 		setSortOrder(newOrder);
-		const sortedData = (!tableData)?null:[...tableData].sort((a, b) => {
+		const sortedData:requestData = (!tableData)?null:[...tableData].sort((a, b) => {
 			if (column === 'name') {
 				return newOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
 			
 			} else if (column === 'requestedAt') {
+				if ('requestedAt' in a && 'requestedAt' in b){
 				return newOrder === 'asc'
 					? new Date(a.requestedAt).getTime() - new Date(b.requestedAt).getTime()
 					: new Date(b.requestedAt).getTime() - new Date(a.requestedAt).getTime();
+				}
 			}
 			return 0;
 		});

@@ -9,7 +9,7 @@ import { requestData } from '@/src/api/data/request';
 import { lesseeData } from '@/src/api/data/lessee';
 interface TableProps {
 	tableType: string
-	data: reviewData[]|requestData[]|lesseeData[]|null
+	data: reviewData[]|requestData[]|lesseeData[]
 }
 
 export interface eachtableProps {
@@ -19,6 +19,7 @@ export interface eachtableProps {
 	tableData: reviewData[]|requestData[]|lesseeData[]|null;
 	setTableData: Dispatch<SetStateAction<reviewData[]|requestData[]|lesseeData[]|null>>
 }
+
 
 const Table: React.FC<TableProps> = ({tableType, data}) => {
     const [currentRequest, setCurrentRequest] = useState<number | null>(null);
