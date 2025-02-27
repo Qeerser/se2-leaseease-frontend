@@ -2,7 +2,7 @@ import { getReviewData, reviewData } from '@/src/api/data/review';
 import Rating from '@mui/material/Rating';
 import React, { useState, useEffect } from 'react';
 import Footer from '../Footer';
-import Slider_Request from '../Slider/RequestSlider';
+import ReviewSlider from '../Slider/ReviewSlider';
 
 const ReviewTable: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -107,7 +107,7 @@ const ReviewTable: React.FC = () => {
 
             {/*Slider*/}
             {currentRequest != null && (
-                <Slider_Request
+                <ReviewSlider
                     id={'0'}
                     totalRequests={tableData.length}
                     currentRequest={currentRequest}
