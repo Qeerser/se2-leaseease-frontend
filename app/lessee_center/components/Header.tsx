@@ -2,7 +2,7 @@
 
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import AccountOption from './AccountOption';
+import AccountOption from '@/app/property/components/AccountOption';
 
 export default function PropertyHeader() {
     const [isAccountOptionVisible, setIsAccountOptionVisible] = useState<boolean>(false);
@@ -31,7 +31,7 @@ export default function PropertyHeader() {
             <div className="flex items-center gap-7">
                 <p className="text-black font-lexend text-2xl font-normal leading-[36px] cursor-pointer">LEASEEASE</p>
                 <p className="text-black font-lexend text-base font-normal leading-[36px] cursor-pointer">
-                    Lessor center
+                    Lessee center
                 </p>
             </div>
 

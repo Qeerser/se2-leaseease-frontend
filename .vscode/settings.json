@@ -1,0 +1,23 @@
+{
+    "files.exclude": {
+        // "**/node_modules": true,
+        // "**/dist": true,
+        // "**/.git": true,
+        // "**/.next": true,
+        // "**s.json": true,
+        // "**k.json": true,
+        // "**g.json": true,
+        // "**.config**": true,
+        // "**.lock": true,
+        // "**.d*": true
+    },
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "editor.indentSize": "tabSize",
+
+    "editor.tabSize": 4, // Change to your preferred tab size
+    "editor.insertSpaces": false, // Use tabs instead of spaces
+    "editor.detectIndentation": false,
+    "prettier.printWidth": 120,
+    "editor.formatOnSave": true // Ensure all files use the same setting
+}

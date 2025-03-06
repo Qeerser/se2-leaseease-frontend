@@ -1,7 +1,7 @@
-import type { Metadata } from "next"
-import Page from "./page"
+import type { Metadata } from 'next';
+import Page from './page';
 
 export const metadata: Metadata = {
-  title: "Forgot Password",
-}
-export default Page
+    title: 'Forgot Password',
+};
+export default Page;
