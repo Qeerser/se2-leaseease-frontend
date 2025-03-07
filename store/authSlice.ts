@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { apiClient } from '@/src/api/axios';
 import { AsyncThunkConfig } from './store';
+import { supabase } from '@/utils/supabase';
 
 interface ApiResponse<T> {
     status_code: number;
@@ -14,6 +15,7 @@ interface User {
     email: string;
     name: string;
     address: string;
+    image_url: string;
 }
 
 interface AuthState {
@@ -153,6 +155,32 @@ export const resetPassword = createAsyncThunk<null, { email: string; password: s
     }
 );
 
+export const uploadImage = createAsyncThunk<string, FormData, AsyncThunkConfig>(
+    'auth/uploadImage',
+    async (formData, { getState, rejectWithValue }) => {
+        try {
+            const file = formData.get('file') as File;
+            const userId = getState().auth.user?.id;
+            if (!file) throw new Error('No file provided');
+
+            const filePath = `${userId}/profile.jpg`;
+
+            const { error } = await supabase.storage
+                .from('user')
+                .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+            if (error) {
+                console.error('Upload failed:', error.message);
+                throw error;
+            }
+
+            return supabase.storage.from('user').getPublicUrl(filePath).data.publicUrl;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -224,6 +252,14 @@ const authSlice = createSlice({
             .addCase(verifyOTP.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
+            })
+            .addCase(uploadImage.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(uploadImage.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user!.image_url = action.payload;
             });
     },
 });
