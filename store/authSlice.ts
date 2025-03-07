@@ -38,13 +38,43 @@ export const fetchUserInfo = createAsyncThunk<ApiResponse<User>, void, AsyncThun
     'auth/fetchUserInfo',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await apiClient.get<ApiResponse<User>>('auth/check');
+            const response = await apiClient.post<ApiResponse<User>>('user/check');
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ API');
+            return rejectWithValue(error.response?.data?.message || 'Error connecting to API');
         }
     }
 );
+export const updateUserInfo = createAsyncThunk<null, { name: string; address: string }, AsyncThunkConfig>(
+    'auth/updateUserInfo',
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.put<ApiResponse<User>>('user/user', {
+                name: data.name,
+                address: data.address,
+            });
+            return null;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'Error connecting to API');
+        }
+    }
+);
+
+export const updateUserImage = createAsyncThunk<null, void, AsyncThunkConfig>(
+    'auth/updateUserImage',
+    async (_, { getState, rejectWithValue }) => {
+        const image_url = getState().auth.user?.image_url;
+        try {
+            const response = await apiClient.put<ApiResponse<User>>('user/image', {
+                image_url,
+            });
+            return null;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'Error connecting to API');
+        }
+    }
+);
+export const updateUserPassword = () => {};
 
 export const login = createAsyncThunk<ApiResponse<User>, { email: string; password: string }, AsyncThunkConfig>(
     'auth/login',
@@ -260,6 +290,32 @@ const authSlice = createSlice({
             .addCase(uploadImage.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user!.image_url = action.payload;
+            })
+            .addCase(uploadImage.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(updateUserInfo.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUserInfo.fulfilled, (state) => {
+                state.loading = false;
+            })
+            .addCase(updateUserInfo.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(updateUserImage.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUserImage.fulfilled, (state) => {
+                state.loading = false;
+            })
+            .addCase(updateUserImage.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
             });
     },
 });

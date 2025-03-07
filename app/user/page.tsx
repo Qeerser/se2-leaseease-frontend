@@ -2,11 +2,12 @@
 import { use, useEffect, useState } from 'react';
 import { uploadImage } from '@/store/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function UploadComponent() {
     const dispatch = useAppDispatch();
     const uploadUrl = useAppSelector((state) => state.auth.user?.image_url);
-    const { user } = useAppSelector((state) => state.auth);
+    const { user } = useAuth();
 
     async function handleUpload(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -21,9 +22,7 @@ export default function UploadComponent() {
         }
     }
 
-    useEffect(() => {
-        console.log(user);
-    }, []);
+
 
     return (
         <form onSubmit={handleUpload}>
