@@ -35,7 +35,9 @@ const AccountDetail = forwardRef<HTMLDivElement, DrowdownProps>(({ isAccountOpti
             </div>
             <div className="flex flex-col items-start self-stretch p-1 cursor-pointer hover:bg-[#E2E8F0]">
                 <div className="flex h-8 items-center self-stretch rounded-sm px-2">
-                    <div className="flex items-center gap-[0.625rem] flex-1">Profile</div>
+                    <div className="flex items-center gap-[0.625rem] flex-1" onClick={() => router.push('/profile')}>
+                        Profile
+                    </div>
                 </div>
             </div>
             <div className="flex flex-col items-start self-stretch">
