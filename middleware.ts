@@ -15,10 +15,12 @@ export function middleware(req: NextRequest) {
         return NextResponse.redirect(url);
     }
 
+
     // Define protected routes where authentication is required.
     const protectedRoutes = ['/dashboard', '/profile']; // Add other protected paths as required.
 
     // For protected routes, if no token is present, redirect to the login page.
+
     if (protectedRoutes.some((route) => pathname.startsWith(route)) && !token) {
         const url = req.nextUrl.clone();
         url.pathname = '/login'; // Redirect to the login page if the user is not authenticated
@@ -31,5 +33,7 @@ export function middleware(req: NextRequest) {
 
 // Configure the middleware to apply to specific routes.
 export const config = {
+
     matcher: ['/dashboard/:path*', '/profile/:path*', '/login'],
+
 };
