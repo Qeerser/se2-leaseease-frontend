@@ -9,7 +9,7 @@ import 'rc-slider/assets/index.css';
 
 import LoadPage from '@/components/ui/loadpage';
 
-export default function PropertyPage({ children }: { children: React.ReactNode }) {
+export default function PropertyPage() {
     const { loading } = useAuth();
     const [Search_property, setSearch_property] = useState<string>('');
     const [minValue, setMinValue] = useState<number>(0);
@@ -167,7 +167,7 @@ export default function PropertyPage({ children }: { children: React.ReactNode }
                     <div className="flex px-2 flex-col items-start gap-2 self-stretch">
                         <p className="font-bold"> Rating </p>
                         {[1, 2, 3, 4, 5].map((item) => (
-                            <label className="flex items-center gap-2 cursor-pointer">
+                            <label key={item} className="flex items-center gap-2 cursor-pointer">
                                 <input
                                     type="checkbox"
                                     className="w-5 h-5 accent-blue-500"
