@@ -46,6 +46,7 @@ const SignUp = () => {
                         name,
                         email,
                         address: 'peace home',
+						image_url: 'https://www.gravatar.com/avatar/'
                     },
                     password,
                 }),

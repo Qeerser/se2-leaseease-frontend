@@ -21,12 +21,11 @@ export default function SignIn() {
     const [click, setClick] = useState<boolean>(false);
 
     const handleLogin = async () => {
-        setClick(true);
         const resultAction = await dispatch(login({ email, password }));
 
         if (login.fulfilled.match(resultAction)) {
             setTimeout(() => {
-                router.replace('/property');
+                router.push('/property');
             }, 500);
         }
     };

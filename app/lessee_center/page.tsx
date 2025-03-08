@@ -12,7 +12,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import LoadPage from '@/components/ui/loadpage';
 
-export default function PropertyPage({ children }: { children: React.ReactNode }) {
+export default function PropertyPage() {
     const { loading } = useAuth();
     const [search, setSearch] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
