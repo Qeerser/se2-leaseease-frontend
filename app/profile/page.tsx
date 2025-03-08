@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
 import { updateUserImage, updateUserInfo, uploadImage } from '@/store/authSlice'; // Assuming these actions exist
 import { useRouter } from 'next/navigation';
 import LoadPage from '@/components/ui/loadpage';
